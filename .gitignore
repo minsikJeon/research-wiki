@@ -1,0 +1,5 @@
+raw/sources/zotero-pdfs/
+raw/papers/
+
+# Ignore any PDFs anywhere under raw/
+raw/**/*.pdf

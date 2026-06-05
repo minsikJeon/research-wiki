@@ -1,0 +1,252 @@
+---
+type: overview
+title: Research Wiki — Overview
+status: growing
+tags: [meta]
+created: 2026-05-24
+updated: 2026-05-29
+---
+
+# Overview
+
+The evolving north-star synthesis of this wiki. Unlike [[index]] (a catalog)
+and [[log]] (a chronology), this page is **the current best-effort summary
+of what the wiki knows and where it's going**. Rewritten as the wiki grows.
+
+The wiki belongs to a CMU **Master of Science in Robotics** student. Primary
+fields: **computer vision** and **robotics**, with everything they touch —
+foundation models for perception/control, video understanding, point tracking,
+3D/4D reconstruction, SLAM, manipulation, imitation learning, world models,
+embodied AI.
+
+---
+
+## Current thesis (May 2026, after 21 sources)
+
+The wiki has dense coverage of two intersecting perception sub-areas,
+plus two emerging threads (streaming/control, and long-context 3D):
+
+**(A) Tracking Any Point (TAP).** 7 sources covering the DeepMind TAPNext
+line, the Meta/Oxford CoTracker line, the Koç Track-On line, and the 3D
+extensions (TAPIP3D from CMU, SpatialTrackerV2).
+
+**(B) Feed-forward 3D / 4D reconstruction.** 9 sources covering the VGGT
+trunk (Oxford VGG + Meta AI) and its descendants (MapAnything, V-DPM,
+4RC, DA3, CUT3R), plus contemporary feed-forward 4D (Any4D, Trace
+Anything, D4RT, Point4D).
+
+**(C) Streaming perception & real-time control.** 2 sources opening a
+new thread: [[li-2020-streaming-perception]] (foundational ECCV 2020 —
+the conceptual ancestor of all "online" discussion in (A) and (B)) and
+[[black-2025-rtc]] (NeurIPS 2025 — Physical Intelligence's real-time
+chunking inpainting for VLA action execution).
+
+**(D) Long-context 3D reconstruction (linear-time / streaming).** 2
+sources opening another new thread: [[elflein-2026-vgg-t3]] (NVIDIA;
+TTT-compressed scene as MLP, `O(n)` global/offline/unordered) and
+[[zhang-2026-loger]] (DeepMind+Berkeley; chunked feed-forward with
+**hybrid memory** = SWA + TTT, generalizing from 128-frame training
+to 19k-frame inference). Both use [[test-time-training]] as the
+fast-weight substitute for softmax attention; they differ in
+granularity (per-scene vs. per-chunk).
+
+(A) and (B) are **visibly converging** — see
+[[q-tracking-vs-4d-reconstruction]]. (C) sits underneath both: it's the
+evaluation framework + control-side analogue that the user's questions
+about online inference and train-inference mismatch all live within.
+**(D) is the perception-side analogue of (C)** — it asks the same
+"finite-time computation on growing input" question for 3D
+reconstruction. (D) is directly load-bearing for the user's own
+research project (Topic 3 in `raw/notes/` — long-term real-time 3D
+tracking architectures).
+
+### Seven load-bearing claims (synthesized)
+
+1. **Online causal tracking has matched windowed/offline methods** for 2D
+   TAP. [[tapnext]], [[tapnext-plus-plus]], [[track-on2]] all achieve
+   SOTA at frame-by-frame latency (~5–30 ms). The historical
+   quality-vs-latency trade-off has collapsed.
+
+2. **Synthetic-only training is no longer obviously inferior** to real-
+   data pseudo-labeling. [[track-on2]] (memory + classification + long
+   synthetic) and [[tapnext-plus-plus]] (1024-frame Kubric) compete with
+   the BootsTAP / [[cotracker3]] real-data line. See
+   [[synthetic-to-real-gap]] and [[q-sim2real-for-point-tracking]].
+
+3. **3D point tracking is now a real sub-field**, with two design
+   philosophies: modular ([[tapip3d]]) vs. end-to-end
+   ([[spatialtracker-v2]]). No definitive head-to-head yet.
+
+4. **Feed-forward 3D reconstruction has a clear trunk + canopy**.
+   DUSt3R/MASt3R → [[vggt]] is the trunk. [[mapanything]], [[v-dpm]],
+   [[4rc]], [[depth-anything-3]], [[cut3r]] are the canopy.
+   **No 3D inductive biases needed** ([[vggt]], [[depth-anything-3]]);
+   **factored representations beat coupled pointmaps** ([[mapanything]],
+   [[any4d]]); the field is becoming foundation-model-shaped.
+
+5. **The 3D-reconstruction wave is feeding 4D reconstruction.** 4D
+   methods ([[any4d]], [[v-dpm]], [[4rc]], [[trace-anything]]) all build
+   on or fine-tune VGGT-family backbones. Output representations vary
+   (DPMs, factored geometry+flow, trajectory fields, base+displacement),
+   but the underlying architecture is converging.
+
+6. **The query-based decoder is the dominant 4D pattern.**
+   [[d4rt]] formalizes the encode-once + independent-cross-attention
+   pattern, inherited from SRT (Sajjadi 2022). [[point4d]] extends to
+   3D queries; [[4rc]] adds AdaLN target-time tokens. D4RT is
+   simultaneously SOTA on static 3D (Sintel/ScanNet) **and** 4D
+   tracking (TAPVid-3D), at **9× the speed of VGGT** — strong evidence
+   that one model can subsume the whole spectrum. The DeepMind TAP/4D
+   cluster ([[carl-doersch]] + [[mehdi-sajjadi]] + [[skanda-koppula]] +
+   [[ignacio-rocco]]) is the coherent research line behind this.
+
+7. **Train-inference mismatch is a recurring meta-pattern** across
+   perception and control. The model is trained on clean, idealized
+   inputs but deployed on noisy carry-over or asynchronously-delayed
+   inputs. The wiki now documents four instances in
+   [[train-inference-mismatch]]: SpaTrackerV2 (perception, heuristic
+   fix), Point4D (perception, structural fix), RTC (control, structural
+   fix), streaming-perception (control via forecasting). **Structural
+   fixes consistently beat heuristic ones** — Point4D's 3D queries and
+   RTC's inpainting are clear examples. The conceptual ancestor for
+   the whole pattern is [[streaming-perception]] (Li, Wang, Ramanan,
+   ECCV 2020), which 5 years ago framed the problem of finite-time
+   computation in a continuously-changing world as the central
+   evaluation challenge.
+
+8. **Fast-weight associative memory ([[test-time-training]]) is the
+   emerging substitute for softmax attention** in long-context 3D
+   reconstruction. [[elflein-2026-vgg-t3]] uses TTT globally
+   (per-scene MLP fit), [[zhang-2026-loger]] uses TTT chunk-wise (fast
+   weights carried across chunks), TTT3R uses TTT per-frame (not
+   yet primary). All three are `O(n)` and beat their `O(n²)`
+   ancestors at scale. Empirically, **per-frame TTT is worst** for
+   geometric coherence (LoGeR: 4× ATE gap over TTT3R on KITTI) and
+   **hybrid memory (lossless local + compressed global) beats either
+   alone** (LoGeR Tab. 1). This is the load-bearing finding for the
+   user's own Topic-3 research direction.
+
+### Convergent surprises across sources
+
+- **Training video length is the dominant factor** for long-horizon
+  performance — independently noted by [[aydemir-2025-track-on2]] and
+  [[jung-2026-tapnext-plus-plus]].
+- **Joint over-complete prediction beats parsimony** in [[vggt]] but
+  [[depth-anything-3]] argues the opposite via minimalist depth+ray.
+  Open whether this is benchmark-specific.
+- **Point tracking and 4D reconstruction are converging.** Dense
+  trajectories ([[trace-anything]], [[point4d]]) ≈ dense 3D point
+  tracks. [[point4d]] is the most explicit fusion to date:
+  3D-tracker-like queries on a 4D-reconstruction backbone. See
+  [[q-tracking-vs-4d-reconstruction]].
+- **The Bézier-spline 4D representation underperforms at long horizons.**
+  [[trace-anything]] is the *worst* feed-forward 4D method on
+  200-frame benchmarks (EPE 2.059 vs Point4D 0.526) — confirming
+  [[4rc]]'s theoretical critique and [[anon-2026-point4d]]'s empirical
+  measurement. Splines genuinely struggle with high-frequency dynamics
+  over long sequences.
+- **3D queries > 2D pixel queries for long-sequence 4D.**
+  [[anon-2026-point4d]]'s key ablation: 2D→3D queries alone improves
+  single-chunk EPE; the bigger win is that 3D coordinates stay
+  well-defined under occlusion, enabling reliable chunk chaining where
+  2D-pixel methods break.
+
+## Active threads
+
+- [[q-emergent-tracking-heuristics]] — do classical tracking heuristics
+  (cost-volume, motion-cluster, coordinate read-out) emerge from
+  end-to-end training? Quantitative evidence still missing.
+- [[q-sim2real-for-point-tracking]] — does real-data fine-tuning matter,
+  or is better synthetic training enough? Both camps have strong evidence.
+- [[q-tracking-vs-4d-reconstruction]] — are sparse point tracking and
+  dense 4D reconstruction the same problem under different names?
+  Currently converging but not unified.
+- See [[cmp-tap-methods]] for the TAP comparison + open eval gaps.
+- See [[cmp-3d-4d-reconstruction]] for the 3D/4D comparison + open eval
+  gaps.
+
+## Known gaps
+
+- **DUSt3R / MASt3R / VGGSfM primary sources not ingested.** Cited by
+  nearly every paper in the wiki. The [[dust3r]] method page is seeded
+  from secondary mentions but a direct ingest would solidify the
+  trunk. **High priority.**
+- **SRT (Scene Representation Transformer, Sajjadi 2022)** — the
+  encoder-decoder pattern that D4RT and Point4D both inherit. Not yet
+  ingested. **Now the highest-priority foundation paper after the D4RT
+  ingest.**
+- **π³ (Pi3)** — VGGT successor that D4RT explicitly beats on Sintel
+  pose AUC. Cited in multiple papers but no primary source.
+- **BootsTAP / BootsTAPIR** — cited by 4+ TAP sources but no primary
+  page. Still the most important next TAP ingest.
+- **π³ (Pi3)** — VGGT successor mentioned in multiple papers; would
+  partially resolve VGGT vs. its critiques.
+- **No causal 3D tracker** in either the TAP or 4D-reconstruction
+  threads. Open research slot.
+- **No streaming 4D** — [[cut3r]] is online 3D + handles dynamic, but
+  no explicit motion representation. Combining streaming + 4D is open.
+  [[point4d]] partially closes this with chunk chaining but is still
+  offline (chunks are processed sequentially, not streaming).
+  [[zhang-2026-loger]] is the closest **streaming 3D** instance now
+  (hybrid memory, true minute-long generalization) but doesn't model
+  per-pixel motion — the *4D* version is still open. This is one
+  natural extension for the user's project: LoGeR-style hybrid
+  memory + Point4D-style 3D-query motion decoder.
+- **No robotics-application paper** showing how point tracking / 4D
+  reconstruction integrates with downstream control. Critical for the
+  user's MSR program scope.
+- **No unified 4D eval protocol.** Any4D, V-DPM, 4RC, Trace Anything
+  all claim SOTA on different splits. Apples-to-apples comparison gap.
+
+## Recent shifts
+
+- **2026-05-29 (ingest 7):** **VGG-T3 (Elflein/NVIDIA Feb 2026)** +
+  **LoGeR (J. Zhang/DeepMind+Berkeley Apr 2026)** — opens thread (D),
+  long-context 3D reconstruction. Both use
+  [[test-time-training]] as the fast-weight replacement for softmax
+  attention but at different granularities: VGG-T3 is per-scene
+  global/offline/unordered; LoGeR is per-chunk streaming with hybrid
+  SWA+TTT memory. Added load-bearing claim 8 (TTT as the emerging
+  substitute for softmax in long-context 3D), and the streaming-4D
+  gap is now sharper — LoGeR is the closest streaming 3D analogue,
+  and combining LoGeR-style hybrid memory with Point4D-style 3D-query
+  motion decoding is the obvious natural extension for the user's
+  Topic-3 project.
+
+- **2026-05-28 (ingest 6):** **Streaming Perception (Li/Ramanan ECCV
+  2020)** + **RTC (Black/Levine NeurIPS 2025)** — two-paper batch
+  opening a streaming-perception & real-time-control thread. The
+  streaming-perception paper is the **conceptual ancestor of
+  [[online-vs-offline-tracking]]** and the whole "online" framing
+  across (A) and (B). RTC opens a brand-new robotics-policy thread.
+  Created the [[train-inference-mismatch]] cross-cutting concept page
+  to capture the recurring pattern across SpaTrackerV2 / Point4D /
+  RTC / streaming-perception — directly inspired by the in-conversation
+  question about SpaTrackerV2's online inference. Promoted
+  [[deva-ramanan]] (now 3 sources, spanning 2020 → 2025). Added
+  [[physical-intelligence]] org page.
+- **2026-05-26 (ingest 5):** D4RT (Zhang et al. arXiv 2512.08924).
+  Ingested the direct predecessor of Point4D I flagged last turn.
+  D4RT is the **canonical 2D-pixel-query 4D decoder** and lead-author
+  Mehdi Sajjadi's continuation of his SRT line. SOTA on both static
+  3D (Sintel ATE 0.065) and 4D tracking (TAPVid-3D AJ 0.304) — a
+  unification claim that holds up. Promoted [[mehdi-sajjadi]] /
+  [[skanda-koppula]] / [[ignacio-rocco]] to entity pages
+  (each crossed the 2-source threshold). Added load-bearing claim 6
+  to [[overview]] thesis.
+- **2026-05-26 (ingest 4):** Point4D (NeurIPS 2026 anon) — first
+  feed-forward 4D method to scale past 100 frames (to 200-300) via
+  3D-query decoding + chunk chaining. Closed a gap I flagged
+  previously. New concept page [[trajectory-chaining]]. De-anonymized
+  [[anon-2026-trace-anything]] via Point4D's references; revealed a
+  third research cluster (HKUST + ByteDance Seed + Yuxi Xiao group).
+- **2026-05-24 (ingest 3):** 3D/4D reconstruction batch (8 papers) added.
+  Identified the VGGT trunk + descendants. Surfaced the
+  tracking-vs-4D-reconstruction convergence ([[q-tracking-vs-4d-reconstruction]]).
+  CMU's 3D-reconstruction-for-robotics output is now substantial in the
+  wiki (TAPIP3D + MapAnything + Any4D).
+- **2026-05-24 (ingest 2):** TAP-family batch (6 papers) — established the
+  online-vs-offline collapse and synthetic-vs-real-data debate.
+- **2026-05-24 (ingest 1):** TAPNext opened the wiki.
+- **2026-05-24 (scope fix):** corrected MSR meaning (robotics program,
+  not Mining Software Repositories).
