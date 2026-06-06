@@ -180,6 +180,11 @@
   },
   "active": "9a0520803aac84f0",
   "lastOpenFiles": [
+    "raw/papers/2304.13705v1.pdf",
+    "raw/papers/2303.04137v5.pdf",
+    "raw/papers/2407.01392v4 (1).pdf",
+    "raw/papers/2512.05964v2.pdf",
+    "raw/papers/CoRL2026_p_fastslow.pdf",
     "wiki/sources/sun-2024-ttt.md",
     "raw/papers/2505.23884v1.pdf",
     "raw/papers/2507.11539v2.pdf",
@@ -187,10 +192,6 @@
     "raw/sources/zotero-pdfs/LV2XB9PD",
     "raw/sources/zotero-pdfs/tmp-ehsWMu/Chen et al. - 2026 - TTT3R 3D Reconstruction as Test-Time Training.pdf",
     "raw/sources/zotero-pdfs/tmp-ehsWMu",
-    "raw/sources/zotero-pdfs/FG43Y96E/2509.html",
-    "raw/sources/zotero-pdfs/FG43Y96E",
-    "raw/sources/zotero-pdfs/tmp-aP5iT6/2509.html",
-    "raw/sources/zotero-pdfs/tmp-aP5iT6",
     "wiki/entities/people/junyi-zhang.md",
     "wiki/entities/orgs/nvidia.md",
     "wiki/concepts/test-time-training.md",
@@ -215,7 +216,6 @@
     "wiki/concepts/joint-point-tracking.md",
     "wiki/comparisons/cmp-3d-4d-reconstruction.md",
     "wiki/entities/orgs/uc-berkeley.md",
-    "wiki/entities/orgs/meta-reality-labs.md",
-    "wiki/entities/orgs/bytedance-seed.md"
+    "wiki/entities/orgs/meta-reality-labs.md"
   ]
 }
