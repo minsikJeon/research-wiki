@@ -11,10 +11,14 @@
             "id": "9a0520803aac84f0",
             "type": "leaf",
             "state": {
-              "type": "graph",
-              "state": {},
-              "icon": "lucide-git-fork",
-              "title": "Graph view"
+              "type": "markdown",
+              "state": {
+                "file": "wiki/concepts/diffusion-forcing.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "diffusion-forcing"
             }
           }
         ]
@@ -178,20 +182,20 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "9a0520803aac84f0",
+  "active": "bc6e158646d6ec27",
   "lastOpenFiles": [
+    "raw/sources/zotero-pdfs/GQ36ZWMY/2006.html",
+    "raw/sources/zotero-pdfs/GQ36ZWMY",
+    "raw/sources/zotero-pdfs/tmp-xTaZTB/2006.html",
+    "raw/sources/zotero-pdfs/tmp-xTaZTB",
+    "raw/sources/zotero-pdfs/N78U7BLK/Katharopoulos et al. - 2020 - Transformers are RNNs Fast Autoregressive Transformers with Linear Attention.pdf",
+    "raw/sources/zotero-pdfs/N78U7BLK",
     "raw/papers/2304.13705v1.pdf",
     "raw/papers/2303.04137v5.pdf",
     "raw/papers/2407.01392v4 (1).pdf",
     "raw/papers/2512.05964v2.pdf",
     "raw/papers/CoRL2026_p_fastslow.pdf",
     "wiki/sources/sun-2024-ttt.md",
-    "raw/papers/2505.23884v1.pdf",
-    "raw/papers/2507.11539v2.pdf",
-    "raw/sources/zotero-pdfs/LV2XB9PD/Chen et al. - 2026 - TTT3R 3D Reconstruction as Test-Time Training.pdf",
-    "raw/sources/zotero-pdfs/LV2XB9PD",
-    "raw/sources/zotero-pdfs/tmp-ehsWMu/Chen et al. - 2026 - TTT3R 3D Reconstruction as Test-Time Training.pdf",
-    "raw/sources/zotero-pdfs/tmp-ehsWMu",
     "wiki/entities/people/junyi-zhang.md",
     "wiki/entities/orgs/nvidia.md",
     "wiki/concepts/test-time-training.md",
