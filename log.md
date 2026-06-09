@@ -424,3 +424,81 @@ soon):**
 - **Pi3-Chunk** baseline from LoGeR (chunk-causal Pi3 with TTT
   reset) — interesting as a *minimal baseline* for the user's
   Caricature 2.
+
+## [2026-06-08] ingest | πR² + Training-Time RTC + Diffusion Forcing + ACT + Diffusion Policy (5-paper batch)
+
+Five-paper batch closing the real-time-chunking / fast-slow-policy thread
+end-to-end, from foundational (ACT/DP) through the underlying mechanism
+(Diffusion Forcing) through the recent line of fixes (Training-Time RTC →
+πR²).
+
+**New sources (5):**
+- [[zhao-2023-act]] — ALOHA + ACT (RSS 2023). Origin of the
+  [[action-chunking]] paradigm. Grounded the concept page that had been
+  citing it indirectly through [[black-2025-rtc]].
+- [[chi-2024-diffusion-policy]] — Diffusion Policy (RSS 2023 / IJRR
+  2024). Conditional DDPM over action chunks; +46.9% over prior SOTA;
+  foundation of every modern diffusion-VLA action head.
+- [[chen-2024-diffusion-forcing]] — Diffusion Forcing (NeurIPS 2024,
+  MIT CSAIL). Per-token independent noise levels at training; 2D
+  sampling grid at inference. Bridges teacher forcing and full-sequence
+  diffusion.
+- [[black-2025-training-time-rtc]] — Training-Time RTC (Physical
+  Intelligence). Drop-in replacement for inference-time RTC; moves
+  prefix conditioning to training; zero ΠGDM overhead; wins for d ≥ 2.
+- [[anon-2026-pi-r-squared]] — πR² (CoRL 2026 anon). Combines training-
+  time prefix clamp + diffusion-forcing ramped interior + slow/fast
+  channel split + delay-conditioned slow embedding. Closed-loop 25 Hz
+  on a 7 Hz VLA. **Directly the architecture for the user's Caricature
+  3** (slow planner + fast controller).
+
+**New methods (5):** [[act]], [[diffusion-policy]], [[diffusion-forcing]],
+[[training-time-rtc]], [[pi-r-squared]].
+
+**New concepts (2):** [[diffusion-forcing]] (per-position noise sampling
+grid as inference-time DoF; CDF), [[fast-slow-policy]] (slow VLM + fast
+proprio channels; πR² is the first single-model VLA instance).
+
+**Updated concepts (3):** [[action-chunking]] (added ACT as origin
+source + DP + Training-Time RTC + πR² to the handling table),
+[[asynchronous-control]] (full variant table with πR² at the limit),
+[[train-inference-mismatch]] (added new instances + "inference-time →
+training-time → joint" trajectory observation).
+
+**Updated method:** [[rtc]] — linked to training-time successor and
+πR² generalization.
+
+**New entities:**
+- People: [[chelsea-finn]] (Stanford IRIS; ACT senior co-author),
+  [[russ-tedrake]] (MIT CSAIL + TRI; DP + Diffusion Forcing co-author).
+- Org: [[mit-csail]] — Diffusion Policy + Diffusion Forcing primary.
+
+**Promoted entities:**
+- [[kevin-black]]: stub → growing (now lead on both RTC papers).
+- [[sergey-levine]]: stub → growing (now 3 sources: ACT + RTC + Training-Time RTC).
+
+**Cross-source synthesis (the through-line):**
+The 5 papers cover the same problem at increasing levels of integration:
+- ACT (2023): chunking origin; reactivity loss is the price.
+- DP (2024): better action head, same chunking; same reactivity loss.
+- Diffusion Forcing (2024): the mechanism that decouples noise from
+  position — unlocks the per-position schedule.
+- Training-Time RTC (2025): apply prefix clamping at training time;
+  drops inference-time inpainting cost.
+- πR² (2026): generalize to a continuous schedule (staircase via
+  diffusion forcing) + add the slow/fast architectural split.
+
+The trajectory is a strong analog for the user's Caricature 1 → 2 → 3
+roadmap on the perception side. Specifically: **πR²'s slow/fast split is
+structurally identical to LoGeR's hybrid memory (lossless local + slow
+global)**, and **πR²'s diffusion-forcing schedule is structurally
+identical to the chunked prediction problem Point4D solves**. The
+robotics line is now a step *ahead* of the perception line on these
+two issues; the perception side has open research slots to mirror.
+
+**Note on entity discipline:** Tony Zhao (ACT lead) and Cheng Chi (DP
+lead) deferred — single first-authorships and not yet recurring.
+Shuran Song and Yilun Du same — single-source mentions. ALOHA Unleashed
+and π0/π0.5/π0.6 not promoted to source pages because they're cited
+rather than ingested.
+

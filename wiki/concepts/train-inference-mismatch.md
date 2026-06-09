@@ -1,20 +1,25 @@
 ---
 type: concept
 title: Train / Inference Mismatch (Recurring Pattern)
-status: stub
+status: growing
 tags: [train-inference-mismatch, online-tracking, action-chunking, streaming-perception]
 sources:
   - "[[xiao-2025-spatialtracker-v2]]"
   - "[[black-2025-rtc]]"
   - "[[anon-2026-point4d]]"
+  - "[[black-2025-training-time-rtc]]"
+  - "[[anon-2026-pi-r-squared]]"
+  - "[[chen-2024-diffusion-forcing]]"
 related:
   - "[[online-vs-offline-tracking]]"
   - "[[streaming-perception]]"
   - "[[action-chunking]]"
   - "[[trajectory-chaining]]"
   - "[[asynchronous-control]]"
+  - "[[diffusion-forcing]]"
+  - "[[fast-slow-policy]]"
 created: 2026-05-28
-updated: 2026-05-28
+updated: 2026-06-08
 ---
 
 # Train / Inference Mismatch (Recurring Pattern)
@@ -36,7 +41,10 @@ perception and control** so the wiki captures them as one phenomenon:
 |-----------------------------------------|--------------------------------|------------------------------------------------------------------------------|--------------------------------------------------------|--------------------------------------|
 | Online 3D point tracking                | Clean GT query + zero-motion init | Carry-over query synthesized from previous window's most-confident frame    | Heuristic (max `vis × conf` frame selection)           | [[xiao-2025-spatialtracker-v2]]      |
 | Long-video 4D reconstruction            | Single-window 4D                | Multi-window chaining with depth-error compounding                          | Structural: 3D-coordinate queries, Sim(3) chain       | [[anon-2026-point4d]]                |
-| Diffusion / flow VLA control            | Independent action chunks       | Async inference: first `d` actions of new chunk are already committed      | Structural: hard-freeze prefix + inpaint rest         | [[black-2025-rtc]]                   |
+| Diffusion / flow VLA control (inference-time fix) | Independent action chunks       | Async inference: first `d` actions of new chunk are already committed      | Structural: hard-freeze prefix + ΠGDM inpaint rest    | [[black-2025-rtc]]                   |
+| Diffusion / flow VLA control (training-time fix) | Sampled `d`, prefix clamped clean | Same — but with no inference-time overhead | Structural: per-position τ, masked loss | [[black-2025-training-time-rtc]] |
+| Diffusion / flow VLA control (joint fix) | Sampled `d` + sampled `d_vlm` | Per-tick denoising + async cached vision | Structural: staircase schedule + slow/fast split | [[anon-2026-pi-r-squared]] |
+| Sequence generation (general) | Shared noise level across tokens | Streaming, partial observation, mixed-staleness | Structural: per-token independent noise | [[chen-2024-diffusion-forcing]] |
 | Streaming object detection              | Per-frame ground-truth          | Output stream evaluated against current world state at every instant       | Pipeline: forecaster + dynamic scheduler              | [[li-2020-streaming-perception]]     |
 
 ## Two response strategies observed
@@ -62,8 +70,23 @@ and are brittle (replace_ratio, confidence-weighting, decay schedules).
 The structural fixes (3D queries, inpainting, query-based decoders) are
 cleaner but require rethinking the model's input or output interface.
 
-This is worth tracking as new methods arrive: which camp does the new
-method land in?
+Within the structural-fix camp, a **further trajectory** is visible:
+fixes migrate from inference-time → training-time → joint
+(training + architecture). RTC family is the cleanest example:
+
+- [[rtc]] (inference-time inpainting) — keeps training unchanged; pays
+  per-step ΠGDM cost.
+- [[training-time-rtc]] (training-time conditioning) — same interface,
+  no inference cost, slightly less flexible.
+- [[pi-r-squared]] (joint structural fix) — generalizes RTC's prefix
+  clamp via diffusion forcing + adds a fast-slow channel split for
+  modality-staleness.
+
+Each step *eats* the previous step's overhead. The same trajectory
+hasn't yet played out on the perception side — SpaTrackerV2 sits at the
+*heuristic* corner; Point4D sits at *inference-time structural*. The
+*training-time* and *joint* corners are open research directions for
+streaming 3D / 4D.
 
 ## Open questions
 

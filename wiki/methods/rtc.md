@@ -80,13 +80,16 @@ field at every denoising step.
 
 ## Related methods
 
-- **Predecessors:** ACT / temporal ensembling (Zhao 2023);
+- **Predecessors:** [[act]] / temporal ensembling ([[zhao-2023-act]]);
   BID (cited as the best alternative in their sim).
-- **Asynchronous-control siblings:** diffusion-policy inference
-  variants (not yet ingested).
-- **Train-time analogue:** none in this wiki yet. RTC's design
-  philosophy is "fix the mismatch at inference, leave training alone" —
-  the same lever Point4D pulled on the perception side
-  ([[point4d]] uses 3D queries identically in train and inference,
-  but training itself is not modified to anticipate noisy carry-over).
-- **Base VLA:** π0.5 (Black et al. 2024) — not yet ingested.
+- **Asynchronous-control siblings:** [[diffusion-policy]] inference
+  variants — receding horizon over standard DDPM.
+- **Train-time successor:** [[training-time-rtc]] /
+  [[black-2025-training-time-rtc]] — moves the prefix conditioning to
+  training; eliminates ΠGDM overhead. Drop-in replacement; wins for
+  `d ≥ 2`.
+- **Joint generalization:** [[pi-r-squared]] /
+  [[anon-2026-pi-r-squared]] — training-time prefix clamp + ramped
+  interior via diffusion forcing + fast/slow channel split.
+  Training-time RTC is its `s = 0` corner.
+- **Base VLA:** π0.5 (Black et al. 2024) — not yet ingested directly.

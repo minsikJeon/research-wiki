@@ -4,7 +4,7 @@ title: Research Wiki — Overview
 status: growing
 tags: [meta]
 created: 2026-05-24
-updated: 2026-05-29
+updated: 2026-06-08
 ---
 
 # Overview
@@ -21,10 +21,11 @@ embodied AI.
 
 ---
 
-## Current thesis (May 2026, after 21 sources)
+## Current thesis (June 2026, after 26 sources)
 
 The wiki has dense coverage of two intersecting perception sub-areas,
-plus two emerging threads (streaming/control, and long-context 3D):
+plus two now-fleshed-out adjacent threads (streaming/control, and
+long-context 3D):
 
 **(A) Tracking Any Point (TAP).** 7 sources covering the DeepMind TAPNext
 line, the Meta/Oxford CoTracker line, the Koç Track-On line, and the 3D
@@ -35,11 +36,19 @@ trunk (Oxford VGG + Meta AI) and its descendants (MapAnything, V-DPM,
 4RC, DA3, CUT3R), plus contemporary feed-forward 4D (Any4D, Trace
 Anything, D4RT, Point4D).
 
-**(C) Streaming perception & real-time control.** 2 sources opening a
-new thread: [[li-2020-streaming-perception]] (foundational ECCV 2020 —
-the conceptual ancestor of all "online" discussion in (A) and (B)) and
-[[black-2025-rtc]] (NeurIPS 2025 — Physical Intelligence's real-time
-chunking inpainting for VLA action execution).
+**(C) Streaming perception & real-time control.** Now **7 sources**
+covering the full lineage:
+- Foundation: [[li-2020-streaming-perception]] (ECCV 2020).
+- Action-chunking origin: [[zhao-2023-act]] (ACT/ALOHA, RSS 2023).
+- Action-head substrate: [[chi-2024-diffusion-policy]] (RSS 2023 / IJRR
+  2024) — DDPM over action chunks.
+- Sequence-modeling mechanism: [[chen-2024-diffusion-forcing]] (NeurIPS
+  2024) — per-token noise schedules.
+- Real-time chunking line:
+  [[black-2025-rtc]] (inference-time) →
+  [[black-2025-training-time-rtc]] (training-time) →
+  [[anon-2026-pi-r-squared]] (joint structural fix: diffusion-forcing
+  staircase + slow/fast channel split).
 
 **(D) Long-context 3D reconstruction (linear-time / streaming).** 2
 sources opening another new thread: [[elflein-2026-vgg-t3]] (NVIDIA;
@@ -59,6 +68,17 @@ about online inference and train-inference mismatch all live within.
 reconstruction. (D) is directly load-bearing for the user's own
 research project (Topic 3 in `raw/notes/` — long-term real-time 3D
 tracking architectures).
+
+**As of June 2026, (C) is a step *ahead* of (D)** on two specific
+patterns:
+- The **inference → training → joint structural fix** trajectory has
+  played out fully on the control side (RTC → Training-Time RTC → πR²)
+  but the perception side is still at *inference-time structural*
+  (Point4D) or *heuristic* (SpaTrackerV2).
+- The **fast-slow split** (πR²'s slow VLM + fast proprio) is
+  structurally equivalent to LoGeR's hybrid memory (slow TTT + fast
+  SWA) but at higher operational maturity (deployed on a real robot at
+  25 Hz).
 
 ### Seven load-bearing claims (synthesized)
 
@@ -125,6 +145,20 @@ tracking architectures).
    **hybrid memory (lossless local + compressed global) beats either
    alone** (LoGeR Tab. 1). This is the load-bearing finding for the
    user's own Topic-3 research direction.
+
+9. **The real-time VLA-control line has converged on
+   (training-time prefix conditioning) × (per-position noise schedule)
+   × (slow/fast channel split).** Five sources now bracket this design
+   space: [[zhao-2023-act]] (origin), [[chi-2024-diffusion-policy]]
+   (modern head), [[chen-2024-diffusion-forcing]] (mechanism),
+   [[black-2025-training-time-rtc]] (training-time fix),
+   [[anon-2026-pi-r-squared]] (joint structural fix with all three).
+   The trajectory `RTC → Training-Time RTC → πR²` is the cleanest case
+   in the wiki of a fix migrating from *inference-time* to
+   *training-time* to *joint training + architecture* — each step
+   eating the previous step's overhead. **πR² is the direct
+   architectural analog of the user's Caricature 3** (slow planner +
+   fast controller), deployed and validated on a real robot at 25 Hz.
 
 ### Convergent surprises across sources
 
@@ -194,11 +228,35 @@ tracking architectures).
   memory + Point4D-style 3D-query motion decoder.
 - **No robotics-application paper** showing how point tracking / 4D
   reconstruction integrates with downstream control. Critical for the
-  user's MSR program scope.
+  user's MSR program scope. (Tracking + 4D papers cite robotics as
+  motivation but no end-to-end demonstration is in the wiki.)
 - **No unified 4D eval protocol.** Any4D, V-DPM, 4RC, Trace Anything
   all claim SOTA on different splits. Apples-to-apples comparison gap.
+- **No perception-side analog of the πR² fast-slow split** in the wiki
+  yet. LoGeR has hybrid memory (SWA + TTT) which is the closest
+  perception-side instance; a full deployment on a real-time 3D-tracking
+  system is an open research slot — and one the user's Caricature 3 is
+  set up to fill.
+- **No training-time mismatch fix for streaming 3D/4D reconstruction.**
+  SpaTrackerV2 is heuristic; Point4D is inference-time structural; the
+  training-time and joint corners are empty.
 
 ## Recent shifts
+
+- **2026-06-08 (ingest 8):** Five-paper batch closing the
+  real-time-chunking / fast-slow-policy thread (C):
+  [[zhao-2023-act]] (origin), [[chi-2024-diffusion-policy]] (action
+  head), [[chen-2024-diffusion-forcing]] (mechanism),
+  [[black-2025-training-time-rtc]] (training-time fix),
+  [[anon-2026-pi-r-squared]] (joint structural fix). Added load-bearing
+  claim 9 (the RTC → πR² trajectory). New concept pages
+  [[diffusion-forcing]] and [[fast-slow-policy]]. The control side is
+  now the most architecturally mature thread in the wiki on the
+  train-inference-mismatch axis. Promoted [[kevin-black]] and
+  [[sergey-levine]] to growing; added [[chelsea-finn]],
+  [[russ-tedrake]], [[mit-csail]] entity pages. **πR² is the
+  direct architectural analog of Caricature 3** in the user's research
+  note.
 
 - **2026-05-29 (ingest 7):** **VGG-T3 (Elflein/NVIDIA Feb 2026)** +
   **LoGeR (J. Zhang/DeepMind+Berkeley Apr 2026)** — opens thread (D),

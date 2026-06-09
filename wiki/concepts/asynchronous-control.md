@@ -1,17 +1,23 @@
 ---
 type: concept
 title: Asynchronous Control (under Inference Delay)
-status: stub
-tags: [robotics, real-time, latency, vla, control]
+status: growing
+tags: [robotics, real-time, latency, vla, control, asynchronous-control]
 sources:
   - "[[black-2025-rtc]]"
+  - "[[black-2025-training-time-rtc]]"
+  - "[[anon-2026-pi-r-squared]]"
 related:
   - "[[action-chunking]]"
   - "[[rtc]]"
+  - "[[training-time-rtc]]"
+  - "[[pi-r-squared]]"
+  - "[[fast-slow-policy]]"
+  - "[[diffusion-forcing]]"
   - "[[vla]]"
   - "[[streaming-perception]]"
 created: 2026-05-28
-updated: 2026-05-28
+updated: 2026-06-08
 ---
 
 # Asynchronous Control (under Inference Delay)
@@ -39,19 +45,25 @@ Asynchrony is forced.
 
 ## Variants
 
-- **Synchronous (`δ ≤ Δt`).** Trivial: each chunk is generated between
-  controller ticks. Only feasible for small models.
-- **Synchronous (`δ > Δt`), with pauses.** Default in many prior works
-  but produces visible pauses and dynamics shifts.
-- **Naive asynchronous.** Start inference at step `s − d` so the new
-  chunk lands at step `s`. But transitions between `a_{s−1|0}` and
-  `a_{s|s−d}` are unconstrained — produces mode jumps (Fig 2 of
-  [[black-2025-rtc]]).
-- **Temporal ensembling (ACT, Zhao 2023).** Average overlapping chunks.
-  Smooths but produces invalid actions.
-- **[[rtc]] (Black et al. 2025).** Freeze the `d` actions guaranteed to
-  execute; inpaint the rest with soft-masked guidance from the previous
-  chunk. Inference-time only.
+| Variant | Per-call cost | Reactivity | Source |
+|---|---|---|---|
+| Synchronous (`δ ≤ Δt`) | Trivial | OK for small models | — |
+| Synchronous (`δ > Δt`) with pauses | High | Visible pauses, dyn. shifts | Default |
+| Naive asynchronous | One full denoise | Mode jumps at boundaries | — |
+| Temporal ensembling (ACT) | One full denoise | Smoother, invalid actions | [[zhao-2023-act]] |
+| Inference-time RTC (inpainting) | One denoise + ΠGDM VJP | Robust to ~300 ms delay | [[black-2025-rtc]] |
+| Training-time RTC (prefix conditioning) | One denoise (no VJP) | ≥ inference-time RTC at d ≥ 2 | [[black-2025-training-time-rtc]] |
+| **πR² (diffusion forcing + fast/slow)** | **One Euler substep** | Per-control-tick (25 Hz on 7 Hz VLA) | [[anon-2026-pi-r-squared]] |
+
+The trajectory across these variants is clear:
+- Inference-time only → training-time → joint training + architectural
+  split.
+- Each step **moves the same fix earlier in the pipeline**, with less
+  overhead and more reactivity.
+- πR² combines all three:
+  - Training-time prefix clamp (from training-time RTC).
+  - Diffusion-forcing ramped interior (from CDF).
+  - Slow/fast channel split (new contribution).
 
 ## Relationship to streaming perception
 

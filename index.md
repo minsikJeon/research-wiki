@@ -22,7 +22,12 @@ evolving thesis.
 
 ### Streaming perception & real-time control
 - [[li-2020-streaming-perception]] — foundational ECCV 2020 paper; streaming-accuracy metric; offline AP 38.0 → streaming 6.2; tracking + forecasting emerge as necessary (streaming-perception, latency, deva-ramanan)
+- [[zhao-2023-act]] — ALOHA + ACT; founding action-chunking paper; CVAE transformer over 4 cams + joint state; 80–90% SR on fine bimanual tasks (robotics, manipulation, action-chunking, imitation-learning)
+- [[chi-2024-diffusion-policy]] — visuomotor policy as conditional DDPM over action chunks; +46.9% over prior SOTA; foundation of every modern diffusion-VLA action head (robotics, manipulation, diffusion, action-chunking)
+- [[chen-2024-diffusion-forcing]] — MIT CSAIL NeurIPS 2024; per-token-noise sequence modeling; bridges teacher forcing and full-sequence diffusion; underlies πR² and streaming control (sequence-modeling, diffusion, training-paradigm)
 - [[black-2025-rtc]] — Physical Intelligence; inference-time inpainting for VLA action chunks; freezes committed prefix + soft-masks the rest; robust to >300ms latency (robotics, vla, flow-matching, action-chunking)
+- [[black-2025-training-time-rtc]] — Physical Intelligence; drop-in replacement for RTC that moves prefix conditioning to training; zero inference overhead; wins for d ≥ 2 (robotics, vla, training-recipe)
+- [[anon-2026-pi-r-squared]] — CoRL 2026 (anon); πR² adds diffusion-forcing staircase schedule + slow/fast channel split; closed-loop 25 Hz on a 7 Hz VLA; +50% relative gain on reactivity-sensitive real-world tasks (robotics, vla, fast-slow-policy, latency-adaptive)
 
 ### 3D / 4D Reconstruction (feed-forward foundation models)
 - [[wang-2025-vggt]] — foundational feed-forward multi-view 3D transformer; predicts cameras + depth + pointmaps + tracks in one pass (3d-reconstruction, foundation-model)
@@ -63,11 +68,13 @@ evolving thesis.
 ### Streaming perception, real-time control & cross-domain patterns
 - [[streaming-perception]] — Li/Ramanan ECCV 2020 framing; ancestor of online-vs-offline-tracking
 - [[streaming-accuracy]] — the formal metric: zero-order-hold output stream vs continuous GT
-- [[action-chunking]] — robot policy paradigm: predict H actions per inference; chunk boundaries cause mode jumps
+- [[action-chunking]] — robot policy paradigm: predict H actions per inference; chunk boundaries cause mode jumps; origin ACT, refined through DP / RTC / Training-Time RTC / πR²
 - [[asynchronous-control]] — closed-loop control under inference delay; control-side analogue of streaming perception
+- [[diffusion-forcing]] — per-token independent noise levels; bridges next-token + full-sequence diffusion; sampling grid is the deployment-time DoF
+- [[fast-slow-policy]] — split policy into slow VLM channel + fast proprio channel; πR² is the first single-model instance
 - [[vla]] — vision-language-action models; the large-policy class RTC targets
 - [[flow-matching]] — generative-model training objective used by π0 / π0.5 VLAs
-- [[train-inference-mismatch]] — recurring pattern: SpaTrackerV2 / Point4D / RTC / streaming-perception all instances; structural vs heuristic fixes
+- [[train-inference-mismatch]] — recurring pattern: SpaTrackerV2 / Point4D / RTC / Training-Time RTC / πR² / Diffusion Forcing / streaming-perception all instances; structural vs heuristic; fixes migrate inference → training → joint
 
 ## Methods
 *Concrete algorithms, models, pipelines.*
@@ -96,7 +103,12 @@ evolving thesis.
 
 ### Streaming perception & robot control
 - [[streamer-meta-detector]] — detector + association + Kalman forecaster + dynamic scheduler; turns any detector streaming
-- [[rtc]] — real-time chunking via inpainting; inference-time fix for VLA latency; ΠGDM guidance + soft masking
+- [[act]] — Action Chunking with Transformers; CVAE-style chunked policy + temporal ensembling; origin of chunking
+- [[diffusion-policy]] — conditional DDPM over action chunks; chunked DiT denoiser; standard action head in modern VLAs
+- [[diffusion-forcing]] — per-position noise schedule paradigm; CDF (causal variant); 2D sampling grid as inference-time DoF
+- [[rtc]] — real-time chunking via inference-time inpainting; ΠGDM guidance + soft masking
+- [[training-time-rtc]] — drop-in RTC replacement that moves prefix conditioning to training; zero inference overhead
+- [[pi-r-squared]] — staircase diffusion-forcing schedule + slow/fast channel split; 1 NFE per call; per-tick reactivity on a slow VLA
 - [[point4d]] — long-range 4D via 3D-coordinate queries + Sim(3) chunk chaining; extends D4RT to 3D queries
 - [[d4rt]] — 2D-pixel-query 4D decoder (SRT lineage); encode-once, query-anywhere; ancestor of Point4D and 4RC
 
@@ -124,8 +136,10 @@ evolving thesis.
 - [[ignacio-rocco]] — DeepMind (prev. Meta AI); CoTracker + TAPNext + D4RT co-author
 - [[mengtian-li]] — CMU / Ramanan group; streaming-perception ECCV 2020
 - [[yu-xiong-wang]] — UIUC; streaming-perception co-author
-- [[kevin-black]] — Physical Intelligence / Berkeley; RTC lead, π0/π0.5 collaborator
-- [[sergey-levine]] — UC Berkeley + Physical Intelligence co-founder; RTC senior author
+- [[kevin-black]] — Physical Intelligence / Berkeley; RTC + Training-Time RTC lead; π0/π0.5/π0.6 collaborator
+- [[sergey-levine]] — UC Berkeley + Physical Intelligence co-founder; senior author on ACT + RTC + Training-Time RTC (3 sources)
+- [[chelsea-finn]] — Stanford IRIS; ACT senior co-author; cited throughout the IL / VLA line
+- [[russ-tedrake]] — MIT CSAIL + TRI; co-author on Diffusion Policy + Diffusion Forcing (2 sources)
 - [[junyi-zhang]] — UC Berkeley + Google DeepMind; LoGeR lead; also MonST3R author (cited 5+ times across wiki)
 
 ### Organizations
@@ -136,7 +150,8 @@ evolving thesis.
 - [[cmu-ri]] — **user's institution**; TAPIP3D, MapAnything, Any4D (3 sources)
 - [[uc-berkeley]] — CUT3R + RTC
 - [[bytedance-seed]] — Depth Anything line; SpatialTrackerV2
-- [[physical-intelligence]] — Sergey Levine's robotics foundation-model lab; π0 / π0.5 / RTC
+- [[physical-intelligence]] — Sergey Levine's robotics foundation-model lab; π0 / π0.5 / π0.6 / RTC / Training-Time RTC
+- [[mit-csail]] — Diffusion Policy (Tedrake/Du) + Diffusion Forcing (Chen/Sitzmann/Tedrake)
 - [[uiuc]] — Yu-Xiong Wang group; streaming-perception co-author
 - [[nvidia]] — VGG-T3 (with Vector Institute + U. Toronto)
 
@@ -199,3 +214,10 @@ _(empty — defer until enough source pages cluster by venue)_
 - `computer-vision`, `self-supervised`, `representation`
 - `pairwise`, `window-based`
 - `meta`
+
+### Robotics policy
+- `vla`, `manipulation`, `imitation-learning`, `bimanual`, `aloha`
+- `action-chunking`, `flow-matching`, `diffusion`, `diffusion-policy`, `diffusion-forcing`
+- `asynchronous-control`, `fast-slow-policy`, `latency-adaptive`
+- `train-inference-mismatch`, `training-recipe`, `training-paradigm`
+- `inference-time-algorithm`, `inpainting`, `multimodal-distribution`
