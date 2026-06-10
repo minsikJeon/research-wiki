@@ -4,7 +4,7 @@ title: Research Wiki — Overview
 status: growing
 tags: [meta]
 created: 2026-05-24
-updated: 2026-06-08
+updated: 2026-06-10
 ---
 
 # Overview
@@ -21,7 +21,7 @@ embodied AI.
 
 ---
 
-## Current thesis (June 2026, after 26 sources)
+## Current thesis (June 2026, after 27 sources)
 
 The wiki has dense coverage of two intersecting perception sub-areas,
 plus two now-fleshed-out adjacent threads (streaming/control, and

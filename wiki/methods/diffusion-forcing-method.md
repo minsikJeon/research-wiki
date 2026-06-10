@@ -139,7 +139,8 @@ prematurely, so the guidance signal can flow backward.
 
 ## Related methods
 
-- **Concept page:** [[diffusion-forcing]] (the cross-source pattern).
+- **Concept page:** [[diffusion-forcing]] (cross-source pattern; this
+  page is the algorithmic recipe).
 - **First robotics deployment:** [[pi-r-squared]] /
   [[anon-2026-pi-r-squared]].
 - **Closest concurrent:** AR-Diffusion (linearly-dependent per-token

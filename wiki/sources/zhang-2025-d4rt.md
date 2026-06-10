@@ -205,8 +205,9 @@ Dense tracking with occupancy-grid algorithm: 5-15× additional speedup.
 - **Authors:** [[mehdi-sajjadi]] (lead; also on [[zholus-2025-tapnext]]
   + SRT line), [[skanda-koppula]] (also on [[tapvid-3d-dataset]] and
   TAPNext — **TAPVid-3D introducer**), [[ignacio-rocco]] (also on
-  [[karaev-2024-cotracker]] + TAPNext), [[andrew-zisserman]] (Oxford
-  VGG senior). [[carl-doersch]] in acknowledgments.
+  [[karaev-2024-cotracker]] + TAPNext), Andrew Zisserman (Oxford
+  VGG senior; not yet promoted to entity page).
+  [[carl-doersch]] in acknowledgments.
 - **Org:** [[google-deepmind]] (most of the team) + [[oxford-vgg]]
   (Zisserman + Xie) + UCL (Koppula's secondary).
 - **Datasets eval'd on:** [[tapvid-3d-dataset]], Sintel, ScanNet,

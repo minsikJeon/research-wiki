@@ -98,5 +98,5 @@ DUSt3R / MASt3R (pairwise + post-hoc alignment)     ← [[dust3r]]
   tracking + segmentation + generation? Or do specialized backbones win?
 - **Robotics deployment:** most evals are on academic benchmarks. Open:
   how do these models perform on diverse real robot streams?
-- See [[q-vggt-paradigm]] and [[q-tracking-vs-4d-reconstruction]] for
-  the longer-form open threads.
+- See [[q-tracking-vs-4d-reconstruction]] for the longer-form open thread.
+  (A dedicated `q-vggt-paradigm` question page is a candidate to create.)

@@ -502,3 +502,88 @@ Shuran Song and Yilun Du same — single-source mentions. ALOHA Unleashed
 and π0/π0.5/π0.6 not promoted to source pages because they're cited
 rather than ingested.
 
+
+## [2026-06-10] lint | Wiki audit + cleanup pass
+
+**Scope:** systematic link-graph audit across all wiki pages.
+No new sources ingested.
+
+**Fixes applied:**
+
+- **Filename collision resolved.** Renamed
+  `wiki/methods/diffusion-forcing.md` → `diffusion-forcing-method.md`
+  to disambiguate from `wiki/concepts/diffusion-forcing.md`. AGENTS.md
+  §173 requires unique slugs across the vault. Updated concept-page
+  frontmatter from broken `[[diffusion-forcing|method]]` syntax to
+  `[[diffusion-forcing-method]]`. All 21 inbound `[[diffusion-forcing]]`
+  refs now correctly resolve to the concept page (the cross-source
+  pattern); the method page is reachable via `[[diffusion-forcing-method]]`
+  for the algorithmic recipe.
+
+- **Orphan source linked.** `[[sun-2024-ttt]]` (TTT foundational paper,
+  added 2026-05-31) had no inbound links. Added to
+  `test-time-training` concept's `sources:` field; replaced
+  prose mention `(Sun et al., 2024)` with `[[sun-2024-ttt]]` in both
+  test-time-training and zhang-2026-loger. Added row to `index.md`
+  under long-context 3D reconstruction.
+
+- **Source count corrected.** `overview.md` claimed "26 sources";
+  actual count is 27 (the uncounted sun-2024-ttt). Bumped.
+
+- **Concept page upgrades.**
+  - `wiki/concepts/vla.md`: stub → growing. Expanded `sources:` from
+    1 → 5 papers; added fast-slow-policy, training-time-rtc, pi-r-squared,
+    diffusion-forcing, train-inference-mismatch to related. Added
+    sections: anatomy pipeline, two action-head families, real-time
+    chunking lineage, expanded examples (GR00T-N1.7, π0.6).
+  - `wiki/methods/rtc.md`: added pi-gdm, training-time-rtc, pi-r-squared
+    to related; ΠGDM body refs now wiki-link to pi-gdm concept.
+
+- **New concept page: `wiki/concepts/pi-gdm.md`.** ΠGDM
+  (Pseudoinverse-Guided Diffusion Models) was referenced in 10 pages
+  but had no page. Created — covers the recipe, why VJP per step,
+  why error grows with `d`, and where it still wins vs training-time
+  alternatives.
+
+- **Dangling brackets cleaned.** Removed `[[wiki-links]]` to
+  non-existent slugs:
+  - ``andrew-zisserman`` → plain text in zhang-2025-d4rt.
+  - ``laura-leal-taixe``, ``aljosa-osep``, ``sven-elflein``
+    → removed from nvidia.md `related:` (left as a note comment).
+  - ``haotong-lin`` → removed from lin-2025-depth-anything-3 `related:`.
+  - ``trevor-darrell`` → removed from junyi-zhang `related:`.
+  - ``q-vggt-paradigm`` → noted as candidate-to-create in prose.
+  - ``research-note-long-term-real-time-3d-tracking`` → converted
+    to plain text reference (the raw note doesn't live in the wiki
+    graph).
+
+- **New question pages.**
+  - `q-perception-control-symmetry` — is πR²'s staircase shape right
+    for online 3D tracking, or does perception prefer bidirectional /
+    no-tail?
+  - `q-tt-rtc-vs-rtc-tradeoff` — when does ΠGDM-based RTC remain
+    preferable to training-time RTC?
+  - `q-fast-slow-perception` — does the slow/fast split transfer to
+    perception (cached scene_feat + fresh image patches)?
+  Added to index.md Questions section.
+
+**Deferred for future passes:**
+
+- Stub-status concepts with high inbound count: `flow-matching` (15),
+  `trajectory-fields` (12), `joint-point-tracking` (11),
+  `trajectory-chaining`, `streaming-accuracy`. Worth upgrading to
+  growing when next ingest touches them.
+- Existing q-pages (q-emergent-tracking-heuristics, q-sim2real,
+  q-tracking-vs-4d-reconstruction) have stale `updated: 2026-05-24`
+  dates but appear factually current. Refresh on next ingest.
+- TTT3R is referenced in 5 pages but no source/stub. Tagged
+  "pending: promote next batch" in index.md.
+
+**Net link-graph state after lint:**
+
+- 27 source pages, all with ≥1 inbound link.
+- 0 orphan source pages.
+- 0 dangling wiki-links to non-existent slugs (after cleanup).
+- 1 resolved filename collision (`diffusion-forcing`).
+- 3 new question pages (open).
+- 1 new concept page (`pi-gdm`).

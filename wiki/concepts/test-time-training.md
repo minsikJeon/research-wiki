@@ -4,6 +4,7 @@ title: Test-Time Training (TTT)
 status: growing
 tags: [fast-weights, associative-memory, linear-attention, kv-compression, online-learning, 3d-reconstruction, sequence-modeling]
 sources:
+  - "[[sun-2024-ttt]]"
   - "[[elflein-2026-vgg-t3]]"
   - "[[zhang-2026-loger]]"
 related:
@@ -11,7 +12,7 @@ related:
   - "[[loger]]"
   - "[[feed-forward-3d-reconstruction]]"
 created: 2026-05-29
-updated: 2026-05-29
+updated: 2026-06-10
 ---
 
 # Test-Time Training (TTT)
@@ -26,7 +27,7 @@ input tokens. After fitting, applying `f_W(q)` retrieves information
 stored in `W`.
 
 Originally proposed for language modeling as a constant-memory
-alternative to linear attention (Sun et al., 2024). Recently reframed
+alternative to linear attention ([[sun-2024-ttt]]). Recently reframed
 as **KV-space compression** for visual geometry:
 
 - **VGGT's variable-length KV** = a scene representation that grows

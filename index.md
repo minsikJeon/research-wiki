@@ -42,6 +42,7 @@ evolving thesis.
 - [[zhang-2025-d4rt]] — canonical 2D-pixel-query 4D decoder; one model + 6 tasks; SOTA on TAPVid-3D + Sintel depth/pose; 9× faster than VGGT (4d-reconstruction, feed-forward, query-based)
 
 ### Long-context 3D reconstruction (linear-time / streaming)
+- [[sun-2024-ttt]] — UCSD+Stanford+CMU; foundational TTT paper; hidden state = a parametric model `f_W` trained by self-supervised gradient descent on the input stream; linear-time, Transformer-quality long-context; the substrate the 3D-recon TTT papers below port from (sequence-modeling, rnn, test-time-training, fast-weights, long-context)
 - [[elflein-2026-vgg-t3]] — NVIDIA; replaces VGGT's variable-length KV with fixed-size MLP via TTT; `O(n)` global/offline/unordered; 11.6× faster at 1k images; feed-forward visual localization for free (3d-reconstruction, test-time-training, linear-complexity, scalability)
 - [[zhang-2026-loger]] — DeepMind+Berkeley; chunked feed-forward 3D with SWA + TTT hybrid memory; trained on 128 frames, generalizes to 19k; 74% ATE reduction over TTT3R on KITTI (3d-reconstruction, long-context, hybrid-memory, chunk-wise)
 
@@ -74,6 +75,7 @@ evolving thesis.
 - [[fast-slow-policy]] — split policy into slow VLM channel + fast proprio channel; πR² is the first single-model instance
 - [[vla]] — vision-language-action models; the large-policy class RTC targets
 - [[flow-matching]] — generative-model training objective used by π0 / π0.5 VLAs
+- [[pi-gdm]] — pseudoinverse-guided diffusion (Song et al. 2023); inference-time guidance engine of RTC; linearization+pseudoinverse approximations degrade as constrained-dim count grows
 - [[train-inference-mismatch]] — recurring pattern: SpaTrackerV2 / Point4D / RTC / Training-Time RTC / πR² / Diffusion Forcing / streaming-perception all instances; structural vs heuristic; fixes migrate inference → training → joint
 
 ## Methods
@@ -175,6 +177,9 @@ _(empty — defer until enough source pages cluster by venue)_
 - [[q-emergent-tracking-heuristics]] — do classical heuristics (cost volume, motion cluster) emerge from end-to-end training?
 - [[q-sim2real-for-point-tracking]] — is real-data fine-tuning necessary, or is better synthetic training enough?
 - [[q-tracking-vs-4d-reconstruction]] — are sparse point tracking and dense 4D reconstruction the same problem under different names?
+- [[q-perception-control-symmetry]] — is the πR² staircase shape right for online 3D point tracking, or does perception prefer a bidirectional / no-tail variant?
+- [[q-tt-rtc-vs-rtc-tradeoff]] — when does ΠGDM-based RTC remain preferable to training-time RTC? (untrainable checkpoints, varying constraints, multi-tenant infra)
+- [[q-fast-slow-perception]] — does πR²'s slow/fast split (cached VLM + fresh proprio) transfer to perception as cached scene-feat + fresh image patches?
 
 ## Comparisons
 *Cross-source syntheses and tables.*

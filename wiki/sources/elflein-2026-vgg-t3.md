@@ -64,8 +64,8 @@ baselines on most metrics. Prior `O(n)` options were either:
 VGG-T3 carves out a fourth slot: **global**, **unordered-friendly**,
 **linear-time**, and **competitive with `O(n²)` quality**. For the
 user's research direction (long-horizon 3D tracking, scene-level
-grounding for slow-planner / fast-controller designs — see
-[[research-note-long-term-real-time-3d-tracking]] in `raw/notes/`),
+grounding for slow-planner / fast-controller designs — see the
+`long-term-real-time-3d-tracking` research note in `raw/notes/`),
 this is potentially *the* slow-planner candidate — it produces a
 **compact, queryable scene representation** at scale, which is
 exactly what 1.5.3 of that note argued heavy chunks exist to produce.

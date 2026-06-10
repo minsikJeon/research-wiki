@@ -11,8 +11,11 @@ related:
   - "[[flow-matching]]"
   - "[[vla]]"
   - "[[train-inference-mismatch]]"
+  - "[[pi-gdm]]"
+  - "[[training-time-rtc]]"
+  - "[[pi-r-squared]]"
 created: 2026-05-28
-updated: 2026-05-28
+updated: 2026-06-10
 ---
 
 # RTC (Real-Time Chunking via Inpainting)
@@ -28,8 +31,8 @@ and the latest observation.
 
 Asynchronous action chunking with `d`-action hard-frozen prefix +
 soft-masked intermediate region (exponential decay) + freely generated
-tail; ΠGDM pseudoinverse guidance added to the flow-matching velocity
-field at every denoising step.
+tail; [[pi-gdm|ΠGDM]] pseudoinverse guidance added to the flow-matching
+velocity field at every denoising step.
 
 ## Inputs / outputs
 

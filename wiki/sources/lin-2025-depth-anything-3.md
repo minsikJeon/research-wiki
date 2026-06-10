@@ -24,7 +24,7 @@ related:
   - "[[vggt]]"
   - "[[feed-forward-3d-reconstruction]]"
   - "[[bingyi-kang]]"
-  - "[[haotong-lin]]"
+# Haotong Lin (DA3 lead) referenced in prose but not yet promoted to entity page.
 created: 2026-05-24
 updated: 2026-05-24
 ---

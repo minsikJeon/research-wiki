@@ -6,12 +6,11 @@ status: stub
 tags: [computer-vision, 3d-reconstruction, robotics, autonomous-driving, foundation-models]
 sources:
   - "[[elflein-2026-vgg-t3]]"
-related:
-  - "[[laura-leal-taixe]]"
-  - "[[aljosa-osep]]"
-  - "[[sven-elflein]]"
+related: []
+# People referenced in prose but not yet promoted to entity pages (single-source):
+# Laura Leal-Taixé, Aljoša Ošep, Sven Elflein.
 created: 2026-05-29
-updated: 2026-05-29
+updated: 2026-06-10
 ---
 
 # NVIDIA

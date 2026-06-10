@@ -243,7 +243,7 @@ LoGeR substantially outperforms baselines and TTT3R; specifically
   - **Jamba** (Lenz et al. 2025) — hybrid SSM + attention. LoGeR is
     a 3D-vision analogue (TTT + SWA + bidirectional, instead of
     Mamba + attention).
-  - **TTT layer** (Sun et al. 2024) — fast-weight associative memory.
+  - **TTT layer** ([[sun-2024-ttt]]) — fast-weight associative memory.
 - **Direct feedforward competitors:** FastVGGT, SparseVGGT,
   VGGT-Long, VGGT-SLAM, InfiniteVGGT, Stream3R, StreamVGGT,
   Slam3R, [[cut3r]], MUSt3R, Point3R, Long3R, [[mapanything]].

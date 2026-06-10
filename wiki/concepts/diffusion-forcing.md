@@ -7,7 +7,7 @@ sources:
   - "[[chen-2024-diffusion-forcing]]"
   - "[[anon-2026-pi-r-squared]]"
 related:
-  - "[[diffusion-forcing|method]]"
+  - "[[diffusion-forcing-method]]"
   - "[[action-chunking]]"
   - "[[flow-matching]]"
   - "[[train-inference-mismatch]]"
