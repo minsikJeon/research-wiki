@@ -7,12 +7,15 @@ tags: [robotics, manipulation, control, optimization, diffusion-policy]
 sources:
   - "[[chi-2024-diffusion-policy]]"
   - "[[chen-2024-diffusion-forcing]]"
+  - "[[song-2025-history-guided-video-diffusion]]"
 related:
   - "[[mit-csail]]"
+  - "[[boyuan-chen]]"
   - "[[diffusion-policy]]"
   - "[[diffusion-forcing]]"
+  - "[[dfot]]"
 created: 2026-06-08
-updated: 2026-06-08
+updated: 2026-06-11
 ---
 
 # Russ Tedrake
@@ -34,16 +37,23 @@ manipulation.
   Vincent Sitzmann. The per-token-noise sequence-modeling paradigm
   underlying πR² and streaming control.
 
+- **[[dfot]]** (2025 ICML, [[song-2025-history-guided-video-diffusion]])
+  — co-author with Kiwhan Song + [[boyuan-chen]] (equal-contribution
+  leads), Vincent Sitzmann. Extends [[diffusion-forcing]] to non-causal
+  video DiTs; introduces [[history-guidance]].
+
 ## Sources in this wiki
 
 - [[chi-2024-diffusion-policy]] (co-author)
 - [[chen-2024-diffusion-forcing]] (co-author)
+- [[song-2025-history-guided-video-diffusion]] (co-author)
 
 ## Notes
 
-Two papers in this wiki, both load-bearing for the
-robotics-policy / diffusion-forcing thread. The pairing —
-diffusion-policy (action chunking + DDPM) + diffusion-forcing
-(per-position noise) — is the precise lineage that πR²
-([[anon-2026-pi-r-squared]]) eventually weaves together for real-time
-VLA control.
+Three papers in this wiki, all load-bearing for the diffusion-forcing /
+robotics-policy / video-diffusion intersection. The trajectory —
+diffusion-policy (action chunking + DDPM) → diffusion-forcing (per-position
+noise) → DFoT (non-causal DiT video instance) — feeds directly into πR²
+([[anon-2026-pi-r-squared]]), which uses the same per-position-AdaLN
+recipe for real-time VLA control. Tedrake's role across the line is
+senior author / advisor rather than algorithm lead.

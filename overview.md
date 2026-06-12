@@ -4,7 +4,7 @@ title: Research Wiki — Overview
 status: growing
 tags: [meta]
 created: 2026-05-24
-updated: 2026-06-10
+updated: 2026-06-11
 ---
 
 # Overview
@@ -21,7 +21,7 @@ embodied AI.
 
 ---
 
-## Current thesis (June 2026, after 27 sources)
+## Current thesis (June 2026, after 28 sources)
 
 The wiki has dense coverage of two intersecting perception sub-areas,
 plus two now-fleshed-out adjacent threads (streaming/control, and
@@ -242,6 +242,27 @@ patterns:
   training-time and joint corners are empty.
 
 ## Recent shifts
+
+- **2026-06-11 (ingest 9):** **DFoT / History-Guided Video Diffusion
+  (Song, Chen, et al., ICML 2025)** — extends [[diffusion-forcing]] from
+  causal RNN to non-causal video DiT; introduces [[history-guidance]]
+  (HG-v / HG-t / HG-f / HG-tf). Closes a gap I flagged in ingest 8:
+  diffusion forcing's non-causal DiT instance now has a primary source.
+  The same Chen/Sitzmann/Tedrake MIT CSAIL cluster that produced
+  [[chen-2024-diffusion-forcing]] is responsible. Promoted
+  [[boyuan-chen]] to entity page (now lead on 2 wiki sources). New
+  concept page [[history-guidance]] and method page [[dfot]]. Directly
+  relevant to the user's middle-ground 3D-tracker design — DFoT is the
+  closest existing precedent for "non-causal DiT + per-position AdaLN
+  on a chunked perception input."
+
+- **2026-06-10 (lint):** Wiki audit + cleanup pass. Resolved
+  `diffusion-forcing` filename collision (concept vs method); linked
+  the previously-orphan [[sun-2024-ttt]] source; promoted [[vla]] from
+  stub to growing; created [[pi-gdm]] concept page; created three new
+  question pages
+  ([[q-perception-control-symmetry]], [[q-tt-rtc-vs-rtc-tradeoff]],
+  [[q-fast-slow-perception]]).
 
 - **2026-06-08 (ingest 8):** Five-paper batch closing the
   real-time-chunking / fast-slow-policy thread (C):

@@ -184,6 +184,10 @@
   },
   "active": "9a0520803aac84f0",
   "lastOpenFiles": [
+    "wiki/entities/people/boyuan-chen.md",
+    "wiki/concepts/history-guidance.md",
+    "wiki/methods/dfot.md",
+    "wiki/sources/song-2025-history-guided-video-diffusion.md",
     "raw/papers/2502.06764v2.pdf",
     "raw/sources/zotero-pdfs/VQI8T6ZQ/2502.html",
     "raw/sources/zotero-pdfs/VQI8T6ZQ",
@@ -205,7 +209,6 @@
     "wiki/questions/q-perception-control-symmetry.md",
     "wiki/methods/diffusion-forcing-method.md",
     "wiki/concepts/diffusion-forcing.md",
-    "raw/sources/zotero-pdfs/GQ36ZWMY/2006.html",
     "wiki/sources/sun-2024-ttt.md",
     "wiki/entities/people/junyi-zhang.md",
     "wiki/entities/orgs/nvidia.md",
@@ -217,9 +220,6 @@
     "Untitled.canvas",
     "wiki/methods/point4d.md",
     "wiki/entities/people/ignacio-rocco.md",
-    "wiki/entities/people/skanda-koppula.md",
-    "wiki/entities/people/mehdi-sajjadi.md",
-    "wiki/methods/d4rt.md",
-    "wiki/sources/zhang-2025-d4rt.md"
+    "wiki/entities/people/skanda-koppula.md"
   ]
 }

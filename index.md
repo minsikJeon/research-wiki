@@ -25,6 +25,7 @@ evolving thesis.
 - [[zhao-2023-act]] — ALOHA + ACT; founding action-chunking paper; CVAE transformer over 4 cams + joint state; 80–90% SR on fine bimanual tasks (robotics, manipulation, action-chunking, imitation-learning)
 - [[chi-2024-diffusion-policy]] — visuomotor policy as conditional DDPM over action chunks; +46.9% over prior SOTA; foundation of every modern diffusion-VLA action head (robotics, manipulation, diffusion, action-chunking)
 - [[chen-2024-diffusion-forcing]] — MIT CSAIL NeurIPS 2024; per-token-noise sequence modeling; bridges teacher forcing and full-sequence diffusion; underlies πR² and streaming control (sequence-modeling, diffusion, training-paradigm)
+- [[song-2025-history-guided-video-diffusion]] — MIT CSAIL ICML 2025; Diffusion Forcing Transformer (DFoT) extends DF to non-causal video DiT; introduces History Guidance (HG-v / HG-t / HG-f / HG-tf); 862-frame rollouts from one image (video-diffusion, diffusion-forcing, classifier-free-guidance)
 - [[black-2025-rtc]] — Physical Intelligence; inference-time inpainting for VLA action chunks; freezes committed prefix + soft-masks the rest; robust to >300ms latency (robotics, vla, flow-matching, action-chunking)
 - [[black-2025-training-time-rtc]] — Physical Intelligence; drop-in replacement for RTC that moves prefix conditioning to training; zero inference overhead; wins for d ≥ 2 (robotics, vla, training-recipe)
 - [[anon-2026-pi-r-squared]] — CoRL 2026 (anon); πR² adds diffusion-forcing staircase schedule + slow/fast channel split; closed-loop 25 Hz on a 7 Hz VLA; +50% relative gain on reactivity-sensitive real-world tasks (robotics, vla, fast-slow-policy, latency-adaptive)
@@ -71,7 +72,8 @@ evolving thesis.
 - [[streaming-accuracy]] — the formal metric: zero-order-hold output stream vs continuous GT
 - [[action-chunking]] — robot policy paradigm: predict H actions per inference; chunk boundaries cause mode jumps; origin ACT, refined through DP / RTC / Training-Time RTC / πR²
 - [[asynchronous-control]] — closed-loop control under inference delay; control-side analogue of streaming perception
-- [[diffusion-forcing]] — per-token independent noise levels; bridges next-token + full-sequence diffusion; sampling grid is the deployment-time DoF
+- [[diffusion-forcing]] — per-token independent noise levels; bridges next-token + full-sequence diffusion; sampling grid is the deployment-time DoF; now has three flavors (CDF causal RNN / DFoT non-causal DiT / πR² causal head)
+- [[history-guidance]] — CFG generalization enabled by DFoT; HG-v / HG-t / HG-f / HG-tf compose scores conditioned on history at different noise levels; resolves CFG's static-video failure (video-diffusion, classifier-free-guidance)
 - [[fast-slow-policy]] — split policy into slow VLM channel + fast proprio channel; πR² is the first single-model instance
 - [[vla]] — vision-language-action models; the large-policy class RTC targets
 - [[flow-matching]] — generative-model training objective used by π0 / π0.5 VLAs
@@ -108,6 +110,7 @@ evolving thesis.
 - [[act]] — Action Chunking with Transformers; CVAE-style chunked policy + temporal ensembling; origin of chunking
 - [[diffusion-policy]] — conditional DDPM over action chunks; chunked DiT denoiser; standard action head in modern VLAs
 - [[diffusion-forcing]] — per-position noise schedule paradigm; CDF (causal variant); 2D sampling grid as inference-time DoF
+- [[dfot]] — Diffusion Forcing Transformer; non-causal video DiT instance of DF; per-frame `k_t ∈ [0,1]`; enables History Guidance and 862-frame rollouts
 - [[rtc]] — real-time chunking via inference-time inpainting; ΠGDM guidance + soft masking
 - [[training-time-rtc]] — drop-in RTC replacement that moves prefix conditioning to training; zero inference overhead
 - [[pi-r-squared]] — staircase diffusion-forcing schedule + slow/fast channel split; 1 NFE per call; per-tick reactivity on a slow VLA
@@ -141,7 +144,8 @@ evolving thesis.
 - [[kevin-black]] — Physical Intelligence / Berkeley; RTC + Training-Time RTC lead; π0/π0.5/π0.6 collaborator
 - [[sergey-levine]] — UC Berkeley + Physical Intelligence co-founder; senior author on ACT + RTC + Training-Time RTC (3 sources)
 - [[chelsea-finn]] — Stanford IRIS; ACT senior co-author; cited throughout the IL / VLA line
-- [[russ-tedrake]] — MIT CSAIL + TRI; co-author on Diffusion Policy + Diffusion Forcing (2 sources)
+- [[russ-tedrake]] — MIT CSAIL + TRI; co-author on Diffusion Policy + Diffusion Forcing + DFoT (3 sources)
+- [[boyuan-chen]] — MIT CSAIL PhD; lead on Diffusion Forcing (NeurIPS 2024) + co-lead on DFoT (ICML 2025); the diffusion-forcing trajectory's anchor (2 sources)
 - [[junyi-zhang]] — UC Berkeley + Google DeepMind; LoGeR lead; also MonST3R author (cited 5+ times across wiki)
 
 ### Organizations

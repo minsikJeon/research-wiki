@@ -6,13 +6,16 @@ tags: [sequence-modeling, diffusion, generative-model, training-paradigm, flow-m
 sources:
   - "[[chen-2024-diffusion-forcing]]"
   - "[[anon-2026-pi-r-squared]]"
+  - "[[song-2025-history-guided-video-diffusion]]"
 related:
   - "[[diffusion-forcing-method]]"
+  - "[[dfot]]"
+  - "[[history-guidance]]"
   - "[[action-chunking]]"
   - "[[flow-matching]]"
   - "[[train-inference-mismatch]]"
 created: 2026-06-08
-updated: 2026-06-08
+updated: 2026-06-11
 ---
 
 # Diffusion Forcing (Concept)
@@ -53,12 +56,20 @@ training time, so streaming inference is in-distribution.
 
 ## Variants observed
 
-| Variant | Sampling grid | Use case | Source |
-|---|---|---|---|
-| Causal Diffusion Forcing (CDF) | RNN, causal arch | Video / planning, foundational | [[chen-2024-diffusion-forcing]] |
-| Streaming Diffusion | linear ramp τ across chunk, shifted per call | Online control | concurrent (Khachatryan et al.) |
-| **πR² staircase** | clean front + ramped interior + noise tail | **Real-time VLA**, latency-adaptive | [[anon-2026-pi-r-squared]] |
-| FASTER | horizon-aware ramp, open-loop | Action chunking, no replan | concurrent (cited in πR²) |
+| Variant | Architecture | Sampling pattern | Use case | Source |
+|---|---|---|---|---|
+| Causal Diffusion Forcing (CDF) | causal RNN | per-token | Video / planning, foundational | [[chen-2024-diffusion-forcing]] |
+| **DFoT** ([[dfot]]) | **non-causal video DiT** | per-frame `k_t ∈ [0,1]` | Variable-length history conditioning, ultra-long video generation | [[song-2025-history-guided-video-diffusion]] |
+| Streaming Diffusion | causal | linear ramp τ across chunk, shifted per call | Online control | concurrent (Khachatryan et al.) |
+| **πR² staircase** | causal action head | clean front + ramped interior + noise tail | **Real-time VLA**, latency-adaptive | [[anon-2026-pi-r-squared]] |
+| FASTER | causal | horizon-aware ramp, open-loop | Action chunking, no replan | concurrent (cited in πR²) |
+
+Three flavors of the same mechanism:
+- **Causal RNN (CDF)** — sequential, streaming, no future lookahead.
+- **Non-causal DiT (DFoT)** — full attention, flexible-mask history,
+  best for video generation.
+- **Per-position causal head (πR² / TT-RTC)** — chunked control with
+  prefix-clamp + ramp.
 
 ## Why one trained model serves all sampling grids
 

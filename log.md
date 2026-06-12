@@ -587,3 +587,85 @@ No new sources ingested.
 - 1 resolved filename collision (`diffusion-forcing`).
 - 3 new question pages (open).
 - 1 new concept page (`pi-gdm`).
+
+## [2026-06-11] ingest | DFoT / History-Guided Video Diffusion (Song et al. ICML 2025)
+
+**Paper ingested:**
+- [[song-2025-history-guided-video-diffusion]] — *History-Guided Video
+  Diffusion.* Song, Chen, Simchowitz, Du, Tedrake, Sitzmann. ICML 2025
+  (PMLR 267). arXiv 2502.06764v2.
+
+**TL;DR:** Extends [[chen-2024-diffusion-forcing]] from causal RNNs to
+non-causal video DiTs (the Diffusion Forcing Transformer, DFoT) and
+introduces History Guidance (HG) — a CFG-like family that conditions
+on arbitrary subsets of past frames at arbitrary noise levels. The
+"noise as masking" identity unifies CFG, dropout, and full diffusion.
+DFoT matches W.A.L.T at much less compute; 862-frame rollouts from one
+image; new abilities for OOD-history generation and long-horizon
+reactive imitation.
+
+**New pages created:**
+- [[song-2025-history-guided-video-diffusion]] — source page.
+- [[dfot]] — method page (Diffusion Forcing Transformer).
+- [[history-guidance]] — concept page (HG-v / HG-t / HG-f / HG-tf
+  family).
+- [[boyuan-chen]] — entity page (PhD at MIT CSAIL; promoted from
+  single-source mention; now lead/co-lead on 2 sources).
+
+**Pages updated:**
+- [[diffusion-forcing]] (concept) — added DFoT to variants table;
+  three flavors now articulated (CDF causal RNN, DFoT non-causal DiT,
+  πR² causal head).
+- [[mit-csail]] — added [[song-2025-history-guided-video-diffusion]];
+  added [[boyuan-chen]] to members; updated notes section to reflect
+  the Chen/Sitzmann/Tedrake cluster's growing footprint.
+- [[russ-tedrake]] — added third source; updated notes to reflect
+  3-source senior-author trajectory through DP → DF → DFoT.
+- `index.md` — added source row under Streaming perception thread;
+  added [[dfot]] method row; added [[history-guidance]] concept row;
+  added [[boyuan-chen]] to People; bumped [[russ-tedrake]] from 2 → 3
+  sources.
+- `overview.md` — bumped source count 27 → 28; added 2026-06-11 entry
+  in Recent shifts.
+
+**Cross-source through-line (the trajectory now in the wiki):**
+
+Diffusion Policy (2023/2024)
+  → action-chunking + DDPM head
+  
+Diffusion Forcing / CDF (2024 NeurIPS)
+  → per-token independent noise, causal RNN
+  
+DFoT (2025 ICML)  ← THIS INGEST
+  → DF generalized to non-causal video DiT
+  → noise-as-masking identity → History Guidance family
+  
+RTC → Training-Time RTC (2025)
+  → πR² action-chunking analogue of DFoT's per-position AdaLN
+  
+πR² (2026, anon CoRL)
+  → diffusion-forcing staircase on actions (= DFoT's `k_T` mask shape,
+    but causal + chunked + paired with fast/slow architecture)
+
+The Chen / Sitzmann / Tedrake MIT CSAIL cluster authored DP, DF, and
+DFoT — three of the five papers in the chain.
+
+**Why directly relevant to user's research:**
+
+The middle-ground 3D-tracker design
+([2026-06-10_MiddleGround_3DTracker_Design.md](../../Meeting/Notes/2026-06-10_MiddleGround_3DTracker_Design.md))
+needs a non-causal DiT with per-position noise levels applied to a
+chunked perception input. DFoT is **the closest existing instance** of
+exactly that architecture (just applied to video frames, not 3D
+trajectories). Worth checking the DFoT codebase for the per-frame AdaLN
+implementation details and the history-guidance composition machinery —
+the latter gives a principled way to combine "long memory" + "fresh
+observation" scores at inference time, directly relevant to
+[[q-fast-slow-perception]].
+
+**Entity discipline:**
+- [[boyuan-chen]] promoted (2-source threshold crossed).
+- Kiwhan Song deferred (single-source, equal-contribution lead — wait
+  for next paper).
+- Max Simchowitz, Yilun Du, Vincent Sitzmann deferred (all are
+  recurring co-authors but no lead role in wiki sources yet).
