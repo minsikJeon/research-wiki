@@ -7,12 +7,14 @@ sources:
   - "[[sun-2024-ttt]]"
   - "[[elflein-2026-vgg-t3]]"
   - "[[zhang-2026-loger]]"
+  - "[[zhang-2025-lact]]"
 related:
   - "[[vgg-t3]]"
   - "[[loger]]"
+  - "[[lact]]"
   - "[[feed-forward-3d-reconstruction]]"
 created: 2026-05-29
-updated: 2026-06-10
+updated: 2026-06-12
 ---
 
 # Test-Time Training (TTT)
@@ -108,6 +110,25 @@ This wiki now has two concrete TTT-for-3D designs to compare:
 - Most aggressive linear scaling.
 - Worst at long-context geometric coherence (LoGeR Tab. 2 shows
   TTT3R loses to LoGeR by 4× ATE on KITTI).
+
+### Pattern D — Large-chunk TTT (LaCT)
+
+- Chunk size 2K–1M tokens — **orders of magnitude larger than the
+  16–64 token chunks used by previous TTT methods** ([[lact]],
+  [[zhang-2025-lact]]).
+- Hardware utilization jumps from ~5% to ~70% in pure PyTorch.
+- Enables nonlinear SwiGLU MLP fast weights at up to **40% of model
+  parameters** — vs <5% for previous TTT.
+- Allows Muon optimizer for online updates (better-conditioned than
+  GD / momentum).
+- Validated at scale: 1M-token NVS contexts, 14B-parameter AR video
+  diffusion (Wan 2.1 fine-tune), 32K LM contexts.
+- **What this means for Patterns A–C:** LaCT shows the field has been
+  bottlenecked by GPU utilization, not by the TTT paradigm itself.
+  LoGeR's per-chunk update and VGG-T3's per-scene fit are already
+  closer to LaCT's regime than to original TTT-Linear; the LaCT recipe
+  (large chunks + nonlinear state + Muon) is a candidate upgrade for
+  both.
 
 ## Open questions
 

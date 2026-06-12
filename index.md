@@ -26,6 +26,7 @@ evolving thesis.
 - [[chi-2024-diffusion-policy]] — visuomotor policy as conditional DDPM over action chunks; +46.9% over prior SOTA; foundation of every modern diffusion-VLA action head (robotics, manipulation, diffusion, action-chunking)
 - [[chen-2024-diffusion-forcing]] — MIT CSAIL NeurIPS 2024; per-token-noise sequence modeling; bridges teacher forcing and full-sequence diffusion; underlies πR² and streaming control (sequence-modeling, diffusion, training-paradigm)
 - [[song-2025-history-guided-video-diffusion]] — MIT CSAIL ICML 2025; Diffusion Forcing Transformer (DFoT) extends DF to non-causal video DiT; introduces History Guidance (HG-v / HG-t / HG-f / HG-tf); 862-frame rollouts from one image (video-diffusion, diffusion-forcing, classifier-free-guidance)
+- [[song-2026-gvs]] — MIT CSAIL + Runway ML ICLR 2026; Generative View Stitching turns any DFoT model into a training-free long-horizon camera-guided video generator via Omni Guidance + cyclic conditioning; handles loops, collisions, Impossible Staircase (video-diffusion, diffusion-stitching, training-free, omni-guidance)
 - [[black-2025-rtc]] — Physical Intelligence; inference-time inpainting for VLA action chunks; freezes committed prefix + soft-masks the rest; robust to >300ms latency (robotics, vla, flow-matching, action-chunking)
 - [[black-2025-training-time-rtc]] — Physical Intelligence; drop-in replacement for RTC that moves prefix conditioning to training; zero inference overhead; wins for d ≥ 2 (robotics, vla, training-recipe)
 - [[anon-2026-pi-r-squared]] — CoRL 2026 (anon); πR² adds diffusion-forcing staircase schedule + slow/fast channel split; closed-loop 25 Hz on a 7 Hz VLA; +50% relative gain on reactivity-sensitive real-world tasks (robotics, vla, fast-slow-policy, latency-adaptive)
@@ -46,6 +47,8 @@ evolving thesis.
 - [[sun-2024-ttt]] — UCSD+Stanford+CMU; foundational TTT paper; hidden state = a parametric model `f_W` trained by self-supervised gradient descent on the input stream; linear-time, Transformer-quality long-context; the substrate the 3D-recon TTT papers below port from (sequence-modeling, rnn, test-time-training, fast-weights, long-context)
 - [[elflein-2026-vgg-t3]] — NVIDIA; replaces VGGT's variable-length KV with fixed-size MLP via TTT; `O(n)` global/offline/unordered; 11.6× faster at 1k images; feed-forward visual localization for free (3d-reconstruction, test-time-training, linear-complexity, scalability)
 - [[zhang-2026-loger]] — DeepMind+Berkeley; chunked feed-forward 3D with SWA + TTT hybrid memory; trained on 128 frames, generalizes to 19k; 74% ATE reduction over TTT3R on KITTI (3d-reconstruction, long-context, hybrid-memory, chunk-wise)
+- [[zhang-2025-lact]] — MIT+Adobe; Large-Chunk TTT (2K–1M tokens) lifts TTT hardware utilization from 5% → 70%, enables nonlinear SwiGLU fast weights @ 40% of model params + Muon optimizer; 14B AR video diffusion @ 56K tokens; 1M-token NVS contexts (test-time-training, long-context, video-diffusion, scalability)
+- [[zhuo-2026-stream-vggt]] — Tsinghua; StreamVGGT = VGGT with global attention → temporal causal + KV-cached memory tokens, distilled from VGGT; outperforms CUT3R on reconstruction / depth / camera pose; 5× faster current-frame inference at 40 frames (3d-reconstruction, streaming, causal-attention, kv-cache, distillation)
 
 ## Concepts
 *Abstract ideas synthesized across sources.*
@@ -98,12 +101,14 @@ evolving thesis.
 - [[mapanything]] — universal feed-forward 3D; factored repr; multi-modal inputs; metric scale
 - [[depth-anything-3]] — minimalist single transformer + depth+ray output; teacher-student
 - [[cut3r]] — recurrent online 3D + virtual-view query
+- [[streamvggt]] — causal-attention + KV-cached restructuring of VGGT; distilled from VGGT teacher; streaming alternative to CUT3R that *beats* it on reconstruction + camera pose
 - [[v-dpm]] — fine-tunes VGGT for dynamic 4D via DPM heads
 - [[any4d]] — feed-forward dense metric 4D + multi-modal sensors
 - [[4rc]] — encode-once, query-anywhere/anytime decoder
 - [[trace-anything]] — feed-forward trajectory fields (per-pixel splines)
 - [[vgg-t3]] — VGGT + TTT-MLP global-attention replacement; `O(n)` offline/unordered; queryable scene → visual localization
 - [[loger]] — chunked feed-forward with hybrid memory (SWA + TTT); π³ backbone; 128 → 19k frame generalization
+- [[lact]] — Large-Chunk TTT block (window-attn + SwiGLU MLP fast weights + Muon test-time optimizer); 2K–1M tokens per chunk; 70% GPU util in pure PyTorch; NVS, LM, and AR video diffusion
 
 ### Streaming perception & robot control
 - [[streamer-meta-detector]] — detector + association + Kalman forecaster + dynamic scheduler; turns any detector streaming
@@ -111,6 +116,7 @@ evolving thesis.
 - [[diffusion-policy]] — conditional DDPM over action chunks; chunked DiT denoiser; standard action head in modern VLAs
 - [[diffusion-forcing]] — per-position noise schedule paradigm; CDF (causal variant); 2D sampling grid as inference-time DoF
 - [[dfot]] — Diffusion Forcing Transformer; non-causal video DiT instance of DF; per-frame `k_t ∈ [0,1]`; enables History Guidance and 862-frame rollouts
+- [[gvs]] — Generative View Stitching; training-free, off-the-shelf DFoT → long-horizon camera-guided video via Omni Guidance + cyclic conditioning
 - [[rtc]] — real-time chunking via inference-time inpainting; ΠGDM guidance + soft masking
 - [[training-time-rtc]] — drop-in RTC replacement that moves prefix conditioning to training; zero inference overhead
 - [[pi-r-squared]] — staircase diffusion-forcing schedule + slow/fast channel split; 1 NFE per call; per-tick reactivity on a slow VLA
@@ -145,7 +151,8 @@ evolving thesis.
 - [[sergey-levine]] — UC Berkeley + Physical Intelligence co-founder; senior author on ACT + RTC + Training-Time RTC (3 sources)
 - [[chelsea-finn]] — Stanford IRIS; ACT senior co-author; cited throughout the IL / VLA line
 - [[russ-tedrake]] — MIT CSAIL + TRI; co-author on Diffusion Policy + Diffusion Forcing + DFoT (3 sources)
-- [[boyuan-chen]] — MIT CSAIL PhD; lead on Diffusion Forcing (NeurIPS 2024) + co-lead on DFoT (ICML 2025); the diffusion-forcing trajectory's anchor (2 sources)
+- [[boyuan-chen]] — MIT CSAIL PhD; lead on Diffusion Forcing (NeurIPS 2024) + co-lead on DFoT (ICML 2025) + co-author on GVS (ICLR 2026); the diffusion-forcing trajectory's anchor (3 sources)
+- [[chonghyuk-song]] — MIT CSAIL PhD; GVS lead (1 source). Distinct from Kiwhan Song (DFoT lead)
 - [[junyi-zhang]] — UC Berkeley + Google DeepMind; LoGeR lead; also MonST3R author (cited 5+ times across wiki)
 
 ### Organizations
@@ -157,7 +164,7 @@ evolving thesis.
 - [[uc-berkeley]] — CUT3R + RTC
 - [[bytedance-seed]] — Depth Anything line; SpatialTrackerV2
 - [[physical-intelligence]] — Sergey Levine's robotics foundation-model lab; π0 / π0.5 / π0.6 / RTC / Training-Time RTC
-- [[mit-csail]] — Diffusion Policy (Tedrake/Du) + Diffusion Forcing (Chen/Sitzmann/Tedrake)
+- [[mit-csail]] — Diffusion Policy + Diffusion Forcing + DFoT + GVS (Chen/Song/Sitzmann/Tedrake cluster) + LaCT (Zhang/Yang/Freeman) — **5 sources, the de facto center of diffusion-forcing-for-video and TTT-for-long-context**
 - [[uiuc]] — Yu-Xiong Wang group; streaming-perception co-author
 - [[nvidia]] — VGG-T3 (with Vector Institute + U. Toronto)
 

@@ -9,7 +9,7 @@ related:
   - "[[feed-forward-3d-reconstruction]]"
   - "[[pointmap-representation]]"
 created: 2026-05-24
-updated: 2026-05-24
+updated: 2026-06-12
 ---
 
 # CUT3R (Continuous Updating Transformer for 3D Reconstruction)
@@ -75,6 +75,12 @@ be queried with a virtual ray map.
   vs CUT3R's generative state).
 - **Batch counterparts:** [[vggt]], [[mapanything]],
   [[depth-anything-3]] — CUT3R is the online answer to all of these.
+- **Streaming competitor (newer):** [[streamvggt]] — uses a growing
+  KV cache + causal attention distilled from VGGT, rather than CUT3R's
+  fixed-size token bank. **Beats CUT3R** on 3D reconstruction (7-Scenes,
+  NRGBD, ETH3D), camera pose (ScanNet), and depth estimation across
+  benchmarks. The trade-off: StreamVGGT's memory grows linearly with N
+  while CUT3R's is constant.
 - **Online dynamic SLAM contrast:** MonST3R, MegaSaM, CasualSAM —
   all need per-scene optimization. CUT3R is online + feed-forward.
 - **CUT3R features as foundation** for downstream tasks is an open

@@ -22,11 +22,13 @@ related:
   - "[[diffusion-forcing-method]]"
   - "[[chen-2024-diffusion-forcing]]"
   - "[[history-guidance]]"
+  - "[[gvs]]"
+  - "[[song-2026-gvs]]"
   - "[[train-inference-mismatch]]"
   - "[[russ-tedrake]]"
   - "[[mit-csail]]"
 created: 2026-06-11
-updated: 2026-06-11
+updated: 2026-06-12
 ---
 
 # History-Guided Video Diffusion (DFoT)

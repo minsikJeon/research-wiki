@@ -669,3 +669,127 @@ observation" scores at inference time, directly relevant to
   for next paper).
 - Max Simchowitz, Yilun Du, Vincent Sitzmann deferred (all are
   recurring co-authors but no lead role in wiki sources yet).
+
+
+## [2026-06-12] ingest | LaCT + StreamVGGT + GVS — 3-paper batch (ingest 10)
+
+Three papers ingested in one batch — coherent because all three answer
+"how do we scale streaming sequence models for long contexts" through
+distinct mechanisms.
+
+**Sources added:**
+- `wiki/sources/zhang-2025-lact.md` — *Test-Time Training Done Right*
+  (Zhang/MIT+Adobe, arXiv 2505.23884, May 2025). Large-Chunk TTT with
+  chunk sizes 2K–1M tokens, SwiGLU nonlinear fast weights up to 40% of
+  model params, Muon test-time optimizer. Three task instantiations:
+  novel view synthesis (1M-token context), language modeling, 14B-param
+  AR video diffusion.
+- `wiki/sources/zhuo-2026-stream-vggt.md` — *Streaming Visual Geometry
+  Transformer* (Zhuo & Zheng/Tsinghua, arXiv 2507.11539v2, Mar 2026).
+  VGGT with global attention → temporal causal attention + KV-cached
+  memory tokens; distilled from VGGT teacher; outperforms CUT3R on
+  reconstruction / camera pose / depth across multiple benchmarks; 5×
+  faster current-frame inference at 40-frame sequences.
+- `wiki/sources/song-2026-gvs.md` — *Generative View Stitching*
+  (Song/MIT CSAIL+Runway ML, ICLR 2026 / arXiv 2510.24718v3, Apr 2026).
+  Training-free diffusion stitching for camera-guided long-horizon
+  video; works with any DFoT model; introduces **Omni Guidance** (a
+  bidirectional, co-evolving extension of HG-f) and **cyclic
+  conditioning** for explicit loop closure. Generates 120- to 862-frame
+  videos through impossible-staircase topologies.
+
+**Methods added:**
+- `wiki/methods/lact.md` — LaCT block (window attention + large-chunk
+  TTT + FFN); SwiGLU fast weights; Muon update.
+- `wiki/methods/streamvggt.md` — Causal-attention + KV cache
+  restructuring of VGGT; distillation from VGGT teacher; two long-
+  sequence strategies (windowed streaming + K-nearest caching).
+- `wiki/methods/gvs.md` — Joint-denoise neighboring chunks; Omni
+  Guidance score correction; cyclic conditioning (temporal + spatial
+  windows) for loop closure.
+
+**Entities added/updated:**
+- `wiki/entities/people/chonghyuk-song.md` — New entity, GVS lead.
+  Explicit note that this is distinct from Kiwhan Song (DFoT lead).
+- `wiki/entities/people/boyuan-chen.md` — Now 3 sources (DF + DFoT +
+  GVS).
+- `wiki/entities/orgs/mit-csail.md` — Now 5 sources, anchors both
+  diffusion-forcing-for-video and TTT-for-long-context lines.
+
+**Concept / method pages updated:**
+- `wiki/concepts/test-time-training.md` — Added Pattern D (Large-chunk
+  TTT) — LaCT's 70%-GPU-utilization recipe shows the field has been
+  bottlenecked by chunk size, not by the TTT paradigm.
+- `wiki/concepts/history-guidance.md` — Added Omni Guidance as a 5th
+  variant in the HG family table; explained as bidirectional,
+  co-evolving HG-f.
+- `wiki/methods/dfot.md` — Added GVS as a training-free downstream
+  application that doesn't require retraining DFoT.
+- `wiki/methods/cut3r.md` — Added StreamVGGT as the newer streaming
+  competitor that *beats* CUT3R on every measured metric.
+- `wiki/methods/vggt.md` — Added StreamVGGT as the streaming
+  distillation. `updated:` bumped.
+- `wiki/sources/song-2025-history-guided-video-diffusion.md` — Added
+  GVS as a direct follow-up paper.
+
+**Index/overview:**
+- `index.md` — added 3 source rows, 3 method rows, 1 new person entry
+  (Chonghyuk Song); bumped Boyuan Chen to 3 sources; updated MIT CSAIL
+  org line.
+- `overview.md` — bumped source count 28 → 31; rewrote (D) thread to
+  split into D1 (TTT-based) and D2 (cached-KV-based) streaming
+  strategies; appended 2026-06-12 entry in Recent shifts; updated
+  "No streaming 4D" gap to mention StreamVGGT.
+
+**Cross-source through-line (what this batch establishes):**
+
+```
+Long-context streaming sequence models — two distinct strategies:
+
+D1: Fast weights = memory  (TTT line)
+    sun-2024-ttt  →  vgg-t3  →  loger  →  zhang-2025-lact (LaCT)
+    Sun et al.        NVIDIA       DeepMind     MIT+Adobe
+    foundational      per-scene    per-chunk    Large-chunk + Muon
+                                                + nonlinear MLP
+                                                + 14B video diffusion
+
+D2: KV cache + causal attention  (Transformer line)
+    vggt  →  cut3r  →  zhuo-2026-stream-vggt (StreamVGGT)
+    offline   recurrent    causal + cached KV, distilled from VGGT
+                           outperforms CUT3R on every metric
+
+Both are O(n) per-frame. D1 has higher parameter efficiency (state can
+be 40% of params); D2 has higher *empirical* 3D-reconstruction quality
+right now. Trade-offs unsettled.
+
+Diffusion-forcing line:
+    chen-2024-diffusion-forcing  →  song-2025 (DFoT)  →  song-2026 (GVS)
+    causal RNN                     non-causal video DiT  + offline stitching
+                                                          via Omni Guidance
+```
+
+**Why directly relevant to user's research:**
+
+The middle-ground 3D-tracker design has CUT3R as the streaming
+backbone. Audit flagged "CUT3R's hidden state isn't a spatial grid" as
+a 🔴 leap-of-logic for feature lifting. StreamVGGT's cached memory
+tokens *are* a per-frame spatial grid — the leap-of-logic dissolves.
+StreamVGGT is now the leading streaming-backbone candidate.
+
+Separately, LaCT shows the TTT-MLP-as-streaming-state path is a viable
+alternative — same role as CUT3R or StreamVGGT, but the memory is a
+SwiGLU MLP whose weights are updated by Muon per chunk. Worth
+considering for the perception/control thread.
+
+GVS shows that *offline* re-anchoring of a DFoT-style chunk denoiser
+can be done training-free at inference time — relevant for dataset
+annotation, post-hoc re-tracking, and drift correction in long-horizon
+3D tracking.
+
+**Entity discipline:**
+- [[chonghyuk-song]] created on first appearance — GVS is a load-bearing
+  paper for the diffusion-forcing thread and the contribution is
+  distinct enough to merit a separate page. Explicit note he's
+  different from Kiwhan Song (DFoT lead) since they share a surname.
+- Tianyuan Zhang, Wenzhao Zheng, William Freeman, Hao Tan deferred —
+  recurring or senior contributors but no second wiki source yet.

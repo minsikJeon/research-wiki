@@ -7,13 +7,16 @@ tags: [generative-models, diffusion, video, robotics, sequence-modeling]
 sources:
   - "[[chen-2024-diffusion-forcing]]"
   - "[[song-2025-history-guided-video-diffusion]]"
+  - "[[song-2026-gvs]]"
 related:
   - "[[mit-csail]]"
   - "[[diffusion-forcing]]"
   - "[[dfot]]"
   - "[[history-guidance]]"
+  - "[[gvs]]"
+  - "[[chonghyuk-song]]"
 created: 2026-06-11
-updated: 2026-06-11
+updated: 2026-06-12
 ---
 
 # Boyuan Chen
@@ -39,16 +42,17 @@ under https://boyuan.space/).
   Prediction Meets Full-Sequence Diffusion*. NeurIPS 2024.
 - [[song-2025-history-guided-video-diffusion]] — *History-Guided Video
   Diffusion*. ICML 2025.
+- [[song-2026-gvs]] — *Generative View Stitching*. ICLR 2026
+  (co-author with [[chonghyuk-song]]).
 
 ## Notes
 
-Two-source promote (was previously cited in
-[[anon-2026-pi-r-squared]] and [[chen-2024-diffusion-forcing]] but no
-entity page). The 2024 → 2025 trajectory shows Chen's diffusion-forcing
-line is now load-bearing for the modern video-diffusion + real-time-control
-intersection: DF was foundational; DFoT operationalized it for video; πR²
-applied the same mechanism to VLA action chunks. All three papers run
+Three-source author. The 2024 → 2025 → 2026 trajectory shows Chen's
+diffusion-forcing line is load-bearing for the modern video-diffusion +
+real-time-control intersection: DF was foundational; DFoT operationalized
+it for video; GVS extended it to long-horizon offline stitching; πR²
+applied the same mechanism to VLA action chunks. All four papers run
 through MIT CSAIL — see [[mit-csail]].
 
 Frequent co-authors in this wiki: [[russ-tedrake]], Max Simchowitz,
-Yilun Du, Vincent Sitzmann.
+Yilun Du, Vincent Sitzmann, [[chonghyuk-song]].

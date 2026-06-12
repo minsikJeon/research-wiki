@@ -13,7 +13,7 @@ related:
   - "[[depth-anything-3]]"
   - "[[4rc]]"
 created: 2026-05-24
-updated: 2026-05-24
+updated: 2026-06-12
 ---
 
 # VGGT (Visual Geometry Grounded Transformer)
@@ -89,3 +89,6 @@ head; no test-time optimization needed.
   - [[mapanything]] adds metric scale + flexibility.
 - **Used by / as backbone:** [[spatialtracker-v2]] (alternating
   attention pattern).
+- **Streaming distillation:** [[streamvggt]] — replaces VGGT's global
+  attention with temporal causal + KV cache, distilled from VGGT as
+  the teacher. The online answer to VGGT-family batch reconstruction.

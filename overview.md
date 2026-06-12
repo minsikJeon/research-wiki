@@ -4,7 +4,7 @@ title: Research Wiki — Overview
 status: growing
 tags: [meta]
 created: 2026-05-24
-updated: 2026-06-11
+updated: 2026-06-12
 ---
 
 # Overview
@@ -21,7 +21,7 @@ embodied AI.
 
 ---
 
-## Current thesis (June 2026, after 28 sources)
+## Current thesis (June 2026, after 31 sources)
 
 The wiki has dense coverage of two intersecting perception sub-areas,
 plus two now-fleshed-out adjacent threads (streaming/control, and
@@ -50,14 +50,20 @@ covering the full lineage:
   [[anon-2026-pi-r-squared]] (joint structural fix: diffusion-forcing
   staircase + slow/fast channel split).
 
-**(D) Long-context 3D reconstruction (linear-time / streaming).** 2
-sources opening another new thread: [[elflein-2026-vgg-t3]] (NVIDIA;
-TTT-compressed scene as MLP, `O(n)` global/offline/unordered) and
+**(D) Long-context 3D reconstruction (linear-time / streaming).** Now
+**4 sources** with this batch: [[elflein-2026-vgg-t3]] (NVIDIA;
+TTT-compressed scene as MLP, `O(n)` global/offline/unordered),
 [[zhang-2026-loger]] (DeepMind+Berkeley; chunked feed-forward with
-**hybrid memory** = SWA + TTT, generalizing from 128-frame training
-to 19k-frame inference). Both use [[test-time-training]] as the
-fast-weight substitute for softmax attention; they differ in
-granularity (per-scene vs. per-chunk).
+**hybrid memory** = SWA + TTT), [[zhang-2025-lact]] (MIT+Adobe;
+**Large-Chunk TTT** = the missing efficiency layer underneath the
+TTT-for-3D papers, plus 14B-parameter AR video diffusion), and
+[[zhuo-2026-stream-vggt]] (Tsinghua; **causal-attention + KV-cached
+streaming distillation** of VGGT — beats CUT3R on every measured
+benchmark). Two distinct streaming strategies now articulated:
+**(D1) test-time-trained fast weights** (VGG-T3, LoGeR, LaCT — fast
+weights *are* the memory) and **(D2) cached KV / causal-attention**
+(StreamVGGT, CUT3R — explicit memory + attention). Both are O(n) per
+frame; trade-offs are unsettled.
 
 (A) and (B) are **visibly converging** — see
 [[q-tracking-vs-4d-reconstruction]]. (C) sits underneath both: it's the
@@ -221,11 +227,13 @@ patterns:
   no explicit motion representation. Combining streaming + 4D is open.
   [[point4d]] partially closes this with chunk chaining but is still
   offline (chunks are processed sequentially, not streaming).
-  [[zhang-2026-loger]] is the closest **streaming 3D** instance now
-  (hybrid memory, true minute-long generalization) but doesn't model
-  per-pixel motion — the *4D* version is still open. This is one
-  natural extension for the user's project: LoGeR-style hybrid
-  memory + Point4D-style 3D-query motion decoder.
+  [[zhang-2026-loger]] and [[zhuo-2026-stream-vggt]] are the closest
+  **streaming 3D** instances now (LoGeR: hybrid memory, true
+  minute-long generalization; StreamVGGT: KV-cached distillation of
+  VGGT, beats CUT3R). Neither models per-pixel motion — the *4D*
+  version is still open. Natural extensions for the user's project:
+  LoGeR-style hybrid memory + Point4D-style 3D-query motion decoder,
+  or StreamVGGT-style cached-KV backbone + Point4D-style decoder.
 - **No robotics-application paper** showing how point tracking / 4D
   reconstruction integrates with downstream control. Critical for the
   user's MSR program scope. (Tracking + 4D papers cite robotics as
@@ -242,6 +250,36 @@ patterns:
   training-time and joint corners are empty.
 
 ## Recent shifts
+
+- **2026-06-12 (ingest 10, batch of 3):** **LaCT (Zhang/MIT+Adobe May 2025)
+  + StreamVGGT (Zhuo/Tsinghua Mar 2026) + GVS (Song/MIT CSAIL+Runway ICLR
+  2026).** Three threads all advance:
+  - **(D) gets a 4th source + a 2nd streaming strategy.** LaCT is the
+    efficiency story underneath the existing TTT-for-3D papers
+    (2K–1M-token chunks → 70% GPU utilization vs 5%); StreamVGGT is the
+    *non*-TTT streaming alternative (KV cache + causal attention,
+    distilled from VGGT). StreamVGGT **beats CUT3R on every measured
+    metric** — 3D reconstruction, camera pose, depth — making it the
+    leading streaming-backbone candidate for the user's middle-ground
+    3D-tracker. The design audit's "CUT3R hidden state isn't a spatial
+    grid" leap-of-logic dissolves: StreamVGGT's cached memory *is* a
+    spatial grid.
+  - **The diffusion-forcing line extends to offline long-horizon
+    video.** GVS shows DFoT models are *training-free* stitching
+    backbones via **Omni Guidance** — a bidirectional, co-evolving
+    extension of [[history-guidance]] HG-f. 862-frame rollouts,
+    explicit loop closure, Impossible Staircase. Promotes
+    [[boyuan-chen]] to 3-source (DF + DFoT + GVS); introduces new
+    entity [[chonghyuk-song]] (distinct from Kiwhan Song, DFoT lead).
+  - **MIT CSAIL is now the de facto center of two converging lines** —
+    diffusion-forcing-for-video (4 sources) and TTT-for-long-context
+    (LaCT). Both threads converge in LaCT's §4.3 (autoregressive video
+    diffusion using diffusion-forcing-style frame-independent noise on
+    a large-chunk-TTT backbone).
+  - **Three new method pages** ([[lact]], [[streamvggt]], [[gvs]]),
+    one new entity ([[chonghyuk-song]]), updates to
+    [[test-time-training]], [[history-guidance]], [[dfot]], [[cut3r]],
+    [[vggt]], [[mit-csail]], [[boyuan-chen]].
 
 - **2026-06-11 (ingest 9):** **DFoT / History-Guided Video Diffusion
   (Song, Chen, et al., ICML 2025)** — extends [[diffusion-forcing]] from

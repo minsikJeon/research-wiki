@@ -1477,6 +1477,22 @@
   file = {/Users/minsikjeon/Zotero/storage/F6MMHUKF/Song et al. - 2025 - Generative View Stitching.pdf;/Users/minsikjeon/Zotero/storage/ZFG95MG8/2510.html}
 }
 
+@online{songGenerativeViewStitching2026,
+  title = {Generative {{View Stitching}}},
+  author = {Song, Chonghyuk and Stary, Michal and Chen, Boyuan and Kopanas, George and Sitzmann, Vincent},
+  date = {2026-04-09},
+  eprint = {2510.24718},
+  eprinttype = {arXiv},
+  eprintclass = {cs.CV},
+  doi = {10.48550/arXiv.2510.24718},
+  url = {http://arxiv.org/abs/2510.24718},
+  urldate = {2026-06-12},
+  abstract = {Autoregressive video diffusion models are capable of long rollouts that are stable and consistent with history, but they are unable to guide the current generation with conditioning from the future. In camera-guided video generation with a predefined camera trajectory, this limitation leads to collisions with the generated scene, after which autoregression quickly collapses. To address this, we propose Generative View Stitching (GVS), which samples the entire sequence in parallel such that the generated scene is faithful to every part of the predefined camera trajectory. Our main contribution is a sampling algorithm that extends prior work on diffusion stitching for robot planning to video generation. While such stitching methods usually require a specially trained model, GVS is compatible with any off-the-shelf video model trained with Diffusion Forcing, a prevalent sequence diffusion framework that we show already provides the affordances necessary for stitching. We then introduce Omni Guidance, a technique that enhances the temporal consistency in stitching by conditioning on both the past and future, and that enables our proposed loop-closing mechanism for delivering long-range coherence. Overall, GVS achieves camera-guided video generation that is stable, collision-free, frame-to-frame consistent, and closes loops for a variety of predefined camera paths, including Oscar Reutersvärd's Impossible Staircase. Results are best viewed as videos at https://andrewsonga.github.io/gvs.},
+  pubstate = {prepublished},
+  keywords = {Computer Science - Computer Vision and Pattern Recognition,Computer Science - Machine Learning},
+  file = {/Users/minsikjeon/Zotero/storage/R7GRRK6L/Song et al. - 2026 - Generative View Stitching.pdf}
+}
+
 @online{songHistoryGuidedVideoDiffusion2025,
   title = {History-{{Guided Video Diffusion}}},
   author = {Song, Kiwhan and Chen, Boyuan and Simchowitz, Max and Du, Yilun and Tedrake, Russ and Sitzmann, Vincent},
@@ -1548,6 +1564,22 @@
   author = {Team, D and Chen, Xingyu and Chu, Fu-Jen and Gleize, Pierre and Liang, Kevin J and Sax, Alexander and Tang, Hao and Wang, Weiyao and Guo, Michelle and Hardin, Thibaut and Li, Xiang and Lin, Aohan and Liu, Jiawei and Ma, Ziqi and Sagar, Anushka and Song, Bowen and Wang, Xiaodong and Yang, Jianing and Zhang, Bowen and Dollár, Piotr and Gkioxari, Georgia and Malik, Jitendra},
   langid = {english},
   file = {/Users/minsikjeon/Zotero/storage/GMKHCGVN/Team et al. - SAM 3D 3Dfy Anything in Images.pdf}
+}
+
+@online{tesfaldetGenerativePointTracking2025,
+  title = {Generative {{Point Tracking}} with {{Flow Matching}}},
+  author = {Tesfaldet, Mattie and Harley, Adam W. and Derpanis, Konstantinos G. and Nowrouzezahrai, Derek and Pal, Christopher},
+  date = {2025-10-23},
+  eprint = {2510.20951},
+  eprinttype = {arXiv},
+  eprintclass = {cs.CV},
+  doi = {10.48550/arXiv.2510.20951},
+  url = {http://arxiv.org/abs/2510.20951},
+  urldate = {2026-06-12},
+  abstract = {Tracking a point through a video can be a challenging task due to uncertainty arising from visual obfuscations, such as appearance changes and occlusions. Although current state-of-the-art discriminative models excel in regressing long-term point trajectory estimates -- even through occlusions -- they are limited to regressing to a mean (or mode) in the presence of uncertainty, and fail to capture multi-modality. To overcome this limitation, we introduce Generative Point Tracker (GenPT), a generative framework for modelling multi-modal trajectories. GenPT is trained with a novel flow matching formulation that combines the iterative refinement of discriminative trackers, a window-dependent prior for cross-window consistency, and a variance schedule tuned specifically for point coordinates. We show how our model's generative capabilities can be leveraged to improve point trajectory estimates by utilizing a best-first search strategy on generated samples during inference, guided by the model's own confidence of its predictions. Empirically, we evaluate GenPT against the current state of the art on the standard PointOdyssey, Dynamic Replica, and TAP-Vid benchmarks. Further, we introduce a TAP-Vid variant with additional occlusions to assess occluded point tracking performance and highlight our model's ability to capture multi-modality. GenPT is capable of capturing the multi-modality in point trajectories, which translates to state-of-the-art tracking accuracy on occluded points, while maintaining competitive tracking accuracy on visible points compared to extant discriminative point trackers.},
+  pubstate = {prepublished},
+  keywords = {Computer Science - Computer Vision and Pattern Recognition},
+  file = {/Users/minsikjeon/Zotero/storage/3VJ49IE4/Tesfaldet et al. - 2025 - Generative Point Tracking with Flow Matching.pdf;/Users/minsikjeon/Zotero/storage/2BZ2HU7M/2510.html}
 }
 
 @online{tongVideoMAEMaskedAutoencoders2022,

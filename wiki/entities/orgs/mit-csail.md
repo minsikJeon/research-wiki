@@ -8,15 +8,20 @@ sources:
   - "[[chi-2024-diffusion-policy]]"
   - "[[chen-2024-diffusion-forcing]]"
   - "[[song-2025-history-guided-video-diffusion]]"
+  - "[[zhang-2025-lact]]"
+  - "[[song-2026-gvs]]"
 related:
   - "[[russ-tedrake]]"
   - "[[boyuan-chen]]"
+  - "[[chonghyuk-song]]"
   - "[[diffusion-policy]]"
   - "[[diffusion-forcing]]"
   - "[[dfot]]"
+  - "[[gvs]]"
+  - "[[lact]]"
   - "[[history-guidance]]"
 created: 2026-06-08
-updated: 2026-06-11
+updated: 2026-06-12
 ---
 
 # MIT CSAIL (Computer Science and Artificial Intelligence Laboratory)
@@ -33,7 +38,8 @@ research lines are:
 ## Members in this wiki
 
 - [[russ-tedrake]] (Professor, robotics / control / policy learning).
-- [[boyuan-chen]] (PhD; diffusion forcing line — DF + DFoT).
+- [[boyuan-chen]] (PhD; diffusion forcing line — DF + DFoT + GVS co-author).
+- [[chonghyuk-song]] (PhD; GVS lead).
 
 ## Sources from MIT CSAIL
 
@@ -44,14 +50,23 @@ research lines are:
 - [[song-2025-history-guided-video-diffusion]] — Kiwhan Song +
   [[boyuan-chen]] (equal contribution leads), Yilun Du, Russ Tedrake,
   Vincent Sitzmann.
+- [[zhang-2025-lact]] — Tianyuan Zhang + Songlin Yang + William T. Freeman
+  (MIT); Sai Bi, Yicong Hong, Kai Zhang, Fujun Luan, Kalyan Sunkavalli,
+  Hao Tan (Adobe Research). MIT–Adobe collaboration.
+- [[song-2026-gvs]] — [[chonghyuk-song]] (lead), Michal Stary,
+  [[boyuan-chen]], George Kopanas (Runway ML), Vincent Sitzmann.
 
 ## Notes
 
-The combination — diffusion-policy as the action-chunking head +
-diffusion-forcing as the per-token-noise paradigm + DFoT as the
-non-causal video instance — is the substrate for the modern
-real-time-chunking line (RTC / Training-Time RTC / πR²) and the
-modern flexible-conditioning video generation line. The Chen + Sitzmann
-+ Tedrake cluster is now responsible for *three* wiki sources spanning
-this thread, with [[boyuan-chen]] specifically appearing as a recurring
-lead. Worth tracking the next paper in the line.
+Now **five** sources from MIT CSAIL, anchored by two threads:
+1. **Diffusion-forcing line** — Diffusion Policy → Diffusion Forcing → DFoT
+   → GVS, with Boyuan Chen + Vincent Sitzmann as the recurring anchors.
+   Adjacent to πR² which uses the same per-position-AdaLN recipe.
+2. **Sequence-modeling efficiency line** — LaCT, the large-chunk TTT paper,
+   contributes to the [[test-time-training]] thread; Tianyuan Zhang + William
+   Freeman + Songlin Yang are the MIT contributors.
+
+The two threads converge: LaCT's autoregressive video diffusion (§4.3)
+uses the same noisy/clean-chunk interleaving recipe as DFoT. CSAIL is now
+the de facto center of both diffusion-forcing-for-video and TTT-for-long-context
+streaming.

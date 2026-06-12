@@ -5,15 +5,17 @@ status: growing
 tags: [video-diffusion, diffusion-forcing, transformer, dit, generative-model, training-paradigm, classifier-free-guidance]
 sources:
   - "[[song-2025-history-guided-video-diffusion]]"
+  - "[[song-2026-gvs]]"
 related:
   - "[[diffusion-forcing]]"
   - "[[diffusion-forcing-method]]"
   - "[[history-guidance]]"
+  - "[[gvs]]"
   - "[[chen-2024-diffusion-forcing]]"
   - "[[pi-r-squared]]"
   - "[[training-time-rtc]]"
 created: 2026-06-11
-updated: 2026-06-11
+updated: 2026-06-12
 ---
 
 # DFoT (Diffusion Forcing Transformer)
@@ -150,3 +152,6 @@ All in [[song-2025-history-guided-video-diffusion]]:
   postfix. DFoT generalizes this to arbitrary per-frame `k_t` for video.
 - **Standard CFG:** Ho & Salimans 2022. CFG = DFoT with binary `k_H ∈ {0, 1}`
   and a separate-encoder mask.
+- **Training-free offline stitching:** [[gvs]] shows DFoT models are
+  *already* stitching-capable without retraining — Omni Guidance turns
+  a DFoT backbone into a long-horizon camera-guided video generator.

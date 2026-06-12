@@ -5,14 +5,16 @@ status: growing
 tags: [classifier-free-guidance, diffusion, video-diffusion, generative-model, inference-time-guidance, diffusion-forcing]
 sources:
   - "[[song-2025-history-guided-video-diffusion]]"
+  - "[[song-2026-gvs]]"
 related:
   - "[[diffusion-forcing]]"
   - "[[dfot]]"
+  - "[[gvs]]"
   - "[[chen-2024-diffusion-forcing]]"
   - "[[pi-gdm]]"
   - "[[train-inference-mismatch]]"
 created: 2026-06-11
-updated: 2026-06-11
+updated: 2026-06-12
 ---
 
 # History Guidance (HG)
@@ -44,6 +46,7 @@ For a score function `s_θ(x_G | x_H^{k_H})` that conditions generation
 | **HG-t (Temporal)** | compose scores from *long* + *short* history windows | balance long-range memory vs short-range reactivity; OOD-robust |
 | **HG-f (Fractional)** | guide with history at `k_H ∈ (0, 1)` | low-pass filter on history → preserves dynamics, fixes static-video collapse |
 | **HG-tf (Time + Frequency)** | composition along both axes | the comprehensive instance |
+| **Omni Guidance** ([[gvs]], [[song-2026-gvs]]) | bidirectional (past + future) score correction with **co-evolving** neighbor noise levels | offline diffusion stitching for long-horizon camera-guided video |
 
 ## Why each variant
 
@@ -78,6 +81,26 @@ Sum scores conditioned on **multiple history subsequences at different
 noise levels**. Each component handles a different aspect: short-window
 for local consistency, long-window for global memory, low-frequency
 for dynamics, etc.
+
+### Omni Guidance: bidirectional + co-evolving
+
+Introduced by [[gvs|GVS]] ([[song-2026-gvs]]) for **offline** diffusion
+stitching of long-horizon camera-guided video. Two changes vs HG-f:
+- **Bidirectional:** condition on both past *and* future chunks, not
+  just history.
+- **Co-evolving noise levels:** the neighbor chunks' noise levels
+  change throughout stitching (in HG-f they're fixed for the whole
+  denoising process).
+
+```
+ε̃_θ = (1+γ) ε_θ(x^k_{t-1:t+1} | p_{t-1:t+1})
+     − γ ε_θ(∅, x^k_t, ∅ | ∅, p_t, ∅)
+```
+
+The unconditional term sets neighbor `k_t = 1` (pure noise) — this only
+makes sense because DFoT trained over the full noise-level range.
+GVS pairs this with **cyclic conditioning** (alternating temporal vs
+spatial windows) for explicit loop closure.
 
 ## Why HG is a generalization of CFG
 
