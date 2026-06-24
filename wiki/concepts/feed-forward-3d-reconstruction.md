@@ -11,14 +11,16 @@ sources:
   - "[[karhade-2025-any4d]]"
   - "[[sucar-2026-v-dpm]]"
   - "[[luo-2026-4rc]]"
+  - "[[ma-2026-fsm]]"
 related:
   - "[[pointmap-representation]]"
   - "[[4d-reconstruction]]"
   - "[[vggt]]"
   - "[[mapanything]]"
   - "[[depth-anything-3]]"
+  - "[[test-time-training]]"
 created: 2026-05-24
-updated: 2026-05-24
+updated: 2026-06-24
 ---
 
 # Feed-Forward 3D Reconstruction
@@ -55,6 +57,9 @@ DUSt3R / MASt3R (pairwise + post-hoc alignment)     ← [[dust3r]]
               ↑ +35.7% pose / +23.6% geo vs VGGT
         ├── CUT3R (recurrent online variant)               ← [[cut3r]]
         └── Any4D (4D sibling of MapAnything)              ← [[any4d]]
+
+   LaCT (large-chunk TTT block)                         ← [[lact]]
+        └── FSM (elastic TTT for 4D NVS)                ← [[fsm]] / [[lacet]]
 ```
 
 ## Core principles emerging from the batch

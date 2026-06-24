@@ -12,13 +12,15 @@ sources:
   - "[[sucar-2026-v-dpm]]"
   - "[[luo-2026-4rc]]"
   - "[[anon-2026-trace-anything]]"
+  - "[[ma-2026-fsm]]"
 related:
   - "[[feed-forward-3d-reconstruction]]"
   - "[[4d-reconstruction]]"
   - "[[pointmap-representation]]"
   - "[[trajectory-fields]]"
+  - "[[test-time-training]]"
 created: 2026-05-24
-updated: 2026-05-24
+updated: 2026-06-24
 ---
 
 # Comparison of Feed-Forward 3D / 4D Reconstruction Methods
@@ -43,6 +45,8 @@ a leaderboard.
 | [[trace-anything]] | 2025 | Dynamic (4D) | Batch | [[trajectory-fields]] (per-pixel splines) | Trajectory as atomic primitive |
 | [[point4d]] | 2026 | Dynamic (4D) | Batch + chunk chaining | 3D point query → 3D position at target time | 3D queries (not 2D pixels) + chunk chaining for 200+ frames |
 | [[d4rt]] | 2025 | Dynamic (4D) | Batch | 2D-pixel query → 3D position at target time | Canonical query-based 4D decoder; one model → 6 tasks; SRT lineage |
+| [[fsm]] (FSM-LVSM) | 2026 | Dynamic (4D) | Batch (streaming-capable) | Novel-view RGB images | [[lacet]] (elastic TTT); O(n) scaling; LVSM-style pixel decoder |
+| [[fsm]] (FSM-LRM) | 2026 | Dynamic (4D) | Batch (streaming-capable) | 4D Gaussian Splatting | [[lacet]] (elastic TTT); O(n) scaling; LRM-style GS decoder |
 
 ## Headline benchmark numbers (cross-paper, take with salt)
 
@@ -105,6 +109,24 @@ iterative trackers use their online modes.
 - The 2D-query vs 3D-query difference is the load-bearing factor — see
   [[trajectory-chaining]].
 
+### 4D NVS — Stereo4D + NVIDIA benchmarks (from [[ma-2026-fsm]] Table 3)
+
+First direct 4D NVS comparison across feed-forward and optimization-based
+methods on a common eval protocol. All at 256×256 for FSM.
+
+| Method | Type | Stereo4D PSNR↑ | LPIPS↓ | SSIM↑ | NVIDIA PSNR↑ | LPIPS↓ | SSIM↑ |
+|---|---|---|---|---|---|---|---|
+| SoM (opt, ~10min) | Opt | — | — | — | 15.30 | 0.509 | 0.317 |
+| MoSca (opt, ~45min) | Opt | — | — | — | 21.45 | 0.265 | 0.712 |
+| 4DGT | FF | 24.62 | 0.102 | 0.785 | 14.13 | 0.640 | 0.131 |
+| MoVieS | FF | 27.29 | 0.114 | 0.888 | 19.16 | 0.315 | 0.514 |
+| FSM-LRM | FF | 27.19 | 0.147 | 0.876 | 20.17 | 0.337 | 0.567 |
+| **FSM-LVSM** | FF | **32.16** | **0.043** | **0.931** | **23.90** | **0.105** | **0.747** |
+
+FSM-LVSM is the clear SOTA among feed-forward 4D methods and approaches
+the quality of optimization-based methods (MoSca) at orders-of-magnitude
+less compute.
+
 ## Where each method wins
 
 - **Best static 3D quality, minimal design:** [[depth-anything-3]] —
@@ -120,10 +142,16 @@ iterative trackers use their online modes.
 - **Best query flexibility:** [[4rc]] (decode any frame × any time).
 - **Best dense trajectory representation:** [[trace-anything]] (if you
   trust the spline parameterization).
+- **Best 4D NVS quality (feed-forward):** [[fsm]] (FSM-LVSM) — 32.16
+  PSNR on Stereo4D, well above all other feed-forward methods.
+- **Best long-sequence 4D scaling:** [[fsm]] (O(n) via TTT) for NVS;
+  [[point4d]] (chunk chaining) for 3D tracking.
 
 ## Architectural design space (emergent)
 
 - **No 3D inductive biases needed** (VGGT, DA3).
+- **TTT as attention replacement for O(n) scaling** ([[fsm]]). New axis
+  as of this source — all prior entries use O(n²) full attention.
 - **Factored representation > coupled** (MapAnything, Any4D).
 - **Alternating attention (frame-wise + global)** is the dominant
   backbone pattern (VGGT lineage).

@@ -8,13 +8,17 @@ sources:
   - "[[elflein-2026-vgg-t3]]"
   - "[[zhang-2026-loger]]"
   - "[[zhang-2025-lact]]"
+  - "[[ma-2026-fsm]]"
 related:
   - "[[vgg-t3]]"
   - "[[loger]]"
   - "[[lact]]"
+  - "[[lacet]]"
+  - "[[fsm]]"
   - "[[feed-forward-3d-reconstruction]]"
+  - "[[4d-reconstruction]]"
 created: 2026-05-29
-updated: 2026-06-12
+updated: 2026-06-24
 ---
 
 # Test-Time Training (TTT)
@@ -129,6 +133,28 @@ This wiki now has two concrete TTT-for-3D designs to compare:
   closer to LaCT's regime than to original TTT-Linear; the LaCT recipe
   (large chunks + nonlinear state + Muon) is a candidate upgrade for
   both.
+
+### Pattern E — Elastic chunked TTT (LaCET)
+
+- Same chunk-level structure as LaCT (Pattern D), but adds a
+  **consolidate** step after each update: a Fisher-weighted elastic
+  penalty pulls fast weights toward a streaming-EMA anchor
+  ([[lacet]], [[ma-2026-fsm]]).
+- **Key finding:** naive multi-chunk LaCT (Pattern D with >1 chunk)
+  degrades vs single-chunk — fully plastic updates drift. LaCET fixes
+  this by importing Elastic Weight Consolidation from continual
+  learning.
+- Three importance estimators tested (MAS / EWC / SI); SI works best.
+- Three anchor policies (global / streaming / streaming-EMA);
+  streaming-EMA is the only one with genuinely elastic behavior.
+- First application: **[[fsm]]** — 4D NVS from long posed-image
+  sequences. SOTA among feed-forward 4D methods on Stereo4D
+  (32.16 PSNR).
+- **What this means for Patterns A–D:** the consolidation idea is
+  orthogonal to the inner model / optimizer choices. It could be
+  applied to LoGeR (Pattern B) or any multi-chunk TTT system. The
+  key insight is that plasticity without stability is actively harmful
+  in multi-chunk regimes.
 
 ## Open questions
 

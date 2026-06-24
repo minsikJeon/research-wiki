@@ -49,6 +49,7 @@ evolving thesis.
 - [[zhang-2026-loger]] — DeepMind+Berkeley; chunked feed-forward 3D with SWA + TTT hybrid memory; trained on 128 frames, generalizes to 19k; 74% ATE reduction over TTT3R on KITTI (3d-reconstruction, long-context, hybrid-memory, chunk-wise)
 - [[zhang-2025-lact]] — MIT+Adobe; Large-Chunk TTT (2K–1M tokens) lifts TTT hardware utilization from 5% → 70%, enables nonlinear SwiGLU fast weights @ 40% of model params + Muon optimizer; 14B AR video diffusion @ 56K tokens; 1M-token NVS contexts (test-time-training, long-context, video-diffusion, scalability)
 - [[zhuo-2026-stream-vggt]] — Tsinghua; StreamVGGT = VGGT with global attention → temporal causal + KV-cached memory tokens, distilled from VGGT; outperforms CUT3R on reconstruction / depth / camera pose; 5× faster current-frame inference at 40 frames (3d-reconstruction, streaming, causal-attention, kv-cache, distillation)
+- [[ma-2026-fsm]] — MIT-IBM/UMich/UMass; LaCET = LaCT + EWC elastic consolidation; FSM = first TTT-based 4D NVS model; SOTA feed-forward 4D on Stereo4D (32.16 PSNR) (test-time-training, elastic-weight-consolidation, 4d-reconstruction, novel-view-synthesis)
 
 ## Concepts
 *Abstract ideas synthesized across sources.*
@@ -109,6 +110,8 @@ evolving thesis.
 - [[vgg-t3]] — VGGT + TTT-MLP global-attention replacement; `O(n)` offline/unordered; queryable scene → visual localization
 - [[loger]] — chunked feed-forward with hybrid memory (SWA + TTT); π³ backbone; 128 → 19k frame generalization
 - [[lact]] — Large-Chunk TTT block (window-attn + SwiGLU MLP fast weights + Muon test-time optimizer); 2K–1M tokens per chunk; 70% GPU util in pure PyTorch; NVS, LM, and AR video diffusion
+- [[lacet]] — LaCT + Fisher-weighted elastic consolidation (EWC); streaming-EMA anchors; fixes multi-chunk drift
+- [[fsm]] — Fast Spatial Memory; LaCET-based 4D NVS model with LVSM-style and LRM-style decoders; SOTA feed-forward 4D
 
 ### Streaming perception & robot control
 - [[streamer-meta-detector]] — detector + association + Kalman forecaster + dynamic scheduler; turns any detector streaming
@@ -219,7 +222,7 @@ _(empty — defer until enough source pages cluster by venue)_
 - `monocular`, `depth-estimation`, `camera-pose`, `bundle-adjustment`
 - `sfm`, `slam`, `mvs`, `world-coordinates`, `virtual-view-query`
 - `dust3r`, `vggt-fine-tune`, `conditional-query`, `teacher-student`
-- `test-time-training`, `fast-weights`, `kv-compression`, `linear-complexity`, `hybrid-memory`, `sliding-window-attention`, `long-context`, `chunk-wise`
+- `test-time-training`, `fast-weights`, `kv-compression`, `linear-complexity`, `hybrid-memory`, `sliding-window-attention`, `long-context`, `chunk-wise`, `elastic-weight-consolidation`, `novel-view-synthesis`, `4dgs`
 
 ### Cross-cutting
 - `transformer`, `attention`, `foundation-model`

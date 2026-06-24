@@ -793,3 +793,45 @@ annotation, post-hoc re-tracking, and drift correction in long-horizon
   different from Kiwhan Song (DFoT lead) since they share a surname.
 - Tianyuan Zhang, Wenzhao Zheng, William Freeman, Hao Tan deferred —
   recurring or senior contributors but no second wiki source yet.
+
+## [2026-06-24] ingest | Ma 2026 — Fast Spatial Memory (arXiv 2604.07350)
+
+Ingested *Fast Spatial Memory with Elastic Test-Time Training* (Ma, Yu,
+Zhen, Yang, Chai, Gan — MIT-IBM Watson AI Lab / UMich / UMass Amherst,
+Apr 2026). Two contributions: (1) **LaCET** — extends [[lact]] with
+Elastic Weight Consolidation to fix multi-chunk fast-weight drift, and
+(2) **FSM** — the first TTT-based 4D NVS model at scale. FSM-LVSM
+achieves SOTA among feed-forward 4D methods on Stereo4D (32.16 PSNR).
+
+**New pages (3):**
+- [[ma-2026-fsm]] — source page.
+- [[lacet]] — method page (LaCT + EWC consolidation).
+- [[fsm]] — method page (full 4D NVS model, LVSM + LRM decoders).
+
+**Updated pages (7):**
+- [[lact]] — added LaCET/FSM as downstream extension; noted multi-chunk
+  drift limitation discovered by this source.
+- [[test-time-training]] — added Pattern E (elastic chunked TTT with
+  consolidation); the A–D taxonomy is now A–E.
+- [[4d-reconstruction]] — added FSM row to method table; added attention
+  complexity as a new design axis (O(n²) vs O(n) via TTT).
+- [[feed-forward-3d-reconstruction]] — added FSM to lineage diagram
+  under the LaCT branch.
+- [[cmp-3d-4d-reconstruction]] — added FSM rows to high-level table;
+  added 4D NVS Stereo4D+NVIDIA benchmark section from Table 3; added
+  FSM to "where each method wins" and architectural design space.
+- [[zhang-2025-lact]] — (related field only; no body changes).
+- `index.md` — added source row, 2 method rows, 3 new tags.
+
+**Key cross-source finding:** naive multi-chunk LaCT degrades vs
+single-chunk — the first empirical evidence that fully plastic TTT
+updates are actively harmful in streaming regimes. This validates the
+intuition behind [[loger]]'s hybrid memory (SWA + TTT) as a separate
+stabilization strategy. The consolidation idea (EWC) is orthogonal and
+could be composed with LoGeR's approach.
+
+**Entity discipline:** all 6 authors (Ziqiao Ma, Xueyang Yu, Haoyu Zhen,
+Yuncong Yang, Joyce Chai, Chuang Gan) deferred — single-source mentions.
+MIT-IBM Watson AI Lab deferred as org. Chuang Gan is the most likely
+to cross the 2-source threshold soon (senior on multiple TTT/embodied
+papers outside this wiki).

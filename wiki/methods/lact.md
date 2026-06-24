@@ -8,13 +8,15 @@ sources:
 related:
   - "[[test-time-training]]"
   - "[[sun-2024-ttt]]"
+  - "[[lacet]]"
+  - "[[fsm]]"
   - "[[loger]]"
   - "[[vgg-t3]]"
   - "[[cut3r]]"
   - "[[diffusion-forcing]]"
   - "[[dfot]]"
 created: 2026-06-12
-updated: 2026-06-12
+updated: 2026-06-24
 ---
 
 # LaCT (Large-Chunk Test-Time Training)
@@ -115,6 +117,10 @@ All in [[zhang-2025-lact]]:
 - **No unposed 3D reconstruction tested** — NVS used input camera poses.
 - **No FVD on video diffusion** — only validation denoising loss as scaling
   metric.
+- **Multi-chunk drift** — [[ma-2026-fsm]] shows that fully plastic
+  multi-chunk LaCT updates degrade quality vs single-chunk, due to
+  uncontrolled fast-weight drift. [[lacet]] addresses this with elastic
+  consolidation.
 
 ## Related methods
 
@@ -134,3 +140,6 @@ All in [[zhang-2025-lact]]:
   structure, less expressive update rule.
 - **Concurrent: Titans, TTT-Linear+** — TTT variants with different
   inner models / optimizers.
+- **Downstream extension:** [[lacet]] / [[fsm]] — first model to build
+  on LaCT for 4D reconstruction. Adds elastic consolidation (EWC) to
+  fix multi-chunk drift that vanilla LaCT suffers from.

@@ -8,14 +8,16 @@ sources:
   - "[[sucar-2026-v-dpm]]"
   - "[[luo-2026-4rc]]"
   - "[[anon-2026-trace-anything]]"
+  - "[[ma-2026-fsm]]"
 related:
   - "[[3d-point-tracking]]"
   - "[[pointmap-representation]]"
   - "[[feed-forward-3d-reconstruction]]"
   - "[[trajectory-fields]]"
   - "[[dynamic-point-maps]]"
+  - "[[test-time-training]]"
 created: 2026-05-24
-updated: 2026-05-24
+updated: 2026-06-24
 ---
 
 # 4D Reconstruction (Dynamic 3D + Time)
@@ -48,6 +50,7 @@ but distinct strategies (all in this wiki):
 | [[any4d]] | factored: ego (depth+ray) + allo (pose+scene flow) + global metric scale | multi-modal inputs (RGB-D, IMU, Doppler) |
 | [[4rc]] | base geometry + time-dependent displacement; queryable | encode-once, decode-anytime/anywhere |
 | [[trace-anything]] | [[trajectory-fields]] (per-pixel parametric splines) | atomic-level dense trajectories |
+| [[fsm]] | novel-view images (LVSM) or 4D Gaussians (LRM) | [[lacet]] (elastic TTT); O(n) long-sequence scaling |
 
 All are **feed-forward** (no per-scene optimization), all built on top of
 or in dialog with [[vggt]] / [[depth-anything-3]] / DUSt3R lineage, all
@@ -75,9 +78,13 @@ support arbitrary view counts, in one network.
   conditional query (4RC).
 - **Metric scale:** Any4D / MapAnything yes; most others no.
 - **Multi-modal:** Any4D yes (RGB-D, IMU, Doppler); others image-only.
-- **Online vs. batch:** all of this batch is batch. Online 4D is open
-  (CUT3R does online 3D + handles dynamic scenes, but no explicit
-  motion representation).
+- **Online vs. batch:** most of this batch is batch. [[fsm]] is
+  architecturally streaming-capable (LaCET state carries across chunks)
+  but only evaluated in batch mode. CUT3R does online 3D + handles
+  dynamic scenes, but no explicit motion representation.
+- **Attention complexity:** V-DPM / Any4D / 4RC use O(n²) full
+  attention; [[fsm]] achieves O(n) via [[test-time-training|TTT]] state.
+  This is a new axis as of this source.
 - **Sparse vs. dense motion:** [[trace-anything]] + [[any4d]] are dense;
   [[tapip3d]] + [[spatialtracker-v2]] are sparse trackers in the same
   problem space.
