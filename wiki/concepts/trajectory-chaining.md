@@ -5,13 +5,15 @@ status: stub
 tags: [4d-reconstruction, long-sequence, trajectory-chaining]
 sources:
   - "[[anon-2026-point4d]]"
+  - "[[harley-2022-pips]]"
 related:
   - "[[4d-reconstruction]]"
   - "[[3d-point-tracking]]"
   - "[[point4d]]"
   - "[[feed-forward-3d-reconstruction]]"
+  - "[[pips]]"
 created: 2026-05-26
-updated: 2026-05-26
+updated: 2026-06-26
 ---
 
 # Trajectory Chaining
@@ -31,6 +33,16 @@ A strategy for extending **short-window 4D / 3D reconstruction models** to
 The static-3D version of (1)-(3) is well known
 (VGGT-Long, InfiniteVGGT, StreamingVGGT). The 4D version requires (4),
 which is the hard part — and where representation choice matters most.
+
+**2D-point-tracking ancestor.** [[harley-2022-pips]] §3.7 is the original
+chunked-window chaining recipe in deep TAP: re-initialize from the
+latest high-visibility timestep (threshold starts at 0.99, decreases
+until a valid pivot is found), and **re-use the original query feature
+across re-initializations** to lock identity onto the target. The same
+"propagate identity across chunk boundaries" challenge — and the same
+failure mode (chain breaks when the target is occluded across the
+entire chunk) — is what 4D methods rediscover at a different
+granularity.
 
 ## Why it matters
 

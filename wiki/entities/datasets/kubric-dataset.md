@@ -5,6 +5,7 @@ name: Kubric
 status: stub
 tags: [point-tracking, synthetic-data, training-data]
 sources:
+  - "[[doersch-2023-tapir]]"
   - "[[karaev-2024-cotracker]]"
   - "[[karaev-2024-cotracker3]]"
   - "[[zholus-2025-tapnext]]"
@@ -16,7 +17,7 @@ related:
   - "[[tap-vid-dataset]]"
   - "[[synthetic-to-real-gap]]"
 created: 2026-05-24
-updated: 2026-05-24
+updated: 2026-06-26
 ---
 
 # Kubric
@@ -34,6 +35,11 @@ annotation is prohibitively expensive.
 
 - **TAP-Vid-Kubric** (vanilla): 11K videos × 24 frames. The default
   training set for the [[tap-vid-dataset]] line.
+- **Panning MOVi-E** ([[doersch-2023-tapir]]): camera "look-at" point
+  follows a random linear trajectory (≤ 1.5 units off-ground, within
+  radius 4 of the workspace center, passing within 1 unit of center).
+  Introduced to fix vanilla MOVi-E's missing camera-pan distribution —
+  carried forward to BootsTAP, BootsTAPNext, TAPNext, Kubric-1024.
 - **TAPNext's extension** ([[zholus-2025-tapnext]]): 500K videos × 48
   frames, with camera panning + motion blur added.
 - **Kubric-1024** ([[jung-2026-tapnext-plus-plus]]): 1024-frame extension

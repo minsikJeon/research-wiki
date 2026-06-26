@@ -4,6 +4,8 @@ title: Comparison of TAP (Point Tracking) Methods
 status: growing
 tags: [point-tracking, comparison, 3d-point-tracking, online-tracking]
 sources:
+  - "[[harley-2022-pips]]"
+  - "[[doersch-2023-tapir]]"
   - "[[zholus-2025-tapnext]]"
   - "[[karaev-2024-cotracker]]"
   - "[[karaev-2024-cotracker3]]"
@@ -17,12 +19,12 @@ related:
   - "[[3d-point-tracking]]"
   - "[[synthetic-to-real-gap]]"
 created: 2026-05-24
-updated: 2026-05-24
+updated: 2026-06-26
 ---
 
 # Comparison of TAP Methods
 
-Synthesis across the 7 sources currently in the wiki. Caveat: numbers are
+Synthesis across the 9 sources currently in the wiki. Caveat: numbers are
 **not directly comparable** across papers — different evaluation protocols,
 backbones, training data scales, and resolutions. Treat as a navigation
 table, not a leaderboard.
@@ -31,6 +33,8 @@ table, not a leaderboard.
 
 | Method | Year | Latency | Dim | Training | Joint? | Backbone | Defining trick |
 |---|---|---|---|---|---|---|---|
+| [[pips]] | 2022 | window (T=8) | 2D | synthetic (FlyingThings++) | no | CNN + MLP-Mixer | 8-frame iterative refinement over corr pyramids; chained at test time |
+| [[tapir]] | 2023 | any-length offline | 2D | synthetic (Panning MOVi-E) | no | TSM-ResNet + depthwise conv | global per-frame init + iterative depthwise refinement + self-supervised uncertainty |
 | [[cotracker]] | 2024 | window | 2D | synthetic | yes | transformer | cross-track attention + proxy tokens |
 | [[cotracker3]] | 2024 | window (online + offline) | 2D | synthetic + pseudo-labeled real (15K) | yes | transformer | random-teacher distillation |
 | [[tapnext]] | 2025 | **frame** | 2D | synthetic (500K × 48) | implicit (ViT) | SSM + ViT (TRecViT) | masked-token decoding + classification coord head |
@@ -41,16 +45,18 @@ table, not a leaderboard.
 
 ## Headline benchmark numbers (cross-paper, take with salt)
 
-### TAP-Vid DAVIS (queried-first, AJ ↑)
+### TAP-Vid DAVIS (queried-first / strided, AJ ↑)
 
-| Method | AJ |
-|---|---|
-| TAPIR | 58.5 |
-| CoTracker3 (online, +15k real) | ~63 |
-| TAPNext-B (synth-only) | 62.4 |
-| BootsTAPNext-B | 65.2 |
-| TAPNext++ | ≥ BootsTAPNext-B |
-| Track-On2 (DINOv3, synth-only) | beats TAPTRv3 + TAPNext-B in AJ + δ_avg |
+| Method | AJ (queried-first) | AJ (strided) |
+|---|---|---|
+| [[pips]] (FlyingThings++, 8-frame chained) | 33.0 | 42.0 |
+| [[tapir]] (Panning MOVi-E) | 56.2 | 61.3 |
+| [[tapir]] high-res (1080p) | — | 65.7 |
+| CoTracker3 (online, +15k real) | ~63 | — |
+| TAPNext-B (synth-only) | 62.4 | — |
+| BootsTAPNext-B | 65.2 | 68.9 |
+| TAPNext++ | ≥ BootsTAPNext-B | — |
+| Track-On2 (DINOv3, synth-only) | beats TAPTRv3 + TAPNext-B in AJ + δ_avg | — |
 
 ### PointOdyssey (~2400 frames, long-horizon)
 
@@ -73,15 +79,17 @@ The clearest performance separator:
 No head-to-head [[tapip3d]] vs [[spatialtracker-v2]] under a unified
 protocol exists yet — open eval gap.
 
-### Latency (online tracking, 256 query pts, H100)
+### Latency (online tracking, 256 query pts, H100 unless noted)
 
 | Method | FPS | Latency (ms) |
 |---|---|---|
 | TAPNext-B | 197 | **5.05** |
 | TAPNext++ (1024 pts!) | 348 | <10 |
 | Track-On2 | >30 (different setup) | low |
+| [[tapir]] (JAX/JIT, 50 pts) | ~150 | ~7 (per inference, batched across frames) |
 | CoTracker3 (online) | 102 | 80 |
 | LocoTrack-B | 452 | 2210 (windowed) |
+| [[pips]] (chained, V100) | ~3 | ~30000 (sequential chunks; the bottleneck TAPIR fixed) |
 
 TAPNext / TAPNext++ are 15-40× lower latency than the next-best
 quality-competitive methods.

@@ -9,8 +9,10 @@ related:
   - "[[point-tracking]]"
   - "[[joint-point-tracking]]"
   - "[[cotracker3]]"
+  - "[[pips]]"
+  - "[[tapir]]"
 created: 2026-05-24
-updated: 2026-05-24
+updated: 2026-06-26
 ---
 
 # CoTracker
@@ -40,7 +42,7 @@ tracks.
 3. **Proxy tokens:** a small fixed number of register-like tokens that
    N_tracks tokens cross-attend to, replacing O(N²) self-attention with
    O(N·P). Enables ~70K tracks on single GPU.
-4. **Iterative updates:** PIPs-style with 4D cost volumes within the
+4. **Iterative updates:** [[pips]]-style with 4D cost volumes within the
    window.
 5. **Sliding window:** subsequent windows inherit refined estimates from
    the previous; trained with **unrolled windows** so gradients flow
@@ -63,5 +65,9 @@ tracks.
   pseudo-labels).
 - **Joint-tracking concept origin:** earlier Particle Video (Sand &
   Teller, 2008) did joint, but CoTracker is the deep-learning revival.
-- **Window/iterative-update predecessors:** PIPs, PIPs++, TAPIR.
+- **Window/iterative-update predecessors:** [[pips]] (8-frame MLP-Mixer
+  iterative refinement; the cost-volume + correlation-pyramid template
+  CoTracker keeps), [[tapir]] (depthwise-conv refinement on any-length
+  sequences + global init + uncertainty — the closest single-track
+  baseline CoTracker compares against), PIPs++.
 - **Frame-by-frame contemporaries:** [[tapnext]], [[track-on2]].

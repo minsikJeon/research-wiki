@@ -5,15 +5,17 @@ name: Google DeepMind
 status: growing
 tags: []
 sources:
+  - "[[doersch-2023-tapir]]"
   - "[[zholus-2025-tapnext]]"
   - "[[jung-2026-tapnext-plus-plus]]"
 related:
   - "[[carl-doersch]]"
   - "[[artem-zholus]]"
+  - "[[tapir]]"
   - "[[tapnext]]"
   - "[[tapnext-plus-plus]]"
 created: 2026-05-24
-updated: 2026-05-24
+updated: 2026-06-26
 ---
 
 # Google DeepMind
@@ -42,6 +44,8 @@ of the most-cited orgs in this wiki given the field.
 
 ## Sources from this org
 
+- [[doersch-2023-tapir]] — Doersch + Yang + DeepMind/Oxford joint;
+  the canonical TAP method of 2023.
 - [[zholus-2025-tapnext]]
 - [[jung-2026-tapnext-plus-plus]]
 - [[zhang-2025-d4rt]] (lead [[mehdi-sajjadi]]; co-authors

@@ -6,23 +6,33 @@ tags: [point-tracking, interpretability, emergent-behavior]
 sources:
   - "[[zholus-2025-tapnext]]"
   - "[[jung-2026-tapnext-plus-plus]]"
+  - "[[harley-2022-pips]]"
+  - "[[doersch-2023-tapir]]"
 related:
   - "[[point-tracking]]"
   - "[[tapnext]]"
   - "[[tapnext-plus-plus]]"
+  - "[[pips]]"
+  - "[[tapir]]"
 created: 2026-05-24
-updated: 2026-05-24
+updated: 2026-06-26
 ---
 
 # Do classical tracking heuristics emerge from end-to-end training?
 
 ## The question
 
-[[zholus-2025-tapnext]] observed that even though TAPNext has **no
-tracking-specific inductive biases** (no cost volume, no iterative
-refinement, no local search window, no temporal smoothness prior),
-ViT attention heads spontaneously implement patterns that look exactly
-like those heuristics:
+The "tracking heuristics" being discussed are the engineered components
+of the [[pips]] / [[tapir]] line: per-frame **cost volumes**
+([[doersch-2023-tapir]] global init), **iterative refinement** in a
+local window ([[harley-2022-pips]]'s MLP-Mixer, [[doersch-2023-tapir]]'s
+depthwise conv), **local search windows** + temporal smoothness +
+visibility heads. These were the load-bearing inductive biases of
+2022–2023 TAP.
+
+[[zholus-2025-tapnext]] observed that even though TAPNext has **none of
+these tracking-specific inductive biases**, ViT attention heads
+spontaneously implement patterns that look exactly like them:
 
 - **Cost-volume-like attention head** — appearance matching to image
   patches.
@@ -89,8 +99,11 @@ step is:
 ## Next things to read
 
 - Original TAPNext appendix B (full-resolution attention visualizations).
-- Doersch et al. on TAP-Vid / TAPIR — predecessors don't have emergent
-  analysis but their architectures explicitly bake in these patterns.
+- [[harley-2022-pips]] §3 + [[doersch-2023-tapir]] §3 — the explicit
+  architectures TAPNext is arguing against. PIPs makes the
+  cost-volume + iterative-refinement biases load-bearing; TAPIR
+  industrializes them with depthwise conv + uncertainty. They are the
+  control condition.
 - Look for **interpretability papers on video transformers** — the
   techniques (probing classifiers, attention rollout, attribution)
   developed for image transformers should transfer.

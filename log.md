@@ -896,3 +896,77 @@ stream long sequences) is exactly the streaming-4D gap that
 [[zhang-2026-loger]], [[zhuo-2026-stream-vggt]], [[lact]], [[lacet]]
 attack from different angles. **A natural synthesis:** swap STRIDE's
 PTv3 for LaCET blocks → driving-domain streaming 4D + decomposition.
+
+## [2026-06-26] ingest | PIPs (Harley/Fang/Fragkiadaki, CMU, ECCV 2022) + TAPIR (Doersch et al., DeepMind+Oxford, ICCV 2023)
+
+Foundational-paper backfill: two predecessors that every existing TAP
+source in the wiki cites and that previously had only "future seeds to
+promote on 2nd mention" placeholder treatment. PIPs is the originating
+deep TAP architecture — 8-frame CNN + multi-scale correlation pyramids
++ 12-block MLP-Mixer iterative refinement + visibility-thresholded
+chaining for long sequences — plus the **FlyingThings++** synthetic-
+with-injected-occluders training recipe. TAPIR fuses PIPs' refinement
+with TAP-Net's per-frame cost-volume initialization, replaces the
+fixed-length MLP-Mixer with **depthwise conv over time** (any length,
+parallel inference), and adds a **self-supervised position uncertainty**
+head. TAPIR introduces **Panning MOVi-E** — the Kubric variant with
+camera-pan trajectories — carried forward to BootsTAP, BootsTAPNext,
+TAPNext.
+
+**Pages created (4):**
+- [[harley-2022-pips]] (source).
+- [[pips]] (method).
+- [[doersch-2023-tapir]] (source).
+- [[tapir]] (method).
+
+**Pages touched (~16):**
+- Method pages: [[cotracker]], [[tapnext]] — added explicit predecessor
+  links + corrected related lists; the "future seeds" placeholders are
+  resolved.
+- Source pages: [[karaev-2024-cotracker]] — promoted "predecessors now
+  in this wiki" section.
+- Concept pages: [[point-tracking]] (now sourced from PIPs+TAPIR;
+  expanded "standard architectural ingredients" with the explicit
+  PIPs vs TAPIR comparison), [[joint-point-tracking]] (links the
+  "independent tracks" critique to PIPs's own §5.7),
+  [[online-vs-offline-tracking]] (added PIPs to window tier + TAPIR
+  any-length offline tier), [[synthetic-to-real-gap]] (now traces the
+  arc FlyingThings++ → Panning MOVi-E → BootsTAP),
+  [[trajectory-chaining]] (added PIPs §3.7 as the 2D-pixel ancestor).
+- Entity pages: [[adam-w-harley]] (stub → growing; 2 sources),
+  [[katerina-fragkiadaki]] (stub → growing; 2 sources — PIPs +
+  TAPIP3D, both anchored at CMU), [[carl-doersch]] (now 3-source —
+  TAPIR + TAPNext + TAPNext++), [[ignacio-rocco]] (related-list only;
+  not a TAPIR author), [[cmu-ri]] (6 sources; institutional origin
+  point of modern deep TAP), [[google-deepmind]] (added TAPIR),
+  [[oxford-vgg]] (7 sources, still most prolific).
+- Datasets: [[tap-vid-dataset]] (added TAPIR as benchmark user;
+  introduces Panning MOVi-E), [[kubric-dataset]] (added Panning
+  MOVi-E as a distinct variant).
+- Comparisons: [[cmp-tap-methods]] (added PIPs + TAPIR rows + headline
+  numbers; latency table now shows PIPs's ~30s chained inference vs
+  TAPIR's ~7ms per query).
+- Questions: [[q-emergent-tracking-heuristics]] (clarified the
+  "control condition" — PIPs/TAPIR are the engineered architectures
+  that TAPNext argues re-emerge for free).
+- [[index]] (added 2 source rows + 2 method rows under Point Tracking;
+  bumped source / org counts; added 7 new tags: `mlp-mixer`,
+  `depthwise-conv`, `iterative-refinement`, `two-stage`, `occlusion`,
+  `uncertainty-estimation`, `foundation-paper`).
+- [[overview]] (33 → 35 sources; thread (A) grows 7 → 9; new
+  recent-shifts entry).
+
+**Entity discipline:** All four TAPIR co-authors not yet promoted
+(Doersch already had a page; Yang / Vecerik / Gokay / Gupta / Aytar /
+Carreira / Zisserman deferred — single-source mentions so far).
+Zhaoyuan Fang on PIPs likewise deferred.
+
+**Why this matters for the wiki:** the "PIPs is the predecessor every
+later method cites" claim is now fully traceable — no more dangling
+references. The CMU TAP-line (Fragkiadaki / Harley) is now visibly the
+**institutional origin of the modern deep TAP sub-field**, which
+strengthens the wiki's institutional grounding for the user's program
+and gives [[cmu-ri]] a 6-source footprint. The control-condition for
+[[q-emergent-tracking-heuristics]] (does TAPNext re-emerge what
+PIPs/TAPIR engineer?) is now primary-source-grounded rather than
+secondary-cited.

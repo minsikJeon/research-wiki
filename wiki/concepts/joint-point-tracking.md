@@ -9,6 +9,8 @@ tags:
 sources:
   - "[[karaev-2024-cotracker]]"
   - "[[karaev-2024-cotracker3]]"
+  - "[[harley-2022-pips]]"
+  - "[[doersch-2023-tapir]]"
 related:
   - "[[tapnext]]"
   - "[[tapnext-plus-plus]]"
@@ -23,7 +25,7 @@ related:
   - "[[online-vs-offline-tracking]]"
   - "[[synthetic-to-real-gap]]"
 created: 2026-05-24
-updated: 2026-05-24
+updated: 2026-06-26
 ---
 
 # Joint Point Tracking
@@ -39,8 +41,11 @@ dependencies improves tracking, especially during occlusion.
 
 ## Why it matters
 
-Most pre-2024 trackers (TAPIR, PIPs, PIPs++) treat tracks as independent.
-CoTracker showed this leaves a lot on the table:
+Most pre-2024 trackers ([[doersch-2023-tapir|TAPIR]],
+[[harley-2022-pips|PIPs]], PIPs++) treat tracks as independent —
+[[harley-2022-pips]] explicitly flagged this as the "extreme tradeoff"
+its design accepts (§5.7) and named joint tracking as the obvious next
+step. CoTracker showed this leaves a lot on the table:
 
 - Background points are dragged by foreground object motion if tracked
   independently in the wrong feature window (Fig 2 of [[karaev-2024-cotracker]]).

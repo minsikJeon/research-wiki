@@ -21,15 +21,19 @@ embodied AI.
 
 ---
 
-## Current thesis (June 2026, after 32 sources)
+## Current thesis (June 2026, after 35 sources)
 
 The wiki has dense coverage of two intersecting perception sub-areas,
 plus two now-fleshed-out adjacent threads (streaming/control, and
 long-context 3D):
 
-**(A) Tracking Any Point (TAP).** 7 sources covering the DeepMind TAPNext
-line, the Meta/Oxford CoTracker line, the Koç Track-On line, and the 3D
-extensions (TAPIP3D from CMU, SpatialTrackerV2).
+**(A) Tracking Any Point (TAP).** 9 sources now covering the full
+historical arc: founding **PIPs** (CMU, ECCV 2022) → canonical
+**TAPIR** (DeepMind+Oxford, ICCV 2023) → the DeepMind TAPNext line, the
+Meta/Oxford CoTracker line, the Koç Track-On line, and the 3D
+extensions (TAPIP3D from CMU, SpatialTrackerV2). The two
+just-ingested foundation papers are the predecessor every later TAP
+method cites and that [[zholus-2025-tapnext]] explicitly argues against.
 
 **(B) Feed-forward 3D / 4D reconstruction.** 10 sources covering the VGGT
 trunk (Oxford VGG + Meta AI) and its descendants (MapAnything, V-DPM,
@@ -218,8 +222,10 @@ patterns:
   ingest.**
 - **π³ (Pi3)** — VGGT successor that D4RT explicitly beats on Sintel
   pose AUC. Cited in multiple papers but no primary source.
-- **BootsTAP / BootsTAPIR** — cited by 4+ TAP sources but no primary
-  page. Still the most important next TAP ingest.
+- **BootsTAP / BootsTAPIR** — cited by 5+ TAP sources (now including
+  [[doersch-2023-tapir]] as its parent) but no primary page. Still the
+  most important next TAP ingest — the semi-supervised real-data
+  fine-tune that closes the synthetic-to-real gap on top of TAPIR.
 - **π³ (Pi3)** — VGGT successor mentioned in multiple papers; would
   partially resolve VGGT vs. its critiques.
 - **No causal 3D tracker** in either the TAP or 4D-reconstruction
@@ -254,6 +260,53 @@ patterns:
   training-time and joint corners are empty.
 
 ## Recent shifts
+
+- **2026-06-26 (ingest 13, batch of 2):** **PIPs (Harley/Fang/
+  Fragkiadaki, CMU, ECCV 2022)** + **TAPIR (Doersch et al.,
+  DeepMind+Oxford, ICCV 2023)** — backfilling the **two foundation
+  papers of the modern deep TAP sub-field**, both flagged as
+  "predecessors not yet ingested" across many existing wiki pages.
+  PIPs introduces the **independent-per-point + iterative-MLP-Mixer
+  refinement over 8-frame correlation pyramids** template (the
+  architectural ancestor of CoTracker, TAPIR, BootsTAPIR, and
+  arguably TAPNext) plus the **FlyingThings++** synthetic-with-
+  injected-occluders recipe. TAPIR fuses PIPs' refinement with
+  **TAP-Net's global per-frame initialization**, replaces the
+  fixed-length MLP-Mixer with **depthwise conv over time** (any
+  sequence length, parallel inference: ~150 FPS vs. PIPs' chained
+  ~3 FPS), and adds **self-supervised position uncertainty**.
+  Implications for the wiki's existing threads:
+  - **Thread (A) grows from 7 → 9 sources**, and the lineage diagrams
+    on [[point-tracking]], [[joint-point-tracking]],
+    [[online-vs-offline-tracking]], [[synthetic-to-real-gap]],
+    [[trajectory-chaining]], and [[cmp-tap-methods]] now have their
+    proper roots.
+  - **[[katerina-fragkiadaki]] is now 2-source** (PIPs + TAPIP3D);
+    **[[adam-w-harley]] is 2-source** (same line). The CMU TAP-line is
+    **2022 PIPs → 2025 TAPIP3D**, one continuous research thread —
+    making CMU (via Fragkiadaki) the **institutional origin** of the
+    modern deep TAP sub-field. [[cmu-ri]] bumps to 6 sources.
+  - **[[carl-doersch]] is now 3-source** (TAPIR + TAPNext + TAPNext++);
+    the DeepMind TAP-line's "step 2" finally has its primary page.
+  - **[[oxford-vgg]] bumps to 7 sources**, retaining most-prolific-org
+    status (Zisserman senior on TAPIR).
+  - **Panning MOVi-E** (TAPIR's Kubric-camera-panning fix) — now
+    explicit on [[kubric-dataset]] and [[synthetic-to-real-gap]] as
+    the canonical training-data variant inherited by BootsTAP, TAPNext,
+    TAPNext++.
+  - **[[q-emergent-tracking-heuristics]]** now grounds its "control
+    condition" properly: PIPs/TAPIR hard-code the cost-volume +
+    iterative-refinement + uncertainty patterns that TAPNext argues
+    re-emerge for free.
+  Created [[harley-2022-pips]], [[doersch-2023-tapir]], [[pips]],
+  [[tapir]]. Touched [[cotracker]], [[tapnext]],
+  [[karaev-2024-cotracker]], [[point-tracking]],
+  [[joint-point-tracking]], [[online-vs-offline-tracking]],
+  [[synthetic-to-real-gap]], [[trajectory-chaining]],
+  [[adam-w-harley]], [[katerina-fragkiadaki]], [[carl-doersch]],
+  [[ignacio-rocco]], [[cmu-ri]], [[google-deepmind]], [[oxford-vgg]],
+  [[tap-vid-dataset]], [[kubric-dataset]], [[cmp-tap-methods]],
+  [[q-emergent-tracking-heuristics]], [[index]], this overview.
 
 - **2026-06-26 (ingest 12):** **STRIDE (NeurIPS 2026 anon)** — first
   feed-forward 4D driving-scene reconstruction model in the wiki, and

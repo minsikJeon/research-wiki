@@ -8,12 +8,14 @@ sources:
   - "[[aydemir-2025-track-on2]]"
   - "[[jung-2026-tapnext-plus-plus]]"
   - "[[zholus-2025-tapnext]]"
+  - "[[harley-2022-pips]]"
+  - "[[doersch-2023-tapir]]"
 related:
   - "[[point-tracking]]"
   - "[[pseudo-labeling-point-tracking]]"
   - "[[kubric-dataset]]"
 created: 2026-05-24
-updated: 2026-05-24
+updated: 2026-06-26
 ---
 
 # Sim-to-Real Gap in Point Tracking
@@ -24,7 +26,11 @@ updated: 2026-05-24
 prohibitively expensive to collect on real video. Nearly every modern
 tracker trains on synthetic Kubric ([[kubric-dataset]]) and hopes the
 features and motion priors transfer to real video. They mostly do, but
-not perfectly.
+not perfectly. The pattern started with [[harley-2022-pips]]'s
+**FlyingThings++** (mined-trajectory + injected-occluder synthetic
+recipe), continued through [[doersch-2023-tapir]]'s **Panning MOVi-E**
+(camera-panning fix to the Kubric defaults), and matured with the
+BootsTAP / [[cotracker3]] real-data lines below.
 
 ## The two responses
 
@@ -35,6 +41,10 @@ not perfectly.
 - [[cotracker3]]: simpler version — random-teacher distillation,
   no EMA / no augmentation / no synthetic ground-truth mix, **15K
   real clips** beats BootsTAPIR (1000× less data).
+
+- BootsTAPIR (Doersch et al. 2024): same recipe applied to
+  [[tapir]] — the canonical real-video TAP checkpoint cited by every
+  paper here. *Not yet ingested.*
 
 **B. Train better on synthetic alone.**
 - [[aydemir-2025-track-on2]]: synthetic-only, beats real-data-fine-tuned

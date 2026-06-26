@@ -5,6 +5,7 @@ name: TAP-Vid
 status: growing
 tags: [point-tracking, benchmark, video-understanding]
 sources:
+  - "[[doersch-2023-tapir]]"
   - "[[zholus-2025-tapnext]]"
   - "[[karaev-2024-cotracker]]"
   - "[[karaev-2024-cotracker3]]"
@@ -12,13 +13,14 @@ sources:
   - "[[jung-2026-tapnext-plus-plus]]"
 related:
   - "[[point-tracking]]"
+  - "[[tapir]]"
   - "[[tapnext]]"
   - "[[cotracker]]"
   - "[[track-on2]]"
   - "[[kubric-dataset]]"
   - "[[tapvid-3d-dataset]]"
 created: 2026-05-24
-updated: 2026-05-24
+updated: 2026-06-26
 ---
 
 # TAP-Vid
@@ -66,6 +68,9 @@ Standard TAP metrics, all higher-is-better:
 
 ## Papers using it (in this wiki)
 
+- [[doersch-2023-tapir]] — TAPIR; the first canonical TAP method
+  benchmarked on TAP-Vid; introduced **Panning MOVi-E** as the
+  load-bearing Kubric variant for camera-motion robustness.
 - [[zholus-2025-tapnext]] — TAPNext / BootsTAPNext.
 - [[karaev-2024-cotracker]] — CoTracker.
 - [[karaev-2024-cotracker3]] — CoTracker3 + scaling study.

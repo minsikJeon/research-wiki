@@ -12,6 +12,8 @@ evolving thesis.
 *One entry per ingested raw item. Format: `[[slug]] — one-line takeaway (tags)`*
 
 ### Point Tracking (TAP)
+- [[harley-2022-pips]] — Particle Video Revisited (ECCV 2022); the foundational deep TAP method; 8-frame MLP-Mixer iterative refinement over correlation pyramids; trained on FlyingThings++ (point-tracking, optical-flow, foundation-paper)
+- [[doersch-2023-tapir]] — TAPIR (ICCV 2023); fuses TAP-Net global init with PIPs iterative refinement; depthwise conv (any-length) + self-supervised position uncertainty; canonical TAP method of 2023 (point-tracking, two-stage, uncertainty-estimation, foundation-paper)
 - [[zholus-2025-tapnext]] — TAP recast as masked-token decoding; SOTA online tracker with no tracking-specific inductive biases (point-tracking, state-space-model, online-tracking)
 - [[karaev-2024-cotracker]] — joint multi-point tracking via cross-track attention + proxy tokens; 70K tracks on one GPU (point-tracking, joint-tracking)
 - [[karaev-2024-cotracker3]] — simplified arch + random-teacher pseudo-labels on 15K real videos beats BootsTAPIR (15M) (point-tracking, pseudo-labeling)
@@ -89,6 +91,8 @@ evolving thesis.
 *Concrete algorithms, models, pipelines.*
 
 ### Point tracking
+- [[pips]] — Particle Video Revisited; CNN + multi-scale corr pyramids + 12-block MLP-Mixer iterative refinement over 8 frames + visibility-thresholded chaining; the founding deep TAP architecture
+- [[tapir]] — TAP-Net global per-frame init + PIPs-style local-pyramid refinement; 12-block depthwise-conv-over-time (any-length) + self-supervised position uncertainty
 - [[tapnext]] — TRecViT (SSM+ViT) + masked trajectory tokens + classification coord head; causal per-frame TAP
 - [[tapnext-plus-plus]] — TAPNext arch + Kubric-1024 + parallel SSM scan + roll aug
 - [[cotracker]] — sliding-window transformer with cross-track attention + proxy tokens + unrolled training
@@ -132,7 +136,7 @@ evolving thesis.
 
 ### People
 - [[andrea-vedaldi]] — Oxford VGG senior; **4 sources** (most recurring senior in wiki)
-- [[carl-doersch]] — DeepMind; TAP-Vid → TAPIR → BootsTAP → TAPNext → TAPNext++ trunk
+- [[carl-doersch]] — DeepMind; TAP-Vid → TAPIR → BootsTAP → TAPNext → TAPNext++ trunk; **3 sources**
 - [[christian-rupprecht]] — Oxford VGG senior; 3 sources (CoTracker series + VGGT)
 - [[nikita-karaev]] — Meta AI / Oxford VGG; CoTracker, CoTracker3, SpatialTrackerV2
 - [[jianyuan-wang]] — Oxford VGG + Meta AI; VGGT first author + SpatialTrackerV2 co-author
@@ -141,9 +145,9 @@ evolving thesis.
 - [[deva-ramanan]] — **CMU** faculty; senior author MapAnything + Any4D (user's school)
 - [[sebastian-scherer]] — **CMU** AirLab faculty; senior author MapAnything + Any4D
 - [[jay-karhade]] — **CMU**; Any4D lead
-- [[katerina-fragkiadaki]] — **CMU** faculty; senior author TAPIP3D
+- [[katerina-fragkiadaki]] — **CMU** faculty; senior author PIPs + TAPIP3D (the CMU TAP origin line); **2 sources**
 - [[shubham-tulsiani]] — **CMU** faculty; **user's advisor**; visual geometry / scene flow line (Flow3R)
-- [[adam-w-harley]] — Stanford; PIPs originator; co-author TAPIP3D
+- [[adam-w-harley]] — Stanford (prior CMU PhD with Fragkiadaki); **PIPs lead** + co-author TAPIP3D; **2 sources**
 - [[gorkay-aydemir]] — Koç University; Track-On / Track-On2 lead
 - [[qianqian-wang]] — UC Berkeley + DeepMind; CUT3R lead
 - [[bingyi-kang]] — ByteDance Seed; DA3 lead + SpatialTrackerV2 co-author
@@ -161,11 +165,11 @@ evolving thesis.
 - [[junyi-zhang]] — UC Berkeley + Google DeepMind; LoGeR lead; also MonST3R author (cited 5+ times across wiki)
 
 ### Organizations
-- [[google-deepmind]] — TAP-line continuity (TAP-Vid → TAPNext++)
+- [[google-deepmind]] — TAP-line continuity (TAP-Vid → TAPIR → BootsTAP → TAPNext → TAPNext++); **3 sources** + D4RT + CUT3R co-affiliation
 - [[meta-ai]] — CoTracker series + VGGT (joint with Oxford VGG)
-- [[oxford-vgg]] — **6 sources**, most prolific org; CoTracker, VGGT, V-DPM lineage
+- [[oxford-vgg]] — **7 sources**, most prolific org; TAPIR (Zisserman), CoTracker, VGGT, V-DPM lineage
 - [[meta-reality-labs]] — MapAnything (AR/VR-focused, distinct from FAIR)
-- [[cmu-ri]] — **user's institution**; TAPIP3D, MapAnything, Any4D (3 sources)
+- [[cmu-ri]] — **user's institution**; PIPs (Fragkiadaki, 2022), streaming-perception, TAPIP3D, MapAnything, Any4D, Point4D (**6 sources** — the institutional origin of the modern deep TAP sub-field)
 - [[uc-berkeley]] — CUT3R + RTC
 - [[bytedance-seed]] — Depth Anything line; SpatialTrackerV2
 - [[physical-intelligence]] — Sergey Levine's robotics foundation-model lab; π0 / π0.5 / π0.6 / RTC / Training-Time RTC
@@ -210,9 +214,10 @@ _(empty — defer until enough source pages cluster by venue)_
 
 ### Point tracking
 - `point-tracking`, `3d-point-tracking`, `video-understanding`, `optical-flow`
-- `online-tracking`, `offline-tracking`, `joint-tracking`, `online`
-- `state-space-model`, `transformer`, `vit`, `dinov3`
-- `memory`, `classification-first`, `masked-decoding`
+- `online-tracking`, `offline-tracking`, `joint-tracking`, `online`, `window-based`
+- `state-space-model`, `transformer`, `vit`, `dinov3`, `mlp-mixer`, `depthwise-conv`
+- `memory`, `classification-first`, `masked-decoding`, `iterative-refinement`, `two-stage`
+- `occlusion`, `uncertainty-estimation`, `foundation-paper`
 - `pseudo-labeling`, `semi-supervised`, `synthetic-data`, `synthetic-training`, `sim2real`
 - `long-sequence`, `re-detection`, `augmentation`, `dense-tracking`
 

@@ -8,8 +8,10 @@ sources:
 related:
   - "[[point-tracking]]"
   - "[[tap-vid-dataset]]"
+  - "[[tapir]]"
+  - "[[pips]]"
 created: 2026-05-24
-updated: 2026-05-24
+updated: 2026-06-26
 ---
 
 # TAPNext
@@ -70,8 +72,13 @@ classification coordinate head + binary visibility head. Causal, per-frame.
 - **Direct successor:** [[tapnext-plus-plus]] — same architecture, fixes
   the >150-frame failure mode via 1024-frame training + roll augmentation
   + occluded-point supervision.
-- **Predecessors in the TAP line (DeepMind):** TAPNet, TAPIR, BootsTAP
-  (same code lineage, different inductive-bias choices).
+- **Predecessors in the TAP line (DeepMind):** TAPNet, [[tapir]]
+  (depthwise-conv refinement + global init + uncertainty),
+  BootsTAP / BootsTAPIR (same code lineage, different inductive-bias
+  choices). TAPNext's thesis ("none of these tracking-specific
+  components are necessary") is explicitly aimed at [[tapir]]'s and
+  [[pips]]'s engineered cost-volume + iterative-refinement stack — see
+  [[q-emergent-tracking-heuristics]].
 - **Window/offline competitors:** [[cotracker]], [[cotracker3]],
   LocoTrack, TAPTR(v2/v3), OmniMotion, Dino-Tracker.
 - **Causal per-frame competitor:** [[track-on2]] (memory-based instead of

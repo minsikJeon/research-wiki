@@ -4,6 +4,8 @@ title: Point Tracking (Tracking Any Point, TAP)
 status: growing
 tags: [point-tracking, video-understanding, optical-flow]
 sources:
+  - "[[harley-2022-pips]]"
+  - "[[doersch-2023-tapir]]"
   - "[[zholus-2025-tapnext]]"
   - "[[karaev-2024-cotracker]]"
   - "[[karaev-2024-cotracker3]]"
@@ -12,6 +14,8 @@ sources:
   - "[[zhang-2025-tapip3d]]"
   - "[[xiao-2025-spatialtracker-v2]]"
 related:
+  - "[[pips]]"
+  - "[[tapir]]"
   - "[[tapnext]]"
   - "[[tapnext-plus-plus]]"
   - "[[cotracker]]"
@@ -25,7 +29,7 @@ related:
   - "[[online-vs-offline-tracking]]"
   - "[[synthetic-to-real-gap]]"
 created: 2026-05-24
-updated: 2026-05-24
+updated: 2026-06-26
 ---
 
 # Point Tracking (Tracking Any Point, TAP)
@@ -37,7 +41,10 @@ predict each point's `(x, y)` (or `(X, Y, Z)` for 3D, see
 [[3d-point-tracking]]) and visibility on **every other frame**, including
 across occlusions. Outputs are dense like optical flow but long-range like
 keypoint correspondence. Unified problem formulation introduced by the
-TAP-Vid line (Doersch et al., NeurIPS 2022).
+TAP-Vid line (Doersch et al., NeurIPS 2022); the deep-learning sub-field
+effectively starts with [[harley-2022-pips]] (ECCV 2022, PIPs) and
+crystallizes with [[doersch-2023-tapir]] (ICCV 2023, TAPIR = PIPs
+refinement + TAP-Net global init + uncertainty).
 
 ## Why it matters
 
@@ -55,17 +62,26 @@ is to video what a feature matcher is to image pairs.
 - **Dimensionality:** 2D vs. [[3d-point-tracking]].
 - **Training data:** synthetic-only vs. real-fine-tuned — see
   [[synthetic-to-real-gap]] and [[pseudo-labeling-point-tracking]].
-- **Backbone:** convnet (PIPs lineage) vs. transformer (CoTracker family)
-  vs. SSM + ViT (TAPNext family) vs. memory + ViT (Track-On family).
+- **Backbone:** convnet ([[pips]] lineage) vs. transformer (CoTracker
+  family) vs. SSM + ViT (TAPNext family) vs. memory + ViT (Track-On
+  family). [[tapir]] is the bridge: convnet backbone + depthwise-conv-
+  over-time refinement = any-length variant of [[pips]].
 
 ## Standard architectural ingredients (pre-TAPNext)
 
+The recipe crystallized by [[pips]] (2022) and refined by [[tapir]]
+(2023); inherited by [[cotracker]] / [[cotracker3]] / LocoTrack / TAPTR.
 Most prior TAP methods stacked:
 1. Per-frame feature extraction.
-2. **Cost volume** between query-point features and per-frame feature maps.
-3. Iterative refinement of track estimates (often bidirectional in time).
-4. Local search windows, feature interpolation, temporal smoothness priors,
-   windowed inference.
+2. **Cost volume** between query-point features and per-frame feature
+   maps — [[tapir]] adds an explicit per-frame **global initialization**
+   from this; [[pips]] used the cost volume only inside the
+   refinement loop.
+3. Iterative refinement of track estimates (often bidirectional in time)
+   — [[pips]] uses a fixed-length MLP-Mixer over 8 frames; [[tapir]]
+   replaces it with depthwise-conv-over-time for any-length inputs.
+4. Local search windows, feature interpolation, temporal smoothness
+   priors, windowed inference.
 
 [[zholus-2025-tapnext]] showed none of these are strictly necessary —
 many re-emerge as learned attention patterns. [[jung-2026-tapnext-plus-plus]]

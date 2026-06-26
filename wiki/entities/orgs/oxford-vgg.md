@@ -5,6 +5,7 @@ name: Visual Geometry Group, University of Oxford
 status: growing
 tags: [computer-vision, 3d-reconstruction, point-tracking]
 sources:
+  - "[[doersch-2023-tapir]]"
   - "[[karaev-2024-cotracker]]"
   - "[[karaev-2024-cotracker3]]"
   - "[[xiao-2025-spatialtracker-v2]]"
@@ -17,8 +18,9 @@ related:
   - "[[christian-rupprecht]]"
   - "[[jianyuan-wang]]"
   - "[[meta-ai]]"
+  - "[[google-deepmind]]"
 created: 2026-05-24
-updated: 2026-05-24
+updated: 2026-06-26
 ---
 
 # Visual Geometry Group, University of Oxford
@@ -45,6 +47,7 @@ supervised representation learning.
 
 ## Sources from this org
 
+- [[doersch-2023-tapir]] (Zisserman senior; joint with DeepMind)
 - [[karaev-2024-cotracker]]
 - [[karaev-2024-cotracker3]]
 - [[xiao-2025-spatialtracker-v2]] (via Karaev + Wang)
@@ -54,7 +57,7 @@ supervised representation learning.
 
 ## Notes
 
-**The single most prolific org in this wiki** — 6 sources. The VGG-Oxford
+**The single most prolific org in this wiki** — 7 sources. The VGG-Oxford
 pipeline shapes the trajectory of both point tracking and 3D/4D
 reconstruction. Watch all their output. Likely future ingests from
 this group: π³ (Pi3), DUSt3R / MASt3R primary sources, VGGSfM,

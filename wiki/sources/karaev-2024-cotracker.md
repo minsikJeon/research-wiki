@@ -26,8 +26,10 @@ related:
   - "[[nikita-karaev]]"
   - "[[meta-ai]]"
   - "[[oxford-vgg]]"
+  - "[[harley-2022-pips]]"
+  - "[[doersch-2023-tapir]]"
 created: 2026-05-24
-updated: 2026-05-24
+updated: 2026-06-26
 ---
 
 # CoTracker: It is Better to Track Together
@@ -72,7 +74,7 @@ Dynamic Replica, ablation Table 3).
 
 - 2D token grid `[T_window, N_tracks]`; transformer with three attention
   patterns: time, tracks, time+tracks (via proxies).
-- Standard PIPs-style **4D cost volumes** and iterative updates per window.
+- Standard [[harley-2022-pips|PIPs]]-style **4D cost volumes** and iterative updates per window.
 - Trained only on TAP-Vid-Kubric (synthetic). Window size and overlap are
   hyperparameters; unrolled training back-props across overlapping windows.
 
@@ -104,7 +106,11 @@ Dynamic Replica, ablation Table 3).
 - Orgs: [[meta-ai]] and [[oxford-vgg]] (joint affiliation).
 - Datasets used: [[tap-vid-dataset]] (Kubric train + DAVIS/Kinetics eval),
   [[pointodyssey-dataset]], [[dynamic-replica-dataset]].
-- Future seeds to promote on 2nd mention: TAPIR, PIPs, PIPs++, TAP-Net,
+- **Predecessors now in this wiki:** [[harley-2022-pips]] (the
+  independent-tracks limitation CoTracker explicitly addresses with
+  cross-track attention), [[doersch-2023-tapir]] (the closest
+  single-track competitor at publication time).
+- Future seeds to promote on 2nd mention: PIPs++, TAP-Net,
   OmniMotion, MFT, RoboTAP (eval), Particle Video, RAFT, GMFlow.
 
 ## Citation

@@ -9,10 +9,12 @@ sources:
   - "[[karaev-2024-cotracker3]]"
   - "[[aydemir-2025-track-on2]]"
   - "[[jung-2026-tapnext-plus-plus]]"
+  - "[[harley-2022-pips]]"
+  - "[[doersch-2023-tapir]]"
 related:
   - "[[point-tracking]]"
 created: 2026-05-24
-updated: 2026-05-24
+updated: 2026-06-26
 ---
 
 # Online vs Offline (vs Windowed) Tracking
@@ -33,7 +35,13 @@ latency / context-window:
   Examples: [[tapnext]], [[tapnext-plus-plus]], [[track-on2]].
 - **Window / streaming** — consume `T` frames (typically 8–48), emit
   tracks for those T, slide. First output delayed by T frames. Examples:
-  [[cotracker]], [[cotracker3]] (online variant), CoTracker2, TAPTR family.
+  [[pips]] (T=8, MLP-Mixer; visibility-thresholded chaining for longer
+  videos), [[cotracker]], [[cotracker3]] (online variant), CoTracker2,
+  TAPTR family.
+- **Any-length offline (refinement-on-arbitrary-T)** —
+  [[tapir]]'s depthwise-conv refinement removes [[pips]]'s 8-frame
+  constraint while keeping bidirectional context, sitting between
+  window and full-video paradigms.
 - **Video / offline** — ingest the full video before emitting any output.
   Free to use bidirectional context. Examples: OmniMotion, Dino-Tracker,
   CoTracker3 (offline), [[tapip3d]] (sliding-window with reverse pass).
