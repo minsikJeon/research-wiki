@@ -42,6 +42,7 @@ evolving thesis.
 - [[anon-2026-trace-anything]] — Trajectory Fields: dense per-pixel parametric 3D trajectories in one feed-forward pass (4d-reconstruction, trajectory-fields, dense-tracking)
 - [[anon-2026-point4d]] — long-range (200+ frame) 4D via 3D-query decoder + chunk chaining; first feed-forward 4D method that scales past 100 frames (4d-reconstruction, long-sequence, trajectory-chaining)
 - [[zhang-2025-d4rt]] — canonical 2D-pixel-query 4D decoder; one model + 6 tasks; SOTA on TAPVid-3D + Sintel depth/pose; 9× faster than VGGT (4d-reconstruction, feed-forward, query-based)
+- [[anon-2026-stride]] — NeurIPS 2026 anon; first feed-forward 4D driving-scene method that fuses camera+LiDAR via PTv3 *and* learns instance decomposition without annotations (4d-reconstruction, driving-scenes, multi-modal, lidar, instance-decomposition)
 
 ### Long-context 3D reconstruction (linear-time / streaming)
 - [[sun-2024-ttt]] — UCSD+Stanford+CMU; foundational TTT paper; hidden state = a parametric model `f_W` trained by self-supervised gradient descent on the input stream; linear-time, Transformer-quality long-context; the substrate the 3D-recon TTT papers below port from (sequence-modeling, rnn, test-time-training, fast-weights, long-context)
@@ -107,6 +108,7 @@ evolving thesis.
 - [[any4d]] — feed-forward dense metric 4D + multi-modal sensors
 - [[4rc]] — encode-once, query-anywhere/anytime decoder
 - [[trace-anything]] — feed-forward trajectory fields (per-pixel splines)
+- [[stride]] — feed-forward 4D for driving scenes; camera+LiDAR fused in 3D via PTv3; outputs 3DGS + per-Gaussian velocity + learnable instance decomposition
 - [[vgg-t3]] — VGGT + TTT-MLP global-attention replacement; `O(n)` offline/unordered; queryable scene → visual localization
 - [[loger]] — chunked feed-forward with hybrid memory (SWA + TTT); π³ backbone; 128 → 19k frame generalization
 - [[lact]] — Large-Chunk TTT block (window-attn + SwiGLU MLP fast weights + Muon test-time optimizer); 2K–1M tokens per chunk; 70% GPU util in pure PyTorch; NVS, LM, and AR video diffusion
@@ -223,6 +225,7 @@ _(empty — defer until enough source pages cluster by venue)_
 - `sfm`, `slam`, `mvs`, `world-coordinates`, `virtual-view-query`
 - `dust3r`, `vggt-fine-tune`, `conditional-query`, `teacher-student`
 - `test-time-training`, `fast-weights`, `kv-compression`, `linear-complexity`, `hybrid-memory`, `sliding-window-attention`, `long-context`, `chunk-wise`, `elastic-weight-consolidation`, `novel-view-synthesis`, `4dgs`
+- `driving-scenes`, `lidar`, `point-transformer`, `gaussian-splatting`, `instance-decomposition`, `self-supervised`
 
 ### Cross-cutting
 - `transformer`, `attention`, `foundation-model`

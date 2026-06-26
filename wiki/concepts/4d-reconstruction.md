@@ -9,6 +9,7 @@ sources:
   - "[[luo-2026-4rc]]"
   - "[[anon-2026-trace-anything]]"
   - "[[ma-2026-fsm]]"
+  - "[[anon-2026-stride]]"
 related:
   - "[[3d-point-tracking]]"
   - "[[pointmap-representation]]"
@@ -17,7 +18,7 @@ related:
   - "[[dynamic-point-maps]]"
   - "[[test-time-training]]"
 created: 2026-05-24
-updated: 2026-06-24
+updated: 2026-06-26
 ---
 
 # 4D Reconstruction (Dynamic 3D + Time)
@@ -51,11 +52,15 @@ but distinct strategies (all in this wiki):
 | [[4rc]] | base geometry + time-dependent displacement; queryable | encode-once, decode-anytime/anywhere |
 | [[trace-anything]] | [[trajectory-fields]] (per-pixel parametric splines) | atomic-level dense trajectories |
 | [[fsm]] | novel-view images (LVSM) or 4D Gaussians (LRM) | [[lacet]] (elastic TTT); O(n) long-sequence scaling |
+| [[stride]] | 3DGS with per-Gaussian velocity + learned instance assignment | camera+LiDAR fused in 3D point space via PTv3; first self-supervised feed-forward decomposition |
 
 All are **feed-forward** (no per-scene optimization), all built on top of
 or in dialog with [[vggt]] / [[depth-anything-3]] / DUSt3R lineage, all
-contemporary (Dec 2025 – Feb 2026). **No unified eval protocol exists
+contemporary (Dec 2025 – Jun 2026). **No unified eval protocol exists
 yet** — apples-to-apples comparison is an open community gap.
+[[stride]] is the **first driving-scene multi-modal** entry; previous
+entries are image-only (Any4D supports RGB-D/IMU/Doppler but reasons
+in factored 2.5D space, not 3D point space).
 
 ## Older / non-feed-forward 4D approaches (cited but not yet ingested)
 
@@ -77,7 +82,11 @@ support arbitrary view counts, in one network.
 - **Inference flexibility:** all-at-once batch (V-DPM, Any4D) vs.
   conditional query (4RC).
 - **Metric scale:** Any4D / MapAnything yes; most others no.
-- **Multi-modal:** Any4D yes (RGB-D, IMU, Doppler); others image-only.
+- **Multi-modal:** Any4D yes (RGB-D, IMU, Doppler); [[stride]] yes
+  (camera + LiDAR, fused in 3D point space); others image-only.
+- **Scene decomposition:** only [[stride]] decomposes the scene into
+  per-instance dynamic Gaussians (motion-driven, label-free); others
+  emit unstructured point/Gaussian/trajectory sets.
 - **Online vs. batch:** most of this batch is batch. [[fsm]] is
   architecturally streaming-capable (LaCET state carries across chunks)
   but only evaluated in batch mode. CUT3R does online 3D + handles

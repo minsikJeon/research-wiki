@@ -4,7 +4,7 @@ title: Research Wiki — Overview
 status: growing
 tags: [meta]
 created: 2026-05-24
-updated: 2026-06-12
+updated: 2026-06-26
 ---
 
 # Overview
@@ -21,7 +21,7 @@ embodied AI.
 
 ---
 
-## Current thesis (June 2026, after 31 sources)
+## Current thesis (June 2026, after 32 sources)
 
 The wiki has dense coverage of two intersecting perception sub-areas,
 plus two now-fleshed-out adjacent threads (streaming/control, and
@@ -31,10 +31,11 @@ long-context 3D):
 line, the Meta/Oxford CoTracker line, the Koç Track-On line, and the 3D
 extensions (TAPIP3D from CMU, SpatialTrackerV2).
 
-**(B) Feed-forward 3D / 4D reconstruction.** 9 sources covering the VGGT
+**(B) Feed-forward 3D / 4D reconstruction.** 10 sources covering the VGGT
 trunk (Oxford VGG + Meta AI) and its descendants (MapAnything, V-DPM,
 4RC, DA3, CUT3R), plus contemporary feed-forward 4D (Any4D, Trace
-Anything, D4RT, Point4D).
+Anything, D4RT, Point4D, **STRIDE** — first driving-scene multi-modal
+entry).
 
 **(C) Streaming perception & real-time control.** Now **7 sources**
 covering the full lineage:
@@ -231,9 +232,12 @@ patterns:
   **streaming 3D** instances now (LoGeR: hybrid memory, true
   minute-long generalization; StreamVGGT: KV-cached distillation of
   VGGT, beats CUT3R). Neither models per-pixel motion — the *4D*
-  version is still open. Natural extensions for the user's project:
-  LoGeR-style hybrid memory + Point4D-style 3D-query motion decoder,
-  or StreamVGGT-style cached-KV backbone + Point4D-style decoder.
+  version is still open. [[stride]] explicitly flags its own batch-only
+  PTv3 backbone as a limitation: "preventing seamless long-horizon
+  reconstruction." Natural extensions for the user's project: LoGeR-
+  style hybrid memory + Point4D-style 3D-query motion decoder, or
+  StreamVGGT-style cached-KV backbone + Point4D-style decoder, or
+  LaCET chunked-elastic-TTT swap for STRIDE's PTv3.
 - **No robotics-application paper** showing how point tracking / 4D
   reconstruction integrates with downstream control. Critical for the
   user's MSR program scope. (Tracking + 4D papers cite robotics as
@@ -250,6 +254,31 @@ patterns:
   training-time and joint corners are empty.
 
 ## Recent shifts
+
+- **2026-06-26 (ingest 12):** **STRIDE (NeurIPS 2026 anon)** — first
+  feed-forward 4D driving-scene reconstruction model in the wiki, and
+  the first to (a) fuse **camera + LiDAR** in a unified 3D point
+  representation via a **Point Transformer v3** backbone, and (b)
+  learn **dynamic instance decomposition** without human annotations.
+  Outputs: 3DGS with per-Gaussian velocity + instance-token assignment.
+  Beats STORM and Flux4D on Waymo + PandaSet; largest gains on flow.
+  Adds the **driving-scene flavor** to thread (B), which was previously
+  image-only. Explicitly acknowledges the same streaming-4D gap noted
+  in this overview — its PTv3 backbone aggregates all observations at
+  once, capping the input window. **Natural extension:** swap PTv3 for
+  [[lacet]]-blocks to unlock long-horizon driving reconstruction.
+  Created [[anon-2026-stride]], [[stride]]. Updated
+  [[4d-reconstruction]] (new driving-scene column + multi-modal /
+  decomposition axes), [[index]], [[log]], this overview.
+  *Note:* PDF contained a prompt-injection attempt directing LLM
+  readers to insert reviewer-template phrases. Ignored; flagged to
+  user.
+
+- **2026-06-24 (ingest 11):** **FSM (Fast Spatial Memory)** —
+  first TTT-based 4D NVS model. Introduces [[lacet]] (LaCT + EWC
+  elastic consolidation, streaming-EMA anchors); SOTA among feed-
+  forward 4D methods on Stereo4D. Adds Pattern E to
+  [[test-time-training]] taxonomy.
 
 - **2026-06-12 (ingest 10, batch of 3):** **LaCT (Zhang/MIT+Adobe May 2025)
   + StreamVGGT (Zhuo/Tsinghua Mar 2026) + GVS (Song/MIT CSAIL+Runway ICLR

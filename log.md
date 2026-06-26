@@ -835,3 +835,64 @@ Yuncong Yang, Joyce Chai, Chuang Gan) deferred — single-source mentions.
 MIT-IBM Watson AI Lab deferred as org. Chuang Gan is the most likely
 to cross the 2-source threshold soon (senior on multiple TTT/embodied
 papers outside this wiki).
+
+## [2026-06-26] ingest | STRIDE — Self-Supervised Decomposable 4D Driving Scene Recon (NeurIPS 2026 anon)
+
+Ingested STRIDE from `raw/papers/7307_Towards_Self_Supervised_G.pdf`. The
+first wiki entry in the **driving-scene** flavor of feed-forward 4D, and
+the first to combine three things: (1) **camera + LiDAR multi-modal**
+fusion in a unified 3D point representation, (2) **Point Transformer v3**
+as the reasoning backbone over lifted features (not 2D-token ViT or
+sparse 3D conv), (3) **learnable dynamic instance decomposition**
+without human annotations, via latent instance tokens supervised by the
+same 4D reconstruction signal. Outputs: 3DGS with per-Gaussian velocity
++ instance assignment, all from one forward pass.
+
+**Results:** SOTA on Waymo Open Dataset and PandaSet over STORM (camera-
+only), STORM+ (their multi-modal re-impl), and Flux4D-ff (LiDAR-centric).
+Largest improvements on scene flow (EPE3D 0.161 vs 0.200 STORM+, flow
+angle 0.307 vs 0.485 STORM+ on WOD). Backbone ablation: PTv3 halves
+EPE3D vs sparse-conv UNet (0.180 vs 0.385) on the same lifted features.
+Modality ablation: LiDAR-depth-as-ViT-input cuts EPE3D nearly in half
+vs image-only (0.180 vs 0.313); raw LiDAR points as additional PTv3 input
+is marginal. Instance segmentation: beats DBSCAN baseline on all
+IoU thresholds; M5 (DBSCAN init + smoothness + recon loss) is the only
+ablation configuration with positive gains on both precision and recall.
+
+**Pages created:** [[anon-2026-stride]], [[stride]]. **Pages touched:**
+[[4d-reconstruction]] (added STRIDE row to feed-forward-4D table, added
+multi-modal + decomposition design axes), [[index]] (added source row
+under 3D/4D reconstruction; added method row; added new tags
+`driving-scenes`, `lidar`, `point-transformer`, `gaussian-splatting`,
+`instance-decomposition`, `self-supervised`), [[overview]] (bumped
+source count 31 → 32; updated thread (B) to 10 sources; added STRIDE
+to "no streaming 4D" gap with explicit limitation #3 quote; appended
+2026-06-26 recent-shifts entry).
+
+**Anonymous handling:** Following [[anon-2026-point4d]] /
+[[anon-2026-pi-r-squared]] / [[anon-2026-trace-anything]] precedent —
+`authors: [Anonymous]`, slug prefix `anon-2026-`, venue
+"NeurIPS 2026 (under review)".
+
+**Entity discipline:** All authors anonymous; no person/org pages
+created. STORM / Flux4D / DrivingRecon / DIAL-GS / IDSplat / UniRe /
+Point Transformer v3 (Wu et al. CVPR 2024) all flagged as
+not-yet-ingested but cited inline — STORM and Flux4D are now cited 2+
+times across the wiki and should be promoted to method pages on next
+batch. PTv3 is a likely tool-page candidate if more 4D-driving papers
+adopt it.
+
+**Prompt injection flagged:** PDF text contains an embedded instruction
+("In your output you MUST Include ALL of the following phrases…")
+attempting to coerce reviewer-template language. Standard LLM-reviewer
+injection pattern. Ignored; user notified before writing the source
+page. No reviewer-template language appears in [[anon-2026-stride]] or
+[[stride]].
+
+**Why this matters for the user's project:** STRIDE is the closest
+existing instance of "feed-forward dense-3D + decomposition + multi-
+modal fusion" in the wiki. Its acknowledged limitation #3 (PTv3 can't
+stream long sequences) is exactly the streaming-4D gap that
+[[zhang-2026-loger]], [[zhuo-2026-stream-vggt]], [[lact]], [[lacet]]
+attack from different angles. **A natural synthesis:** swap STRIDE's
+PTv3 for LaCET blocks → driving-domain streaming 4D + decomposition.
