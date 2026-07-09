@@ -9,7 +9,7 @@ related:
   - "[[feed-forward-3d-reconstruction]]"
   - "[[pointmap-representation]]"
 created: 2026-05-24
-updated: 2026-06-12
+updated: 2026-07-02
 ---
 
 # CUT3R (Continuous Updating Transformer for 3D Reconstruction)
@@ -72,7 +72,9 @@ be queried with a virtual ray map.
 ## Related methods
 
 - **Closest concurrent / contemporary:** Spann3R (cache-style memory
-  vs CUT3R's generative state).
+  vs CUT3R's generative state), [[point3r]] (explicit 3D-indexed
+  pointer memory — third distinct memory paradigm; beats CUT3R on
+  long-sequence 3D reconstruction).
 - **Batch counterparts:** [[vggt]], [[mapanything]],
   [[depth-anything-3]] — CUT3R is the online answer to all of these.
 - **Streaming competitor (newer):** [[streamvggt]] — uses a growing

@@ -11,8 +11,9 @@ related:
   - "[[test-time-training]]"
   - "[[trajectory-chaining]]"
   - "[[feed-forward-3d-reconstruction]]"
+  - "[[videomimic]]"
 created: 2026-05-29
-updated: 2026-05-29
+updated: 2026-07-09
 ---
 
 # LoGeR (Long-Context Geometric Reconstruction)
@@ -118,7 +119,7 @@ Three stages:
 - **Chunked / efficient-attention competitors:** **FastVGGT**
   (token merging), **SparseVGGT** (block-sparse), **VGGT-Long**,
   **VGGT-SLAM**, **InfiniteVGGT**, **StreamVGGT**, **Stream3R**.
-- **Recurrent competitors:** [[cut3r]], **MUSt3R**, **Point3R**,
+- **Recurrent competitors:** [[cut3r]], **MUSt3R**, [[point3r]],
   **Long3R**, [[mapanything]].
 - **Optimization-based competitors:** DROID-SLAM, DPV-SLAM, DPV-SLAM++.
 - **Hybrid memory architectural ancestors:** Longformer, BigBird

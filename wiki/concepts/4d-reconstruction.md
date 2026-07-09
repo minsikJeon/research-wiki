@@ -10,6 +10,7 @@ sources:
   - "[[anon-2026-trace-anything]]"
   - "[[ma-2026-fsm]]"
   - "[[anon-2026-stride]]"
+  - "[[allshire-2025-videomimic]]"
 related:
   - "[[3d-point-tracking]]"
   - "[[pointmap-representation]]"
@@ -17,8 +18,9 @@ related:
   - "[[trajectory-fields]]"
   - "[[dynamic-point-maps]]"
   - "[[test-time-training]]"
+  - "[[videomimic]]"
 created: 2026-05-24
-updated: 2026-06-26
+updated: 2026-07-09
 ---
 
 # 4D Reconstruction (Dynamic 3D + Time)

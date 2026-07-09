@@ -2,17 +2,26 @@
 type: entity
 entity_type: person
 name: Shubham Tulsiani
-status: stub
-tags: [computer-vision, 3d-reconstruction, scene-flow, visual-geometry-learning]
+status: growing
+tags: [computer-vision, 3d-reconstruction, scene-flow, visual-geometry-learning, manipulation, point-tracking]
 sources:
   - "[[anon-2026-point4d]]"
+  - "[[bharadhwaj-2024-track2act]]"
+  - "[[kuang-2026-dex4d]]"
 related:
   - "[[cmu-ri]]"
   - "[[flow3r]]"
   - "[[point4d]]"
   - "[[feed-forward-3d-reconstruction]]"
+  - "[[track2act]]"
+  - "[[dex4d]]"
+  - "[[point-tracks-as-manipulation-interface]]"
+  - "[[homanga-bharadhwaj]]"
+  - "[[sungjae-park]]"
+  - "[[yuxuan-kuang]]"
+  - "[[katerina-fragkiadaki]]"
 created: 2026-05-26
-updated: 2026-05-29
+updated: 2026-06-27
 ---
 
 # Shubham Tulsiani
@@ -35,8 +44,16 @@ representations** and **scalable** learning targets.
 - [[anon-2026-point4d]] — **Point4D** (NeurIPS 2026 under double-blind
   review). The user (Minsik Jeon) is **lead author** under Tulsiani's
   advising; the source page treats authorship as anonymous in its
-  formal frontmatter to mirror the venue review process. This is the
-  first primary Tulsiani-group source in the wiki.
+  formal frontmatter to mirror the venue review process.
+- [[bharadhwaj-2024-track2act]] — **Track2Act** (ECCV 2024). Senior
+  author; first author Homanga Bharadhwaj. Founding paper of the
+  "predict point tracks from web videos → drive robot manipulation"
+  line, ancestor to Im2Flow2Act / 3DFlowAction / Dex4D / Pri4R.
+- [[kuang-2026-dex4d]] — **Dex4D** (Feb 2026). Co-senior author with
+  [[katerina-fragkiadaki]]; first authors Yuxuan Kuang + Sungjae Park.
+  Direct dexterous-manipulation descendant of Track2Act, also
+  citing Tulsiani-group DemoDiffusion. **Acknowledges the user
+  (Minsik Jeon) for presentation feedback.**
 
 ## Notes
 
@@ -59,6 +76,14 @@ representations** and **scalable** learning targets.
   ingests.
 
 When a Tulsiani-group paper arrives in `raw/papers/`, this should be a
-high-priority ingest. Other CMU-RI faculty already in the wiki
-([[deva-ramanan]], [[sebastian-scherer]], [[katerina-fragkiadaki]])
-are likely collaborators or seminar peers. Watch for joint papers.
+high-priority ingest. The wiki now has **three primary Tulsiani-group
+sources** spanning two research lines:
+- *Geometry / 4D:* [[anon-2026-point4d]], [[flow3r]] (placeholder).
+- *Manipulation / point-track-conditioned policies:*
+  [[bharadhwaj-2024-track2act]], [[kuang-2026-dex4d]] —
+  [[katerina-fragkiadaki]] co-senior on Dex4D, making this a joint
+  Tulsiani × Fragkiadaki line.
+
+Other CMU-RI faculty already in the wiki ([[deva-ramanan]],
+[[sebastian-scherer]], [[laszlo-jeni]]) are likely collaborators or
+seminar peers. Watch for joint papers.

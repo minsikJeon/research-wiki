@@ -12,9 +12,10 @@ related:
   - "[[fsm]]"
   - "[[cut3r]]"
   - "[[vggt]]"
+  - "[[pointworld]]"
   - "[[feed-forward-3d-reconstruction]]"
 created: 2026-06-26
-updated: 2026-06-26
+updated: 2026-07-09
 ---
 
 # STRIDE

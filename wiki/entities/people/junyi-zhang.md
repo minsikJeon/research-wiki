@@ -6,13 +6,15 @@ status: growing
 tags: [computer-vision, 3d-reconstruction, dynamic-scenes, long-context]
 sources:
   - "[[zhang-2026-loger]]"
+  - "[[allshire-2025-videomimic]]"
 related:
   - "[[google-deepmind]]"
   - "[[uc-berkeley]]"
   - "[[loger]]"
+  - "[[videomimic]]"
 # Advisor: Trevor Darrell (UC Berkeley) — not yet promoted to entity page.
 created: 2026-05-29
-updated: 2026-06-10
+updated: 2026-07-09
 ---
 
 # Junyi Zhang
@@ -35,6 +37,11 @@ architectures (memory mechanisms, fast-weight modules).
   Geometric Reconstruction with Hybrid Memory. NeurIPS-track 2026.
   Chunked feedforward 3D with SWA + TTT hybrid memory, scaling to
   19k-frame videos.
+- **[[allshire-2025-videomimic]] (co-first author)** — VideoMimic:
+  Visual Imitation Enables Contextual Humanoid Control. CoRL 2025
+  Best Student Paper. Monocular RGB video → 4D human-scene recon →
+  RL policy for real Unitree G1 humanoid. Different research thread
+  (humanoid whole-body control) but same Darrell-lab affiliation.
 
 ## Other notable work (not yet primary in wiki)
 
@@ -58,3 +65,10 @@ Notably, J. Zhang's MonST3R/LoGeR trajectory ("DUSt3R for motion" →
 user's project is targeting (3D point tracking for long context, real-
 time). The two trajectories are not the same problem but share
 ancestors and design vocabulary.
+
+**VideoMimic (2025) confirms Zhang's cross-thread reach.** Same
+Berkeley cohort produces both long-context 3D-recon (LoGeR) and
+humanoid-from-video (VideoMimic). Downstream 4D-recon use in RL /
+policy training is now demonstrated — a possible model for how the
+user's real-time 3D tracking work could feed downstream robotics
+applications.

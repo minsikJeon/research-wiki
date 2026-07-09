@@ -24,7 +24,7 @@ related:
   - "[[feed-forward-3d-reconstruction]]"
   - "[[online-vs-offline-tracking]]"
 created: 2026-06-12
-updated: 2026-06-12
+updated: 2026-07-02
 ---
 
 # Streaming Visual Geometry Transformer (StreamVGGT)
@@ -169,7 +169,7 @@ ScanNet ATE/RPE-trans/RPE-rot:
 | CUT3R | 0.099 | 0.600 |
 | **StreamVGGT** | **0.048** | **0.557** |
 
-Roughly matches VGGT — significantly beats CUT3R, Point3R, Spann3R.
+Roughly matches VGGT — significantly beats CUT3R, [[point3r]], Spann3R.
 
 ### Inference efficiency (Fig 2, Table 7)
 
@@ -225,9 +225,12 @@ the KV cache; VGGT also grows but does full O(N²) recompute.)
   cache (gradient updates per chunk). Two complementary efficiency
   strategies.
 - **Same group / line:** Wenzhao Zheng (Tsinghua) is project lead. Same
-  group has done streaming perception work — Point3R is cited as
-  contemporary work using "explicit geometry-aligned spatial pointer
-  memory" while StreamVGGT uses "implicit cached visual tokens."
+  group has done streaming perception work — [[point3r]] (Wu, Zheng,
+  Zhou, Lu 2025; NeurIPS 2025) is the same-group companion using
+  "explicit geometry-aligned spatial pointer memory" vs StreamVGGT's
+  "implicit cached visual tokens." Zheng is 2nd author on Point3R and
+  project lead on StreamVGGT — two complementary streaming-memory
+  designs from the same Tsinghua Automation group.
 - **For the user's design:** StreamVGGT is the **leading candidate to
   replace CUT3R as the streaming 3D backbone** in the middle-ground
   3D-tracker design. The cached memory tokens *are* a per-frame spatial

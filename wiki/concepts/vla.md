@@ -9,18 +9,21 @@ sources:
   - "[[black-2025-rtc]]"
   - "[[black-2025-training-time-rtc]]"
   - "[[anon-2026-pi-r-squared]]"
+  - "[[kim-2026-pri4r]]"
 related:
   - "[[action-chunking]]"
   - "[[asynchronous-control]]"
   - "[[rtc]]"
   - "[[training-time-rtc]]"
   - "[[pi-r-squared]]"
+  - "[[pri4r]]"
   - "[[diffusion-forcing]]"
   - "[[fast-slow-policy]]"
   - "[[flow-matching]]"
   - "[[train-inference-mismatch]]"
+  - "[[point-tracks-as-manipulation-interface]]"
 created: 2026-05-28
-updated: 2026-06-10
+updated: 2026-06-27
 ---
 
 # Vision-Language-Action Models (VLAs)
@@ -141,3 +144,21 @@ recover the inference cost.
 - **VLA action heads beyond flow / DDPM.** Streaming variants
   ([[diffusion-forcing]]-style), implicit Q-learning, energy-based
   heads — open.
+
+## Auxiliary supervision (training-time geometry)
+
+[[kim-2026-pri4r]] (Pri4R, 2026) adds a lightweight 3D point-track
+head to π₀ / π₀.₅ / OpenVLA-OFT during fine-tuning, predicting per-step
+3D point displacements as **privileged supervision**. At inference the
+head is discarded — zero overhead, identical architecture. Gains:
++13.2% RoboCasa for OpenVLA-OFT, +9.8% on LIBERO-Long, +1–4% across
+the π family.
+
+Ablation finding: among supervision targets, 3D point tracks beat
+goal-only, 2D tracks, and depth maps (+13.2% vs +0.7 / +3.9 / +8.3).
+The signal must be **temporally dense** + **metric 3D** + **identity-
+registered across time**; depth lacks the last property and goal-only
+lacks the first. This is the lowest-overhead way to inject 4D scene
+dynamics into a VLA. See [[point-tracks-as-manipulation-interface]]
+for the broader family of methods using point tracks as a manipulation
+representation.

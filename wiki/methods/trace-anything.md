@@ -10,8 +10,9 @@ related:
   - "[[4d-reconstruction]]"
   - "[[point-tracking]]"
   - "[[3d-point-tracking]]"
+  - "[[mu0]]"
 created: 2026-05-24
-updated: 2026-05-24
+updated: 2026-07-09
 ---
 
 # Trace Anything
@@ -74,3 +75,8 @@ trajectories per pixel — the full 4D representation in one pass.
   natural extension).
 - **Geometry lineage cited:** DUSt3R, Fast3R, [[vggt]], π³,
   [[mapanything]], MegaSaM, MonST3R, POMATO, Easi3R, St4RTrack.
+- **Downstream reuse of the B-spline primitive:** [[mu0]] borrows the
+  cubic B-spline control-point representation for manipulation-horizon
+  (T ≤ 32) trace prediction. Trace Anything's Bézier struggles at
+  200-frame reconstruction horizons (wiki-flagged); µ0 confirms the
+  primitive works at shorter horizons for policy-relevant motion.

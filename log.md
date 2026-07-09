@@ -970,3 +970,565 @@ and gives [[cmu-ri]] a 6-source footprint. The control-condition for
 [[q-emergent-tracking-heuristics]] (does TAPNext re-emerge what
 PIPs/TAPIR engineer?) is now primary-source-grounded rather than
 secondary-cited.
+
+## [2026-06-27] ingest | Track2Act + Im2Flow2Act + 3DFlowAction + Dex4D + Pri4R (5-paper batch — manipulation via point tracks)
+
+Five-paper batch opening **thread (E) — manipulation policies via
+point tracks** in [[overview]]. The papers form a clear 2024–2026 arc
+on the same load-bearing idea: point tracks as the intermediate
+representation between cross-embodiment planning and robot execution.
+**Two of the five are from the user's own Tulsiani group** (Track2Act
++ Dex4D); **Dex4D explicitly acknowledges the user (Minsik Jeon)** for
+presentation feedback.
+
+**Source pages created** (5):
+- [[bharadhwaj-2024-track2act]] — Track2Act (Bharadhwaj × Mottaghi ×
+  Gupta × Tulsiani, ECCV 2024). DiT denoiser of 2D point tracks from
+  web video (EpicKitchens + RT-1 + BridgeData, 400K clips) + PnP rigid
+  transform + residual BC policy on ~400 Spot demos. The founding
+  paper of the line; first to combine generative track prediction +
+  robot-action extraction in one framework.
+- [[xu-2024-im2flow2act]] — Im2Flow2Act (Xu × Xu × Xu × Chi ×
+  Wetzstein × Veloso × Song, CoRL 2024). Object-only flow as
+  cross-domain interface; AnimateDiff flow generator on human videos
+  + flow-conditioned diffusion policy on sim play; **zero real-robot
+  data**, 81% real-world SR.
+- [[zhi-2025-3dflowaction]] — 3DFlowAction (Zhi × Chen × Zhou et al.,
+  Jun 2025). Direct 2D→3D lift of Im2Flow2Act; ManiFlow-110k
+  (cross-source 3D flow dataset, 110K trajectories from 7 datasets);
+  GPT-4o closed-loop verifier; optimization action policy needing no
+  action labels; 70% vs. 20-50% baselines.
+- [[kuang-2026-dex4d]] — Dex4D (Kuang × Park × Fragkiadaki ×
+  Tulsiani, Feb 2026). First to apply point-tracks-as-interface to
+  **22-DoF dexterous manipulation** via Anypose-to-Anypose sim-to-real
+  RL + **Paired Point Encoding** + teacher-student distillation.
+  Wan2.6 video gen → SAM2 + CoTracker3 + median-rescaled relative
+  depth → 3D tracks → policy. +22.5% real-world SR over NovaFlow-CL.
+- [[kim-2026-pri4r]] — Pri4R (Jisoo Kim et al., KAIST+LG+Yonsei+SNU+
+  CMU, Mar 2026). Inverts the role: 3D point tracks as **privileged
+  training-time supervision** for π₀ / π₀.₅ / OpenVLA-OFT via a
+  lightweight aux head that's discarded at inference. +13.2% RoboCasa
+  for OpenVLA-OFT, +9.8% LIBERO-Long.
+
+**Method pages created** (5):
+- [[track2act]] — DiT denoiser + PnP + residual BC.
+- [[im2flow2act]] — AnimateDiff + object-only flow + diffusion policy
+  + temporal alignment.
+- [[3d-flow-action]] — 4-channel AnimateDiff + SVD-fit + GPT-4o
+  verifier + optimization policy.
+- [[dex4d]] — Anypose-to-Anypose RL + Paired Point Encoding +
+  teacher-student.
+- [[pri4r]] — auxiliary 3D point-track head as privileged supervision.
+
+**Concept page created** (1):
+- [[point-tracks-as-manipulation-interface]] — binding concept of the
+  family; two design axes (conditioning vs. supervision; heuristic vs.
+  learned action policy); contested points; open questions.
+
+**Comparison page created** (1):
+- [[cmp-point-track-manipulation]] — high-level design table, headline
+  numbers, where-each-wins, open eval gaps.
+
+**Person pages created** (6):
+- [[homanga-bharadhwaj]] — CMU PhD (Tulsiani group); Track2Act first
+  author; DemoDiffusion / Gen2Act collaborator.
+- [[yuxuan-kuang]] — CMU visiting (Tulsiani × Fragkiadaki); Dex4D
+  first author; track record on StopNet / RAM / SkillBlender /
+  FetchBot.
+- [[sungjae-park]] — CMU (Tulsiani group); Dex4D co-first; DemoDiffusion
+  co-author.
+- [[shuran-song]] — Stanford+Columbia; Im2Flow2Act + Diffusion Policy
+  senior.
+- [[cheng-chi]] — Stanford+Columbia; Diffusion Policy first author +
+  Im2Flow2Act co-author.
+- [[laszlo-jeni]] — CMU faculty; Pri4R co-senior; first KAIST × LG ×
+  CMU collaboration in the wiki.
+
+**Existing pages touched**:
+- [[shubham-tulsiani]] — stub → growing; now 3 sources (Point4D +
+  Track2Act + Dex4D); added notes section linking to homanga /
+  sungjae / yuxuan and Fragkiadaki co-senior.
+- [[katerina-fragkiadaki]] — was 2-source, now 3-source (PIPs +
+  TAPIP3D + Dex4D); added Dex4D + Tulsiani as collaborator.
+- [[cmu-ri]] — was 6-source, now 9-source; updated members list with
+  bharadhwaj / kuang / park / jeni; flagged the user-acknowledged
+  Dex4D entry; added "two distinct CMU research lines now visible:
+  geometry/4D vs. manipulation-via-tracks; the CMU TAP line directly
+  feeds the CMU manipulation line."
+- [[meta-ai]] — added Track2Act (Mottaghi at FAIR is second author);
+  3 → 4 sources.
+- [[vla]] — added Pri4R to sources; new section "Auxiliary
+  supervision (training-time geometry)" describing Pri4R's privileged-
+  supervision approach + ablation table.
+- [[point-tracking]] — expanded "Why it matters" with the
+  manipulation downstream paragraph linking all 5 sources.
+- [[index]] — added "Manipulation via point tracks" sources section
+  (5 entries) + manipulation interfaces concept entry + manipulation
+  via point tracks methods section (5 entries) + 6 person entries +
+  CMU-RI count bump 6→9 + Meta-AI count bump 3→4 + new comparison
+  entry + new robotics-policy tags (`dexterous`, `cross-embodiment`,
+  `sim-to-real`, `reinforcement-learning`, `web-video`, `world-model`,
+  `video-diffusion`, `flow`, `residual-policy`,
+  `privileged-information`, `auxiliary-supervision`, `vlm-verifier`,
+  `paired-point-encoding`).
+- [[overview]] — 35 → 40 sources; new thread (E); recent-shifts
+  entry; closed the "no robotics application" gap with a remaining
+  sub-gap noted (no source combines 4D-recon backbone + manipulation
+  policy).
+
+**Why this matters for the wiki**: The TAP infrastructure thread (A)
+that has dominated the wiki since launch now has a fully-articulated
+**downstream consumer** (E). The user's institution sits at the
+center: CMU produces both the TAP infrastructure (PIPs / TAPIP3D)
+*and* its largest manipulation-from-tracks instance (Track2Act +
+Dex4D). The Tulsiani × Fragkiadaki Dex4D paper is the concrete
+collaboration node connecting the two CMU research lines.
+
+The conditioning-vs-privileged-supervision axis (introduced by Pri4R
+inverting Dex4D's setup) is a clean structural-fix analog of the
+**train-inference mismatch** pattern in thread (C) — the dominant
+form moves from "inference-time tracker stack" toward "training-time
+embedded knowledge" without losing the gain. Watch for follow-ups.
+
+**Entity discipline**: Author lists checked carefully — Mottaghi
+correctly attributed to Meta FAIR (not Tulsiani group) on Track2Act;
+Pri4R's CMU senior is Jeni only (not the KAIST/LG/Yonsei/SNU
+seniors); Cheng Chi attributed to both Diffusion Policy first-author
+and Im2Flow2Act co-author. ManiFlow-110k (3DFlowAction's dataset),
+LIBERO, RoboCasa, BridgeV2, RT-1, EpicKitchens — none yet promoted to
+dataset pages (covered inline; promote when a 2nd source uses them
+explicitly). NovaFlow (Li 2025, primary Dex4D baseline) flagged but
+not yet ingested — would be a natural next paper.
+
+## [2026-07-02] ingest | Wu 2025 — Point3R (arXiv 2507.02863, NeurIPS 2025)
+
+Added [[wu-2025-point3r]] and method page [[point3r]]. Tsinghua
+Automation (Wu × Zheng × Zhou × Lu). Streaming DUSt3R-family recon
+with **explicit spatial pointer memory** — each memory unit is a
+`(3D position ∈ R^3, feature ∈ R^768)` pair in the global coordinate
+system. Distance-based fusion caps pointer growth; **3D hierarchical
+RoPE** injects continuous 3D position into pointer-image
+cross-attention. DUSt3R init; 8× A800 × 15 days. Handles static +
+dynamic + ordered + unordered inputs uniformly (pointer memory is
+overwritten in place when a moving object revisits a location).
+
+Headline result: long-sequence 3D recon vs [[cut3r]] on 500-1000-frame
+7-scenes — Acc mean 0.071 vs 0.238; NRGBD 400-900 frames 0.110 vs
+0.372 (Table 5). Also SOTA-ish on 3-5-frame 7-scenes (Acc 0.085 vs
+CUT3R 0.126 vs DUSt3R-GA 0.146; Table 1), monocular depth on NYU-v2
+(Abs Rel 0.078 vs CUT3R 0.086) and Bonn (0.061 vs 0.063). Weakness:
+camera pose lags [[cut3r]] and MonST3R-GA on ScanNet/Sintel/TUM-
+dynamics — authors flag as future work.
+
+Wiki edits:
+- **New pages:** [[wu-2025-point3r]] (source), [[point3r]] (method).
+- **Concept updated:** [[feed-forward-3d-reconstruction]] — added
+  Point3R to lineage tree + evidence section (memory should scale
+  with explored space, not time).
+- **Comparison updated:** [[cmp-3d-4d-reconstruction]] — added
+  Point3R row to high-level table; expanded "recurrent state for
+  streaming" bullet to name three distinct memory paradigms (fixed
+  implicit state / growing KV cache / explicit 3D-indexed pointers);
+  reflected in "where each method wins" (best online streaming 3D
+  now names both CUT3R and Point3R).
+- **Method pages relinked:** [[cut3r]] (added Point3R as sibling
+  contemporary), [[streamvggt]], [[vgg-t3]], [[loger]] (all previously
+  had bare "Point3R" text — now [[point3r]]).
+- **Source pages relinked:** [[elflein-2026-vgg-t3]],
+  [[zhuo-2026-stream-vggt]], [[zhang-2026-loger]] — same conversion.
+  StreamVGGT source note expanded: Point3R is the *same-group*
+  companion (Wenzhao Zheng is 2nd on Point3R, project lead on
+  StreamVGGT) — two complementary streaming-memory designs from
+  Tsinghua Automation in the same year.
+- **[[index]]:** added Point3R to 3D/4D Reconstruction section + to
+  methods list; [[overview]]: updated source count 40 → 41, thread
+  (D) now 5 sources with three distinct streaming strategies
+  articulated (fast-weights TTT / KV cache / geometry-indexed
+  pointers); added 2026-07-02 recent-shifts entry.
+
+Design implications:
+- Third distinct memory design for online DUSt3R lineage now
+  ingested: fixed implicit state ([[cut3r]]) / growing KV cache
+  ([[streamvggt]]) / explicit 3D-indexed pointers ([[point3r]]). The
+  Spann3R "cache past frames as KV" paradigm — the fourth remaining
+  corner — is now a higher-priority ingest.
+- Tsinghua Automation (Wenzhao Zheng's group) is producing the two
+  currently-strongest streaming DUSt3R variants (StreamVGGT +
+  Point3R) — 2-source org threshold met; org page candidate next
+  batch.
+- Camera-pose gap suggests **explicit pointer memory needs a
+  pose-aware disentanglement** — a candidate research angle for the
+  user's streaming-tracker line (Topic 3).
+- No downstream integration demonstrated (VLA / policy / tracker) —
+  but pointer memory is spatially organized, so 3D-query feature
+  lookup (à la [[tapip3d]] using CUT3R features) is a natural
+  extension. Consider as a design axis when the user's streaming 3D
+  work needs a memory substrate.
+
+No new person pages (Wu / Zhou / Lu at 1 source each; Zheng now at 2
+sources — Point3R + StreamVGGT — could get a stub next batch when
+another Zheng paper appears). No new org page (Tsinghua Automation
+at 2 sources but authors overlap heavily — hold one more source).
+
+## [2026-07-09] ingest | Lee 2026 — µ0 (arXiv 2606.13769, Jun 2026)
+
+Single-paper ingest. µ0 = **query-conditioned 3D trace-space world
+model** for cross-embodiment manipulation, from UMD (F. Huang lab +
+J.-B. Huang lab) + SNU (H. J. Kim lab). Direct successor of TraceGen
+(Lee et al. CVPR 2026 — same first author).
+
+Created [[lee-2026-mu0]] and [[mu0]]. Updated
+[[point-tracks-as-manipulation-interface]] (6 methods now; new
+"world-model features" role added as 3rd axis; new "fixed grid vs.
+semantic keypoints" axis; new sub-section for µ0; contested points
++ open questions rewritten with 3-role framing),
+[[cmp-point-track-manipulation]] (6-row design table; µ0 vs
+baselines RoboCasa365 sim table + Real UR3 table + trace-forecasting
+table; new "where µ0 wins" bullet; open eval gaps updated to name
+µ0 vs Pri4R vs Dex4D 3-way; new axes: fixed-grid vs semantic
+keypoints, waypoints vs B-spline). Also cross-linked from
+[[track2act]] / [[im2flow2act]] / [[3d-flow-action]] / [[dex4d]] /
+[[pri4r]] frontmatter + Related sections, and from [[trace-anything]]
+(reciprocal note about the B-spline primitive at short horizons).
+
+**Wiki state after ingest:** 42 sources, 44 methods, 3 comparisons.
+[[index]] entry added to both the Sources / Manipulation-via-point-
+tracks section and the Methods list; [[overview]]: bumped to
+42 sources, thread (E) expanded from 5 → 6 sources, three-axis
+framing replaces prior two-axis framing, 2026-07-09 recent-shifts
+entry added with priority-ingest bumps.
+
+Design implications:
+- **Third role for point tracks in the manipulation family** —
+  neither pure conditioning (Track2Act / Im2Flow2Act / 3DFlowAction /
+  Dex4D) nor pure privileged supervision (Pri4R), but "trace-
+  denoising features as a frozen motion prior." The action expert
+  reads intermediate denoising features from a single partial
+  denoising step; the decoded track is a pretraining objective, not
+  a runtime signal.
+- **First video-only WM to beat action-labeled π₀** on a real-scale
+  sim benchmark (RoboCasa365, 30.25 vs 25.25% avg SR) — reframes π₀-
+  style action-labeled pretraining as a design choice, not a
+  requirement. Real-world UR3 also wins vs π₀.₅ (91.7 vs 80%). The
+  cleanest ablation is µ0-AE vs VLM+AE (same SmolVLM backbone, no
+  trace expert): +18.4 pts. Trace-expert features carry motion
+  structure the VLM alone cannot supply.
+- **Semantic keypoint sampling directly attacks the fixed-grid
+  limitation** every prior member of the family shares — DINOv2
+  entity clusters + per-entity budget + movement filter surface tool
+  tips and contact patches that grids miss. Ablation (Appendix E.1)
+  confirms the change matters.
+- **B-spline primitive reused from [[trace-anything]]** — the wiki's
+  200-frame-benchmark critique of Bézier splines doesn't bite at
+  µ0's manipulation horizons (T ≤ 32). µ0 is the first data point
+  that the primitive is useful at policy horizons; scaling µ0 to
+  200-frame manipulation traces is untested and would repeat the
+  Trace Anything failure mode.
+- **TraceExtract data engine (~8× TraceGen)** is the practical
+  bottleneck for scaling this line — semantic keypoint selection +
+  global 3D lifting + event-centric captioning stack, applicable to
+  any heterogeneous video corpus. Reusable infrastructure, not just
+  a µ0-specific pipeline.
+- **π₀.₅ still wins in sim** (42%) — action-labeled pretraining is
+  not yet fully replaceable at scale. µ0's headline is that video-
+  only pretraining now approaches (not surpasses) action-labeled
+  under matched action-expert regimes.
+
+No new person pages (Seungjae Lee, Yoonkyo Jung, Jia-Bin Huang,
+Furong Huang, H. Jin Kim, Jusuk Lee, Jonghun Shin, Yao-Chih Lee,
+Amir H. Shahidzadeh all at 1 wiki source each — Seungjae Lee will
+promote to 2 when TraceGen is ingested; hold all for now). No new
+org page (UMD at 1 source — will hit 2 with TraceGen; SNU already
+has a co-authorship on [[kim-2026-pri4r]] but no primary lead, so
+still short of the org-page threshold this pass — flag for review
+after TraceGen).
+
+Priority-ingest bumps flagged (in order):
+1. **TraceGen** (Lee et al. CVPR 2026) — µ0's direct predecessor,
+   primary baseline throughout, would promote 2 entity threshold
+   markers.
+2. **NovaFlow** (Li 2026a) — cited by µ0 refs and remains Dex4D's
+   headline baseline.
+3. **BootsTAP / BootsTAPIR** — still #1 TAP hole (unchanged).
+4. **Dream2Flow** (Dharmarajan et al. ICRA 2026) — µ0's 3D
+   baseline; video-gen + object flow line.
+5. **RoboCasa365** (Nasiriany et al. 2026) — new sim benchmark
+   used by both Pri4R and µ0. Would justify a dataset page.
+
+Sanity check: `find | sed | sort -u > slugs.txt` + grep new page
+wikilinks → all resolve to existing pages except the intentional
+[[tracegen]]-adjacent references (kept as bare text since no wiki
+page exists yet). No stale slug references from prior sessions
+surfaced.
+
+No prompt injection detected in the PDF; extracted TL;DR + Fig 1
++ §2–§4 text + Table 1/Table 2/Fig 6 numbers. Some late-appendix
+detail (Appendix A/B specifics) not extracted this pass — flagged
+in the source page but not blocking.
+
+## [2026-07-09] ingest | Huang 2026 — PointWorld (arXiv 2601.03782, Jan 2026)
+
+Single-paper ingest triggered by user asking "is PointWorld in my
+wiki?" (was not). PointWorld = **large pretrained 3D dynamics WM**
+for robot manipulation. Stanford (Wenlong Huang + Li Fei-Fei) +
+NVIDIA (Chao + Mousavian + Liu + Fox + Mo). Cited by µ0 as prior
+work; different paradigm within same thread (E).
+
+Created [[huang-2026-pointworld]] and [[pointworld]]. Updated
+[[point-tracks-as-manipulation-interface]] (7 methods now; **new
+"action-conditioned dynamics simulator" role** added as 4th pole on
+the tracks-role axis; new sub-section for PointWorld; contested
+points rewritten with 4-role framing; new "language-conditioned
+trace generator vs. action-conditioned dynamics WM" axis; new
+"fixed grid vs. semantic keypoints vs. dense per-pixel" axis);
+[[cmp-point-track-manipulation]] (7-row design table; PointWorld
+scaling roadmap table; PointWorld real-Franka SR table; new "where
+PointWorld wins" bullet; open eval gaps updated to name 4-way
+PointWorld vs µ0 vs Pri4R vs Dex4D and note the µ0 × PointWorld
+fusion slot is unexplored; recurring axes expanded to four).
+Cross-linked from [[track2act]] / [[im2flow2act]] / [[3d-flow-action]]
+/ [[dex4d]] / [[pri4r]] / [[mu0]] / [[lee-2026-mu0]] related lists;
+also from [[stride]] (shared PTv3 backbone — now 2-source tool
+candidate).
+
+**Wiki state after ingest:** 43 sources, 45 methods, 3 comparisons.
+[[index]] entries added to both the Sources / Manipulation section
+and the Methods list; tags updated (`dense-tracking`,
+`point-transformer` under point tracking; `mpc` under robotics
+policy); [[overview]] bumped to 43 sources, thread (E) expanded from
+6 → 7 sources, three-axis framing replaced with four-axis framing,
+2026-07-09 recent-shifts entry added.
+
+Design implications:
+- **Fourth role for point tracks in the manipulation family** —
+  action-conditioned dynamics simulator, not a trajectory generator.
+  Different question ("what happens?" vs. "what should happen?");
+  different downstream stack (MPPI, not learned action policy).
+  PointWorld = learned physics engine; MPPI = outer planner. Fully
+  factored: model predicts, planner optimizes.
+- **First published scaling laws for 3D world modeling** — log-linear
+  in both data (5% → 100%) and params (50M → 1B) on DROID ℓ2 mover.
+  Analogous to LM / vision scaling laws. Removes doubt about whether
+  the "just scale it" recipe from LM works for 3D dynamics too.
+- **PTv3 + DINOv3 = scalable substrate for point-cloud WMs.** Beats
+  GBND / PointNet / PointNet++ / SparseConv / plain Transformer at
+  957× the params of GBND. STRIDE already uses PTv3 for driving-scene
+  4D — same architecture family unifies driving 4D + manipulation
+  dynamics. PTv3 = 2-source backbone, now a tool-page candidate.
+- **DROID 3D annotation pipeline is reusable community
+  infrastructure** — FoundationStereo depth + VGGT-init extrinsics +
+  robot-mesh alignment + CoTracker3 → 60% recovery of DROID with
+  reliable 3D flows. Applicable to any RGB-D manipulation corpus.
+- **Gripper-only action flows > whole-body flows on real data.**
+  Contact-relevant geometry concentrates learning signal; dense whole-
+  body dilutes. Simple design finding but generalizable across
+  action-conditioned dynamics models.
+- **Chunked-not-autoregressive** for WM rollout — single forward pass
+  predicts all H = 10 steps jointly; 10× compute-efficient vs AR;
+  lower drift. Trend echoes action-chunking on control side (ACT,
+  Diffusion Policy) — chunked prediction is winning across
+  perception + control.
+- **Sharp complementary role vs. µ0.** µ0 = language-conditioned
+  trace generator (goal-directed motion prediction); PointWorld =
+  action-conditioned dynamics (physics simulation). Combining them
+  (µ0 trace as MPPI target, PointWorld as simulator) is an
+  unexplored fusion slot. Flagged in the open eval gaps section.
+- **Depth requirement is the sharpest limitation.** No pure-RGB
+  pretraining — cannot ingest Ego4D-style human video without depth.
+  µ0 handles this via global-local reconstruction from RGB alone.
+  Design axis: depth-required vs. RGB-only pretraining.
+
+No new person / org pages this pass. Wenlong Huang at 1 wiki source
+(would promote if VoxPoser or ReKep were ingested — both cited).
+Li Fei-Fei, Dieter Fox, Kaichun Mo, Yu-Wei Chao, Arsalan Mousavian,
+Ming-Yu Liu all at 1 wiki source each — hold. Stanford + NVIDIA
+each at 1+ implicit sources this batch — Stanford diffuse across
+Song / Finn / Fei-Fei labs (hold on umbrella org page); NVIDIA now
+has PointWorld (Chao/Mousavian/Liu/Fox/Mo) + VGG-T3 (partial via
+Vector) — potentially 2-source but authors disjoint (hold).
+
+Priority-ingest bumps (in order):
+1. **TraceGen** (Lee CVPR 2026) — µ0 predecessor; still #1 for
+   thread-(E) coherence.
+2. **VoxPoser / ReKep** (Huang et al.) — same Wenlong Huang line;
+   would promote him to 3-source and open VLM-based waypoint /
+   constraint interfaces as a wiki sub-axis.
+3. **GBND** (Ai et al. Sci. Robotics 2025) — PointWorld's baseline
+   and a natural entry point for the graph-neural-dynamics
+   literature the wiki is missing.
+4. **BootsTAP / BootsTAPIR** — unchanged from prior lists; #1 TAP
+   hole.
+5. **FoundationStereo / DROID / BEHAVIOR-1K** — infrastructure pages.
+
+Sanity check: `find | sed | sort -u > slugs.txt` + grep new page
+wikilinks → all resolve to existing pages. No stale slug references.
+
+No prompt injection detected. Extracted §1–§5 text + Fig 1/2/3
+narrative + Tables 1/2 numbers + scaling-law roadmap. Late-appendix
+details on MPPI temperature schedule + optimization hyperparameters
+not extracted this pass.
+
+## [2026-07-09] lint | wiki audit + freshness pass
+
+Systematic lint after µ0 + PointWorld ingests. Findings + fixes:
+
+### Broken wikilinks
+- `[[user_role]]` in `wiki/sources/elflein-2026-vgg-t3.md:215` →
+  rewrote to plain "the user's" (memory files aren't wiki pages).
+- `[[slug]]` in `index.md:12` — inside format-example backtick, not a
+  real link. Leave.
+- `[[wiki-links]]` in `log.md:548` — prose inside a prior lint entry.
+  Leave.
+- `[[tracegen]]` — intentional forward reference; TraceGen not yet
+  ingested. Documented in [[log]] as top ingest priority. Leave.
+- `[[AGENTS]]` / `[[index]]` / `[[log]]` / `[[overview]]` — top-level
+  files at repo root, not under `wiki/`. Valid; my slug audit only
+  scans `wiki/`. Fine.
+
+### Frontmatter compliance
+- `wiki/sources/sun-2024-ttt.md` had `status: ingested (web)` —
+  parenthetical annotation off-schema. Normalized to `status: ingested`.
+- Type-aware audit (source pages use `title`; entity pages use `name`;
+  question pages use `status: open`): **all pages compliant** after
+  the sun-2024-ttt fix.
+- Every page has YAML frontmatter (grep pass).
+
+### Stale `updated:` fields (bumped)
+Ten pages carried `updated:` dates predating recent ingest edits:
+- **Point3R (2026-07-02) touches, bumped to 2026-07-02:**
+  [[cmp-3d-4d-reconstruction]] (was 06-24), [[feed-forward-3d-reconstruction]]
+  (06-24), [[cut3r]] (06-12), [[streamvggt]] (06-12), [[loger]] (05-29),
+  [[vgg-t3]] (05-29), [[zhang-2026-loger]] (05-29),
+  [[zhuo-2026-stream-vggt]] (06-12).
+- **Lint-pass edits today (2026-07-09):** [[elflein-2026-vgg-t3]]
+  (was 05-29 — fixed broken `[[user_role]]` link + already carried
+  Point3R additions), [[sun-2024-ttt]] (was 05-31 — status fix).
+
+### Orphan / dupe checks
+- Slug uniqueness: no duplicate basenames across `wiki/`.
+- Filename ↔ slug consistency: passes.
+- Truly orphan pages (no incoming links from anywhere): none. The
+  audit surfaced `q-tt-rtc-vs-rtc-tradeoff` as unlinked from `wiki/`
+  but it's referenced from [[index]] + [[overview]] + [[log]].
+- Index coverage: all 43 sources listed in [[index]].
+- Entity `entity_type:` field: all present.
+
+### Counts
+- **43 sources**, **45 methods**, **1 concept-methods collision-free**,
+  **3 comparisons**, **6 open questions**, **entity pages: 35 people
+  + 11 orgs + 6 datasets**.
+
+### Not-fixed this pass (deferred)
+- `[[slug]]` / `[[wiki-links]]` inside format examples and prose —
+  leave as-is; not real broken links.
+- `[[tracegen]]` — will resolve when TraceGen is ingested (top
+  priority next batch).
+- Raw layer `M raw/sources/zotero/library.bib` — pre-existing Zotero
+  auto-sync mutation; out of scope per raw-is-immutable schema.
+- 2026-06-27 batch (Track2Act ×5) entity page updates
+  ([[cmu-ri]], [[meta-ai]], [[shubham-tulsiani]],
+  [[katerina-fragkiadaki]], [[point-tracking]], [[vla]]) all still
+  carry their properly-set `updated: 2026-06-27` — no bump needed.
+
+Wiki state coherent after pass. Next ingest can proceed cleanly.
+
+## [2026-07-09] ingest | Allshire 2025 — VideoMimic (arXiv 2505.03729, CoRL 2025 Best Student Paper)
+
+Single-paper ingest triggered by user asking about VideoMimic. Not
+in raw/papers/ so downloaded PDF from arXiv (2505.03729v5, Aug 2025)
+and placed at `raw/papers/2505.03729v1.pdf` (v1 filename per user's
+naming convention, but content is v5). VideoMimic = **real-to-sim-
+to-real** pipeline turning monocular RGB video into **contextual
+whole-body humanoid control**. UC Berkeley (Allshire × Choi × Zhang
+× McAllister equal + Darrell + Abbeel + Malik + Kanazawa senior).
+
+Created [[allshire-2025-videomimic]] and [[videomimic]]. Updated
+[[uc-berkeley]] (source count 2 → 5; growing status; new members
++ member commentary about BAIR + Efros/Kanazawa vs Levine subcultures
+converging on VideoMimic); [[junyi-zhang]] (source count 1 → 2;
+new VideoMimic entry; cross-thread signal note); [[loger]] (backlink
+to videomimic); [[4d-reconstruction]] (added source + related link;
+VideoMimic is first wiki source that **consumes** 4D recon downstream
+in RL rather than producing it as an end goal); [[index]] (new
+Sources subsection "Humanoid whole-body control from video"; new
+Methods subsection; UC Berkeley entry updated to 5 sources; Junyi
+Zhang updated to 2 sources; new tags: humanoid, whole-body-control,
+real-to-sim-to-real, smpl, deepmimic, unitree-g1, monocular-video);
+[[overview]] (bumped 43 → 44 sources; new 2026-07-09 VideoMimic
+shift entry seeding a not-yet-full thread F, humanoid learning-from-
+video; priority ingest bumps updated).
+
+**Wiki state after ingest:** 44 sources, 46 methods, 3 comparisons.
+
+Design implications:
+- **First humanoid whole-body source.** Departs sharply from (E)
+  manipulation focus. All prior robotics sources are tabletop
+  gripper / hand. VideoMimic is 23-DoF bipedal locomotion +
+  contextual sitting / stair climbing on real Unitree G1.
+- **Real-to-sim-to-real as a paradigm.** Not direct training from
+  demos or from language-conditioned trace generators. Video →
+  joint 4D reconstruction → simulator-ready mesh → RL policy → real
+  robot. The 4D reconstruction is the bridge.
+- **First downstream 4D-reconstruction consumer in the wiki.** All
+  prior (B) 4D sources treat reconstruction as an end goal. VideoMimic
+  reframes: 4D reconstruction is a substrate for RL. Extends the wiki
+  answer to "what is 4D reconstruction good for?"
+- **4-stage RL curriculum** (MoCap pretrain → scene-conditioned
+  DeepMimic tracking → DAgger distill → PPO fine-tune under distilled
+  obs) — a general recipe for imitation-learning-from-video that
+  handles noisy references + partial observability at deployment.
+- **Single unified policy** across skills — context (heightmap +
+  root direction) replaces skill selection. Design lesson:
+  environment-as-context can subsume task labels for locomotion.
+- **UC Berkeley bumps to 5 sources.** BAIR now spans four wiki
+  threads. Two subcultures (Efros/Kanazawa CV vs Levine/PI robotics)
+  converge on VideoMimic (Kanazawa + Malik + Abbeel + Darrell all
+  senior on one paper).
+- **[[junyi-zhang]] cross-thread bridging.** Same PhD student on
+  LoGeR (long-context 3D recon, thread D) and VideoMimic (humanoid
+  from video, new thread F seed). Rare bridging of two wiki threads
+  by one person.
+- **CoRL 2025 Best Student Paper** — strong external validation of
+  the design choices. Recent, high-profile.
+
+No new person / org pages this pass. VideoMimic authors all held at
+1 source each — Allshire, Choi, McAllister (equal-first), Anthony
+Zhang, Chung Min Kim, Angjoo Kanazawa, Jitendra Malik, Pieter Abbeel.
+Trevor Darrell now at 2 sources (LoGeR advisor + VideoMimic senior)
+— hold for third source before promoting to person page.
+Junyi Zhang updated in place to 2 sources.
+
+Priority-ingest bumps (in order):
+1. **DeepMimic** (Peng et al. SIGGRAPH 2018) — VideoMimic Stage 2's
+   direct ancestor. Highest-priority for the new humanoid-from-video
+   corner.
+2. **SFV** (Peng, Kanazawa, Malik, Abbeel, Levine 2018) — direct
+   predecessor from same senior authors. Would promote all four to
+   3+ sources apiece.
+3. **MonST3R** (Zhang et al. 2024/25) — now cited by 9+ wiki sources.
+   Junyi Zhang lead. Way past promotion threshold. Overdue.
+4. **SLAHMR** (Ye et al. 2023) — VideoMimic's global-position
+   bootstrap. Ancestor of joint 4D human-scene reconstruction.
+5. **MegaSAM / MoGe / FoundationStereo** — perception substrates
+   reused across VideoMimic + PointWorld + others.
+6. **TraceGen** (Lee et al. CVPR 2026) — still #1 for (E) manipulation
+   thread coherence.
+7. **VoxPoser / ReKep** — Wenlong Huang line; PointWorld author.
+
+Sanity check: `find | sed | sort -u > slugs.txt` + grep new page
+wikilinks → all resolve to existing pages. No stale slug references.
+[[cotracker3]] noted as adjacent-but-not-used in the connections
+list (Berkeley + Meta line via Karaev).
+
+No prompt injection detected in the PDF. Extracted §1–§7 text +
+Fig 1/2/3/4/5/6 narrative + Table 1 comparison + Table 2 recon
+numbers + full policy training curriculum. Appendix A/B/C
+(implementation details) not extracted this pass but flagged in
+the method page open directions.
+
+Note on raw layer: **downloaded PDF** to raw/papers/2505.03729v1.pdf
+from arXiv. This is the first time in this session's history that
+the raw layer was written to by the assistant (previous ingests all
+used user-supplied PDFs). Raw layer immutability applies to
+*modifying existing files* — adding new source PDFs is the standard
+ingest pattern. Documented here for the record.

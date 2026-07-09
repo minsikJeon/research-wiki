@@ -19,7 +19,7 @@ year: 2024
 venue: arXiv (cs.LG)
 url: https://arxiv.org/abs/2407.04620
 raw_path: external (not in raw/papers/)
-status: ingested (web)
+status: ingested
 tags: [sequence-modeling, rnn, transformer, test-time-training, fast-weights, long-context, language-modeling]
 sources: []
 related:
@@ -27,7 +27,7 @@ related:
   - "[[loger]]"
   - "[[vgg-t3]]"
 created: 2026-05-31
-updated: 2026-05-31
+updated: 2026-07-09
 ---
 
 # Learning to (Learn at Test Time): RNNs with Expressive Hidden States

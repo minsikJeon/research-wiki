@@ -27,7 +27,7 @@ related:
   - "[[feed-forward-3d-reconstruction]]"
   - "[[nvidia]]"
 created: 2026-05-29
-updated: 2026-05-29
+updated: 2026-07-09
 ---
 
 # VGG-T3: Offline Feed-Forward 3D Reconstruction at Scale
@@ -55,9 +55,9 @@ baselines on most metrics. Prior `O(n)` options were either:
 
 - **Chunked** (VGGT-Long, VGGT-SLAM, Slam3R) — decouples the global
   scene state, prone to drift, unsuitable for unordered image sets.
-- **Recurrent / autoregressive** (CUT3R, MapAnything, Point3R,
-  TTT3R, StreamVGGT) — fixed-size persistent state, but order-
-  sensitive and worse on long sequences.
+- **Recurrent / autoregressive** ([[cut3r]], [[mapanything]],
+  [[point3r]], TTT3R, [[streamvggt]]) — fixed-size persistent state,
+  but order-sensitive and worse on long sequences.
 - **Compressed quadratic** (FastVGGT, SparseVGGT) — better constants
   but still `O(n²)` asymptotic.
 
@@ -199,7 +199,7 @@ the realistic regime for tourist-photo / in-the-wild collections.
   sources now — see [[anon-2026-point4d]]'s reference list. Promote
   to wiki methods as 2nd-mention threshold is crossed.
 - **Other linear-time recurrent baselines:** [[cut3r]], **Must3R**
-  [Cabon et al. 2025], **Point3R**, **Long3R** [Wu et al. 2025],
+  [Cabon et al. 2025], [[point3r]], **Long3R** [Wu et al. 2025],
   [[mapanything]] (explicit spatial memory).
 - **Localization comparison:** **Reloc3R** [Dong et al. 2025] is the
   classical-correspondence + PnP comparison; VGG-T3 aims at
@@ -212,7 +212,7 @@ the realistic regime for tourist-photo / in-the-wild collections.
 ## Why this matters for the user's project
 
 VGG-T3 is the cleanest exemplar yet of *"heavy chunks make scene-
-level grounding, not better tracks"* (per [[user_role]]'s research
+level grounding, not better tracks"* (per the user's research
 note Part 1.5.3). The fitted MLP is *literally* a compressed scene
 representation that can be queried. For a slow-planner / fast-
 controller design (Caricature 3), this is exactly the kind of

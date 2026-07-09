@@ -8,6 +8,7 @@ sources:
   - "[[keetha-2025-mapanything]]"
   - "[[lin-2025-depth-anything-3]]"
   - "[[wang-2025-cut3r]]"
+  - "[[wu-2025-point3r]]"
   - "[[karhade-2025-any4d]]"
   - "[[sucar-2026-v-dpm]]"
   - "[[luo-2026-4rc]]"
@@ -20,7 +21,7 @@ related:
   - "[[trajectory-fields]]"
   - "[[test-time-training]]"
 created: 2026-05-24
-updated: 2026-06-24
+updated: 2026-07-02
 ---
 
 # Comparison of Feed-Forward 3D / 4D Reconstruction Methods
@@ -39,6 +40,7 @@ a leaderboard.
 | [[mapanything]] | 2025 | Static | Batch | Factored (depth + ray + pose + metric scale) | Multi-modal inputs; 12+ task configs; metric |
 | [[depth-anything-3]] | 2025 | Static | Batch | Depth + ray maps | Minimalist (single transformer, 2 heads) |
 | [[cut3r]] | 2025 | Static + Dyn | **Online recurrent** | Self/world pointmap + ego motion + virtual-view query | Persistent state |
+| [[point3r]] | 2025 | Static + Dyn | **Online streaming** | Self/world pointmap + pose | Explicit 3D-indexed pointer memory + 3D hierarchical RoPE |
 | [[v-dpm]] | 2026 | Dynamic (4D) | Batch | [[dynamic-point-maps]] | Fine-tune [[vggt]] |
 | [[any4d]] | 2025 | Dynamic (4D) | Batch | Factored 4D + dense scene flow + metric | Multi-modal (RGB-D, IMU, Doppler) |
 | [[4rc]] | 2026 | Dynamic (4D) | Batch + conditional query | Base geometry + ΔP per (source, target time) | Encode-once, decode anytime/anywhere |
@@ -134,8 +136,9 @@ less compute.
 - **Best static 3D unification + metric + multi-modal:** [[mapanything]].
 - **Best foundation backbone for downstream tasks:** [[vggt]] (because
   its features are most widely picked up).
-- **Best online streaming 3D + dynamic:** [[cut3r]] (only fully-online
-  method in batch).
+- **Best online streaming 3D + dynamic:** [[cut3r]] (fixed implicit
+  state) and [[point3r]] (explicit 3D-indexed pointer memory — wins at
+  long sequence; loses on camera pose).
 - **Best metric dense 4D + multi-modal:** [[any4d]] (uniquely supports
   RGB-D, IMU, Doppler).
 - **Best smallest-change-to-add-4D-to-VGGT:** [[v-dpm]].
@@ -157,8 +160,12 @@ less compute.
   backbone pattern (VGGT lineage).
 - **Conditional query decoders** are an emerging design
   (4RC; conceptually similar to MapAnything's flexible input scheme).
-- **Recurrent state for streaming** is its own paradigm (CUT3R; Spann3R
-  is a concurrent non-ingested example).
+- **Recurrent state for streaming** is now a paradigm with three
+  distinct memory designs: fixed implicit state ([[cut3r]]), growing
+  per-frame KV cache ([[streamvggt]], Spann3R), and explicit
+  3D-indexed pointer memory ([[point3r]]). Design axis:
+  what scales with — time (cache), fixed budget (state), or explored
+  space (pointer).
 
 ## Open eval gaps
 
@@ -199,8 +206,9 @@ Update this table. Particularly watch for:
   encoder-decoder pattern D4RT and Point4D inherit. High-priority.
 - Fast3R, MV-DUSt3R+ — multi-view DUSt3R extensions.
 - Spann3R — CUT3R's cache-style counterpart.
-- **InfiniteVGGT / VGGT-Long / StreamingVGGT / Loger** — long-sequence
-  static 3D ancestors of Point4D's chaining strategy.
+- **InfiniteVGGT / VGGT-Long** — long-sequence static 3D ancestors of
+  Point4D's chaining strategy (StreamVGGT + Loger + Point3R now
+  ingested).
 - **St4RTrack, Flow4R, DELTA** — additional 4D + 3D-tracking methods
   Point4D and D4RT reference.
 - **[[flow3r]]** (user's own paper, arXiv:2602.20157) — placeholder

@@ -38,6 +38,7 @@ evolving thesis.
 - [[keetha-2025-mapanything]] — universal feed-forward 3D model; 12+ task configs + metric scale + multi-modal inputs (3d-reconstruction, metric-scale, multi-modal)
 - [[lin-2025-depth-anything-3]] — minimalist single-transformer depth+ray prediction; +35.7%/+23.6% over VGGT (depth-estimation, 3d-reconstruction)
 - [[wang-2025-cut3r]] — stateful recurrent online 3D reconstruction + virtual-view querying; handles dynamic scenes (3d-reconstruction, online, recurrent)
+- [[wu-2025-point3r]] — Tsinghua NeurIPS 2025; streaming DUSt3R-family recon with **explicit spatial pointer memory** (each unit = 3D position + feature); 3D hierarchical RoPE; distance-based fusion; beats CUT3R on long sequences (500-1000 frames, Acc 0.071 vs 0.238) (3d-reconstruction, streaming, spatial-memory, 3d-rope, dust3r-family)
 - [[karhade-2025-any4d]] — feed-forward metric 4D (geometry + scene flow + pose) with multi-modal inputs; 15× faster than next-best (4d-reconstruction, multi-modal, robotics)
 - [[sucar-2026-v-dpm]] — VGGT fine-tuned to dynamic 4D via Dynamic Point Maps; halves error vs prior 4D methods (4d-reconstruction, dynamic-point-maps)
 - [[luo-2026-4rc]] — encode-once query-anywhere/anytime 4D reconstruction; base geometry + relative motion (4d-reconstruction, conditional-query)
@@ -45,6 +46,18 @@ evolving thesis.
 - [[anon-2026-point4d]] — long-range (200+ frame) 4D via 3D-query decoder + chunk chaining; first feed-forward 4D method that scales past 100 frames (4d-reconstruction, long-sequence, trajectory-chaining)
 - [[zhang-2025-d4rt]] — canonical 2D-pixel-query 4D decoder; one model + 6 tasks; SOTA on TAPVid-3D + Sintel depth/pose; 9× faster than VGGT (4d-reconstruction, feed-forward, query-based)
 - [[anon-2026-stride]] — NeurIPS 2026 anon; first feed-forward 4D driving-scene method that fuses camera+LiDAR via PTv3 *and* learns instance decomposition without annotations (4d-reconstruction, driving-scenes, multi-modal, lidar, instance-decomposition)
+
+### Manipulation via point tracks (manipulation-from-tracks)
+- [[bharadhwaj-2024-track2act]] — Track2Act (ECCV 2024); CMU + Meta FAIR; DiT denoises future 2D point tracks from web videos → PnP rigid transforms → end-effector + residual policy (~400 Spot demos); the founding "predict tracks → drive manipulation" paper (manipulation, point-tracking, web-video, residual-policy, foundation-paper, imitation-learning)
+- [[xu-2024-im2flow2act]] — Im2Flow2Act (CoRL 2024); Stanford+Columbia+JPM; object-only flow as cross-domain interface; flow generation on human videos + flow-conditioned diffusion policy trained on sim play; 81% real-world SR with zero real-robot data (manipulation, flow, sim-to-real, cross-embodiment, diffusion-policy)
+- [[zhi-2025-3dflowaction]] — 3DFlowAction (Jun 2025); SCUT+Tencent+HKUST; lifts Im2Flow2Act to 3D flow (u,v,z,vis); GPT-4o closed-loop verifier; ManiFlow-110k cross-source dataset (110K); optimization action policy needing no action labels; 70% vs 20-50% baselines (manipulation, 3d-point-tracking, video-diffusion, world-model, vlm-verifier)
+- [[kuang-2026-dex4d]] — Dex4D (Feb 2026); **CMU** Fragkiadaki×Tulsiani; Anypose-to-Anypose sim-to-real RL + Paired Point Encoding; first to apply point-tracks-as-interface to 22-DoF dexterous manipulation; Wan2.6 video gen → CoTracker3 → 3D tracks → policy; +22.5% SR over NovaFlow-CL (manipulation, dexterous, sim-to-real, reinforcement-learning, world-model)
+- [[kim-2026-pri4r]] — Pri4R (Mar 2026); KAIST+LG+SNU+Yonsei+**CMU** (Jeni); 3D point tracks as **privileged supervision** for π₀ / π₀.₅ / OpenVLA-OFT; auxiliary head discarded at inference; +13.2% RoboCasa for OpenVLA-OFT, +9.8% LIBERO-Long; ablation: 3D tracks beat 2D / depth / goal-only supervision (vla, manipulation, privileged-information, auxiliary-supervision)
+- [[lee-2026-mu0]] — µ0 (Jun 2026); UMD (F. Huang + J.-B. Huang) + SNU (H. J. Kim); **query-conditioned 3D trace-space world model**; DINOv2 semantic keypoint sampling + globally aligned 3D + event-centric captioning (TraceExtract, ~8× TraceGen scale); SmolVLM2 backbone + permutation-equivariant Trace Expert on B-spline control points + flow matching (+validity +semantic rigidity); frozen µ0 features feed action expert; beats π₀ on RoboCasa365 sim (30.25 vs 25.25%); 91.7% real-world UR3 avg vs 80% π₀.₅ / 81.7% TraceGen (manipulation, world-model, 3d-point-tracking, flow-matching, b-spline, semantic-keypoint)
+- [[huang-2026-pointworld]] — PointWorld (Jan 2026); Stanford (W. Huang + Fei-Fei) + NVIDIA (Chao + Mousavian + Liu + Fox + Mo); **action-conditioned 3D dynamics WM** — predicts full-scene 3D point flows from RGB-D + robot action point flows (URDF forward kinematics); PTv3 backbone (50M–1B params) + frozen DINOv3 features; movement-weighted + aleatoric-uncertainty + Huber loss; chunked 10-step @ 0.1s; **~2M trajectories** DROID+BEHAVIOR-1K with custom FoundationStereo+VGGT+CoTracker3 annotation pipeline; **published log-linear scaling laws**; deployed via MPPI for zero-shot rigid pushing / deformable / articulated / tool use on real Franka from single RGB-D (manipulation, world-model, 3d-point-tracking, dense-tracking, point-transformer, dinov3, mpc, foundation-model)
+
+### Humanoid whole-body control from video
+- [[allshire-2025-videomimic]] — VideoMimic (CoRL 2025 Best Student Paper); UC Berkeley (Allshire × Choi × Zhang × McAllister equal + Darrell + Abbeel + Malik + Kanazawa senior); **real-to-sim-to-real** pipeline turning monocular smartphone videos into contextual humanoid skills; joint 4D human-scene reconstruction (SMPL + MegaSAM/MonST3R + JAX-Levenberg-Marquardt joint optimization with metric SMPL height prior); retarget to Unitree G1; 4-stage RL curriculum (MoCap-pretrain → scene-conditioned DeepMimic tracking → DAgger distill → under-conditioned PPO fine-tune); single distilled policy conditioned only on proprio + 11×11 heightmap + root direction; onboard 50 Hz on 23-DoF Unitree G1; stair ascent/descent + chair sit-stand + kerbs + rough terrain from context alone; 123 smartphone videos as full training corpus (humanoid, whole-body-control, real-to-sim-to-real, imitation-learning, reinforcement-learning, smpl, 4d-reconstruction, deepmimic)
 
 ### Long-context 3D reconstruction (linear-time / streaming)
 - [[sun-2024-ttt]] — UCSD+Stanford+CMU; foundational TTT paper; hidden state = a parametric model `f_W` trained by self-supervised gradient descent on the input stream; linear-time, Transformer-quality long-context; the substrate the 3D-recon TTT papers below port from (sequence-modeling, rnn, test-time-training, fast-weights, long-context)
@@ -73,6 +86,9 @@ evolving thesis.
 - [[trajectory-fields]] — per-pixel parametric splines as the 4D primitive (TraceAnything)
 - [[trajectory-chaining]] — chunk-based extension to long sequences; 2D-pixel vs 3D-coordinate queries determines whether occlusion breaks chaining
 - [[test-time-training]] — fast-weight associative memory as a `O(n)` substitute for softmax attention; VGG-T3 (offline-global), LoGeR (streaming-chunked), TTT3R (per-frame) cover the design space
+
+### Manipulation interfaces
+- [[point-tracks-as-manipulation-interface]] — point tracks (2D/3D) as the intermediate representation between cross-embodiment planning and robot execution; the binding concept of Track2Act / Im2Flow2Act / 3DFlowAction / Dex4D / Pri4R / µ0 / PointWorld
 
 ### Streaming perception, real-time control & cross-domain patterns
 - [[streaming-perception]] — Li/Ramanan ECCV 2020 framing; ancestor of online-vs-offline-tracking
@@ -107,6 +123,7 @@ evolving thesis.
 - [[mapanything]] — universal feed-forward 3D; factored repr; multi-modal inputs; metric scale
 - [[depth-anything-3]] — minimalist single transformer + depth+ray output; teacher-student
 - [[cut3r]] — recurrent online 3D + virtual-view query
+- [[point3r]] — streaming DUSt3R-family recon with explicit 3D-indexed pointer memory + 3D hierarchical RoPE; beats CUT3R at long sequences
 - [[streamvggt]] — causal-attention + KV-cached restructuring of VGGT; distilled from VGGT teacher; streaming alternative to CUT3R that *beats* it on reconstruction + camera pose
 - [[v-dpm]] — fine-tunes VGGT for dynamic 4D via DPM heads
 - [[any4d]] — feed-forward dense metric 4D + multi-modal sensors
@@ -118,6 +135,18 @@ evolving thesis.
 - [[lact]] — Large-Chunk TTT block (window-attn + SwiGLU MLP fast weights + Muon test-time optimizer); 2K–1M tokens per chunk; 70% GPU util in pure PyTorch; NVS, LM, and AR video diffusion
 - [[lacet]] — LaCT + Fisher-weighted elastic consolidation (EWC); streaming-EMA anchors; fixes multi-chunk drift
 - [[fsm]] — Fast Spatial Memory; LaCET-based 4D NVS model with LVSM-style and LRM-style decoders; SOTA feed-forward 4D
+
+### Manipulation via point tracks
+- [[track2act]] — DiT denoiser of full 2D point trajectories from web videos + PnP rigid-transform fitting + residual BC policy on Spot demos; the founding method
+- [[im2flow2act]] — object-only flow generator (AnimateDiff) on human videos + flow-conditioned diffusion policy trained on sim play; temporal alignment module; 81% real-world success rate with zero real-robot data
+- [[3d-flow-action]] — 3D flow (u,v,z,vis) world model + GPT-4o closed-loop verifier + IK-aware grasp + optimization-based action policy (no action labels); 70% on rotation-heavy tasks
+- [[dex4d]] — Anypose-to-Anypose sim-to-real RL on dexterous hand + Paired Point Encoding; first dexterous application; Wan2.6 video gen → CoTracker3 → 3D point tracks → policy
+- [[pri4r]] — auxiliary 3D point-track head on VLAs (OpenVLA-OFT / π₀ / π₀.₅); privileged supervision; head discarded at inference; +13.2% RoboCasa
+- [[mu0]] — query-conditioned 3D trace-space **world model** (SmolVLM2 + Trace Expert); B-spline control points + flow matching; TraceExtract data engine (semantic keypoints + global 3D + event captions); frozen µ0 features feed action expert; beats action-labeled π₀ with zero action pretraining
+- [[pointworld]] — action-conditioned **3D dynamics world model** (learned physics simulator); PTv3 + DINOv3 + URDF-derived robot point flows; chunked 10-step prediction @ 0.1s; deployed via MPPI for zero-shot in-the-wild Franka manipulation across rigid / deformable / articulated / tool-use classes; published scaling laws (50M → 1B params, 5% → 100% data, log-linear)
+
+### Humanoid whole-body from video
+- [[videomimic]] — real-to-sim-to-real; monocular RGB video → joint 4D human-scene reconstruction (SMPL + MegaSAM + JAX joint-opt) → G1 retarget → 4-stage RL curriculum (MPT → scene-cond tracking → DAgger → PPO fine-tune) → single distilled policy on proprio + 11×11 heightmap + root direction; 50 Hz onboard Unitree G1; single policy handles stair up/down, chair sit-stand, rough terrain
 
 ### Streaming perception & robot control
 - [[streamer-meta-detector]] — detector + association + Kalman forecaster + dynamic scheduler; turns any detector streaming
@@ -145,9 +174,15 @@ evolving thesis.
 - [[deva-ramanan]] — **CMU** faculty; senior author MapAnything + Any4D (user's school)
 - [[sebastian-scherer]] — **CMU** AirLab faculty; senior author MapAnything + Any4D
 - [[jay-karhade]] — **CMU**; Any4D lead
-- [[katerina-fragkiadaki]] — **CMU** faculty; senior author PIPs + TAPIP3D (the CMU TAP origin line); **2 sources**
-- [[shubham-tulsiani]] — **CMU** faculty; **user's advisor**; visual geometry / scene flow line (Flow3R)
+- [[katerina-fragkiadaki]] — **CMU** faculty; senior author PIPs + TAPIP3D (the CMU TAP origin line) + co-senior Dex4D; **3 sources**
+- [[shubham-tulsiani]] — **CMU** faculty; **user's advisor**; visual geometry / scene flow line + manipulation-from-tracks line; senior on Point4D / Track2Act / Dex4D; **3 sources**
 - [[adam-w-harley]] — Stanford (prior CMU PhD with Fragkiadaki); **PIPs lead** + co-author TAPIP3D; **2 sources**
+- [[homanga-bharadhwaj]] — **CMU** PhD (Tulsiani group); Track2Act first author; DemoDiffusion / Gen2Act collaborator
+- [[yuxuan-kuang]] — **CMU** (visiting; Tulsiani × Fragkiadaki); Dex4D first author; StopNet / RAM / SkillBlender / FetchBot author
+- [[sungjae-park]] — **CMU** (Tulsiani group); Dex4D co-first author; DemoDiffusion co-author
+- [[shuran-song]] — Stanford+Columbia; Im2Flow2Act + Diffusion Policy senior
+- [[cheng-chi]] — Stanford+Columbia; Diffusion Policy first author + Im2Flow2Act co-author
+- [[laszlo-jeni]] — **CMU** faculty; Pri4R co-senior; first KAIST × LG × CMU collaboration in the wiki
 - [[gorkay-aydemir]] — Koç University; Track-On / Track-On2 lead
 - [[qianqian-wang]] — UC Berkeley + DeepMind; CUT3R lead
 - [[bingyi-kang]] — ByteDance Seed; DA3 lead + SpatialTrackerV2 co-author
@@ -162,15 +197,15 @@ evolving thesis.
 - [[russ-tedrake]] — MIT CSAIL + TRI; co-author on Diffusion Policy + Diffusion Forcing + DFoT (3 sources)
 - [[boyuan-chen]] — MIT CSAIL PhD; lead on Diffusion Forcing (NeurIPS 2024) + co-lead on DFoT (ICML 2025) + co-author on GVS (ICLR 2026); the diffusion-forcing trajectory's anchor (3 sources)
 - [[chonghyuk-song]] — MIT CSAIL PhD; GVS lead (1 source). Distinct from Kiwhan Song (DFoT lead)
-- [[junyi-zhang]] — UC Berkeley + Google DeepMind; LoGeR lead; also MonST3R author (cited 5+ times across wiki)
+- [[junyi-zhang]] — UC Berkeley (Darrell) + Google DeepMind; LoGeR lead + VideoMimic co-first; also MonST3R author (cited 8+ times across wiki); **2 sources**, spans long-context 3D recon and humanoid-video threads
 
 ### Organizations
 - [[google-deepmind]] — TAP-line continuity (TAP-Vid → TAPIR → BootsTAP → TAPNext → TAPNext++); **3 sources** + D4RT + CUT3R co-affiliation
-- [[meta-ai]] — CoTracker series + VGGT (joint with Oxford VGG)
+- [[meta-ai]] — CoTracker series + VGGT + Track2Act (Mottaghi at FAIR; **4 sources**)
 - [[oxford-vgg]] — **7 sources**, most prolific org; TAPIR (Zisserman), CoTracker, VGGT, V-DPM lineage
 - [[meta-reality-labs]] — MapAnything (AR/VR-focused, distinct from FAIR)
-- [[cmu-ri]] — **user's institution**; PIPs (Fragkiadaki, 2022), streaming-perception, TAPIP3D, MapAnything, Any4D, Point4D (**6 sources** — the institutional origin of the modern deep TAP sub-field)
-- [[uc-berkeley]] — CUT3R + RTC
+- [[cmu-ri]] — **user's institution**; PIPs (Fragkiadaki, 2022), streaming-perception, TAPIP3D, MapAnything, Any4D, Point4D, **Track2Act**, **Dex4D**, **Pri4R** (**9 sources** — both the institutional origin of the modern deep TAP sub-field AND now its largest manipulation-from-tracks cluster)
+- [[uc-berkeley]] — **5 sources**; CUT3R + RTC + Training-Time RTC + LoGeR + **VideoMimic** (CoRL 2025 Best Student Paper); spans feed-forward 3D + real-time control + long-context 3D + humanoid-from-video across BAIR / Efros / Kanazawa / Malik / Darrell / Levine labs
 - [[bytedance-seed]] — Depth Anything line; SpatialTrackerV2
 - [[physical-intelligence]] — Sergey Levine's robotics foundation-model lab; π0 / π0.5 / π0.6 / RTC / Training-Time RTC
 - [[mit-csail]] — Diffusion Policy + Diffusion Forcing + DFoT + GVS (Chen/Song/Sitzmann/Tedrake cluster) + LaCT (Zhang/Yang/Freeman) — **5 sources, the de facto center of diffusion-forcing-for-video and TTT-for-long-context**
@@ -206,6 +241,7 @@ _(empty — defer until enough source pages cluster by venue)_
 
 - [[cmp-tap-methods]] — comparison of TAP methods (online/window/video, 2D/3D, training)
 - [[cmp-3d-4d-reconstruction]] — comparison of feed-forward 3D/4D reconstruction methods (VGGT family + DA3 + CUT3R + 4D wave)
+- [[cmp-point-track-manipulation]] — comparison of the 7 manipulation-via-point-tracks methods (Track2Act / Im2Flow2Act / 3DFlowAction / Dex4D / Pri4R / µ0 / PointWorld)
 
 ---
 
@@ -213,7 +249,7 @@ _(empty — defer until enough source pages cluster by venue)_
 *Canonical tag list. Check before inventing a new tag.*
 
 ### Point tracking
-- `point-tracking`, `3d-point-tracking`, `video-understanding`, `optical-flow`
+- `point-tracking`, `3d-point-tracking`, `video-understanding`, `optical-flow`, `semantic-keypoint`, `b-spline`, `dense-tracking`, `point-transformer`
 - `online-tracking`, `offline-tracking`, `joint-tracking`, `online`, `window-based`
 - `state-space-model`, `transformer`, `vit`, `dinov3`, `mlp-mixer`, `depthwise-conv`
 - `memory`, `classification-first`, `masked-decoding`, `iterative-refinement`, `two-stage`
@@ -243,8 +279,12 @@ _(empty — defer until enough source pages cluster by venue)_
 - `meta`
 
 ### Robotics policy
-- `vla`, `manipulation`, `imitation-learning`, `bimanual`, `aloha`
+- `vla`, `manipulation`, `imitation-learning`, `bimanual`, `aloha`, `mpc`, `humanoid`, `whole-body-control`, `real-to-sim-to-real`, `smpl`, `deepmimic`, `unitree-g1`, `monocular-video`
 - `action-chunking`, `flow-matching`, `diffusion`, `diffusion-policy`, `diffusion-forcing`
 - `asynchronous-control`, `fast-slow-policy`, `latency-adaptive`
 - `train-inference-mismatch`, `training-recipe`, `training-paradigm`
 - `inference-time-algorithm`, `inpainting`, `multimodal-distribution`
+- `dexterous`, `cross-embodiment`, `sim-to-real`, `reinforcement-learning`
+- `web-video`, `world-model`, `video-diffusion`, `flow`, `residual-policy`
+- `privileged-information`, `auxiliary-supervision`, `vlm-verifier`
+- `paired-point-encoding`

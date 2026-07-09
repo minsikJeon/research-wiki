@@ -28,8 +28,9 @@ related:
   - "[[3d-point-tracking]]"
   - "[[online-vs-offline-tracking]]"
   - "[[synthetic-to-real-gap]]"
+  - "[[point-tracks-as-manipulation-interface]]"
 created: 2026-05-24
-updated: 2026-06-26
+updated: 2026-06-27
 ---
 
 # Point Tracking (Tracking Any Point, TAP)
@@ -53,6 +54,20 @@ manipulation (object-centric control), action recognition, 3D
 reconstruction (dynamic scenes), controllable video generation, video
 editing, biological/medical motion analysis. A general-purpose TAP model
 is to video what a feature matcher is to image pairs.
+
+**Manipulation is the most active downstream application as of
+mid-2026.** A whole sub-line treats point tracks as the *manipulation
+interface* between cross-embodiment planning and robot-specific
+execution — see [[point-tracks-as-manipulation-interface]]:
+[[track2act]] (web-video → tracks → residual policy),
+[[im2flow2act]] (object flow + sim-trained diffusion policy),
+[[3d-flow-action]] (3D flow + GPT-4o verifier + optimization),
+[[dex4d]] (sim-to-real dexterous RL), [[pri4r]] (auxiliary
+supervision for VLAs). All five papers ride the TAP infrastructure
+this wiki tracks — [[cotracker]] / [[cotracker3]] / [[tapir]] /
+[[zhang-2025-tapip3d]] are the trackers they depend on. Robust,
+real-time trackers → more reliable manipulation; the inverse holds
+too.
 
 ## The main design axes (all with active wiki coverage)
 

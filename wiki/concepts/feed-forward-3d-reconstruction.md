@@ -8,6 +8,7 @@ sources:
   - "[[keetha-2025-mapanything]]"
   - "[[lin-2025-depth-anything-3]]"
   - "[[wang-2025-cut3r]]"
+  - "[[wu-2025-point3r]]"
   - "[[karhade-2025-any4d]]"
   - "[[sucar-2026-v-dpm]]"
   - "[[luo-2026-4rc]]"
@@ -20,7 +21,7 @@ related:
   - "[[depth-anything-3]]"
   - "[[test-time-training]]"
 created: 2026-05-24
-updated: 2026-06-24
+updated: 2026-07-02
 ---
 
 # Feed-Forward 3D Reconstruction
@@ -56,6 +57,7 @@ DUSt3R / MASt3R (pairwise + post-hoc alignment)     ← [[dust3r]]
         └── DA3 (strips to depth+ray only)                 ← [[depth-anything-3]]
               ↑ +35.7% pose / +23.6% geo vs VGGT
         ├── CUT3R (recurrent online variant)               ← [[cut3r]]
+        ├── Point3R (pointer memory + 3D RoPE, online)     ← [[point3r]]
         └── Any4D (4D sibling of MapAnything)              ← [[any4d]]
 
    LaCT (large-chunk TTT block)                         ← [[lact]]
@@ -90,6 +92,11 @@ DUSt3R / MASt3R (pairwise + post-hoc alignment)     ← [[dust3r]]
   23.6% geo. Settles the "minimum sufficient prediction target" question.
 - [[wang-2025-cut3r]]: online recurrence works for streaming 3D + virtual
   view inference.
+- [[wu-2025-point3r]]: explicit 3D-indexed pointer memory scales with
+  explored space rather than time; beats [[cut3r]] especially at long
+  sequences (500-1000 frames) — evidence that fixed implicit state
+  bleeds and per-frame cache is redundant, while a geometry-anchored
+  pointer set is the sweet spot.
 - [[karhade-2025-any4d]] + [[sucar-2026-v-dpm]] + [[luo-2026-4rc]]:
   extend the paradigm to dynamic 4D.
 

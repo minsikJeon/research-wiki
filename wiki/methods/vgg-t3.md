@@ -12,7 +12,7 @@ related:
   - "[[cut3r]]"
   - "[[mapanything]]"
 created: 2026-05-29
-updated: 2026-05-29
+updated: 2026-07-02
 ---
 
 # VGG-T3 (Visual Geometry Grounded Test-Time Training)
@@ -107,7 +107,7 @@ localization.
   merging), **SparseVGGT** (block-sparse).
 - **Long-sequence siblings (chunked / recurrent):** **VGGT-Long**,
   **VGGT-SLAM**, **Slam3R**, **Stream3R**, **StreamVGGT**, [[cut3r]],
-  **MUSt3R**, **Point3R**, **Long3R**, [[mapanything]].
+  **MUSt3R**, [[point3r]], **Long3R**, [[mapanything]].
 - **Localization baseline:** **Reloc3R** (classical pipeline; higher
   accuracy but not feed-forward).
 - **In the context of [[loger]]:** LoGeR uses chunked SWA + TTT for

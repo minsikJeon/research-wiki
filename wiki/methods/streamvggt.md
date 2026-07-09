@@ -13,7 +13,7 @@ related:
   - "[[feed-forward-3d-reconstruction]]"
   - "[[online-vs-offline-tracking]]"
 created: 2026-06-12
-updated: 2026-06-12
+updated: 2026-07-02
 ---
 
 # StreamVGGT
@@ -116,7 +116,7 @@ Both bound memory at modest accuracy cost.
   token bank). StreamVGGT beats CUT3R on reconstruction, camera pose,
   and depth across multiple benchmarks.
 - **Streaming peers:** Spann3R (token-addressable spatial memory),
-  Point3R (geometry-aligned pointer memory with 3D RoPE).
+  [[point3r]] (geometry-aligned pointer memory with 3D RoPE).
 - **TTT alternative:** [[lact]] — different streaming strategy using
   test-time-trained fast weights rather than an explicit KV cache.
 - **For middle-ground 3D-tracker design:** StreamVGGT's cached memory

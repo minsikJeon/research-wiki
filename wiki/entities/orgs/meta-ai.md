@@ -3,18 +3,20 @@ type: entity
 entity_type: org
 name: Meta AI (FAIR)
 status: growing
-tags: [foundation-model, computer-vision]
+tags: [foundation-model, computer-vision, manipulation]
 sources:
   - "[[karaev-2024-cotracker]]"
   - "[[karaev-2024-cotracker3]]"
   - "[[wang-2025-vggt]]"
+  - "[[bharadhwaj-2024-track2act]]"
 related:
   - "[[nikita-karaev]]"
   - "[[jianyuan-wang]]"
   - "[[andrea-vedaldi]]"
   - "[[oxford-vgg]]"
+  - "[[homanga-bharadhwaj]]"
 created: 2026-05-24
-updated: 2026-05-24
+updated: 2026-06-27
 ---
 
 # Meta AI (FAIR)
@@ -42,6 +44,9 @@ students.
 - [[karaev-2024-cotracker]]
 - [[karaev-2024-cotracker3]]
 - [[wang-2025-vggt]] — joint with VGG-Oxford
+- [[bharadhwaj-2024-track2act]] — joint with CMU; Roozbeh Mottaghi is
+  FAIR at Meta on the author list (Bharadhwaj × Mottaghi × Gupta ×
+  Tulsiani). ECCV 2024.
 
 ## Notes
 

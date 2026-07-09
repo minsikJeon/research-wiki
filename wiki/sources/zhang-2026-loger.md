@@ -32,7 +32,7 @@ related:
   - "[[uc-berkeley]]"
   - "[[junyi-zhang]]"
 created: 2026-05-29
-updated: 2026-05-29
+updated: 2026-07-02
 ---
 
 # LoGeR: Long-Context Geometric Reconstruction with Hybrid Memory
@@ -246,7 +246,7 @@ LoGeR substantially outperforms baselines and TTT3R; specifically
   - **TTT layer** ([[sun-2024-ttt]]) — fast-weight associative memory.
 - **Direct feedforward competitors:** FastVGGT, SparseVGGT,
   VGGT-Long, VGGT-SLAM, InfiniteVGGT, Stream3R, StreamVGGT,
-  Slam3R, [[cut3r]], MUSt3R, Point3R, Long3R, [[mapanything]].
+  Slam3R, [[cut3r]], MUSt3R, [[point3r]], Long3R, [[mapanything]].
 - **Optimization-based competitors:** DROID-SLAM, DPV-SLAM, DPV-SLAM++.
 - **New benchmark:** VBR (Brizi et al. 2024) — repurposed for long-
   sequence evaluation (8.8k–18.8k frames, 11.5 km).
