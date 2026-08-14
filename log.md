@@ -1532,3 +1532,76 @@ the raw layer was written to by the assistant (previous ingests all
 used user-supplied PDFs). Raw layer immutability applies to
 *modifying existing files* — adding new source PDFs is the standard
 ingest pattern. Documented here for the record.
+
+---
+
+## 2026-07-16 — Ingest 19: MotionForesight (single)
+
+**Source:** [[bharadhwaj-2026-motionforesight]] — *MotionForesight:
+Re-purposing Video Models for Future 3D Scene-Flow Prediction*.
+Bharadhwaj (equal) × Jangir (equal), **Johns Hopkins** (Brains, Bots,
+and Behavior Lab). raw/papers/motionforesight_paper.pdf (user-supplied,
+newest by mtime). No arXiv id in the PDF; url = motionforesight.github.io.
+
+**What it is.** Plan/forecast-only member of thread (E): forecasts future
+3D scene flow (dense reference-anchored tracks) of a manipulated object
+from a short passive human-video prefix (T1=7 → T2=15). No language, no
+action, no policy, no robot. Repurposes TrackCraft3R (retrospective dense
+3D tracker on Wan2.1 video DiT) into a forecaster by masking future
+RGB/pointmap latents (learned mask tokens + temporal RoPE) and training
+only a rank-32 LoRA + I/O projections + prediction head + mask latents,
+freezing the DiT, the rank-1024 tracking LoRA, VAEs, and track decoder.
+Loss = 0.25·L_observed + 1.0·L_future (validity-masked coordinate space).
+Data: 40K SSv2 → SAM + DepthAnything3 + TrackCraft3R offline pseudo-GT.
+
+**Headline numbers.** SSv2 unseen ADE 4.47 / FDE 6.23 / PWT@5cm 76; OOD
+phone ADE 9.31 / PWT 54. Beats MolmoMotion (1.16M videos, language) and a
+video-gen-then-track baseline (ADE 11.20) on all metrics + 5
+motion-conditional metrics (TVO/VVO/MoveF1/MoveIoU/DQS). r̄ = 0.72
+(under-predicts motion magnitude).
+
+**Pages created (5):**
+- wiki/sources/bharadhwaj-2026-motionforesight.md
+- wiki/methods/motionforesight.md
+- wiki/methods/trackcraft3r.md (stub — backbone, not ingested)
+- wiki/entities/orgs/johns-hopkins.md (stub — new org)
+- wiki/entities/datasets/something-something-v2.md (stub — training corpus)
+
+**Pages updated (8):**
+- wiki/entities/people/homanga-bharadhwaj.md — 1 → 2 sources; CMU → JHU
+  affiliation move; new lab; ObjectForesight note.
+- wiki/concepts/point-tracks-as-manipulation-interface.md — 7 → 8 sources;
+  8th table row (plan-only); new evidence subsection; plan/control
+  separation framing.
+- wiki/comparisons/cmp-point-track-manipulation.md — 7 → 8; new design
+  row, forecasting-quality table, "where it wins" entry, plan/control
+  axis.
+- wiki/methods/mu0.md — related backlink (closest sibling).
+- wiki/methods/track2act.md — related backlink (author lineage).
+- index.md — new source + 2 method rows (MF + TrackCraft3R stub); JHU org;
+  Homanga 2 sources; concept + comparison counts bumped.
+- overview.md — 44 → 45 sources; thread (E) 7 → 8 with plan-only framing;
+  new 2026-07-16 recent-shift entry.
+- log.md — this entry.
+
+**Design headline.** First **plan/forecast-only** member of (E) — no
+policy, no robot. Isolates the plan half of the point-track interface and
+shows it is separable from control. Shares µ0's frozen-backbone +
+tiny-adapter + no-action-label recipe, applied to the *tracker*. Argues
+geometry-direct forecasting beats generate-then-track (11.20 → 4.47 ADE)
+and that 40K passive clips beat 1.16M language-paired videos. Homanga
+Bharadhwaj (Track2Act) moves CMU → JHU — new org, his own arc traced
+2D-tracks-for-policy → 3D-scene-flow-forecasting.
+
+**No prompt injection detected** in the PDF. Extracted §1–§5 + Fig 2/3
+architecture narrative + Tables 1–4. Appendix A/B (metric formulas,
+hyperparameters) not fully extracted — flagged in method page.
+
+**Priority-ingest bumps (new):**
+- **TrackCraft3R** (Nam et al. 2026, arXiv:2605.12587) — MotionForesight's
+  backbone; now load-bearing, stub created. Promote to full ingest.
+- **MolmoMotion** (Zhang et al. 2026, arXiv:2606.18558, Krishna group) —
+  concurrent baseline; language + sparse 8-point 3D forecasting.
+- **ObjectForesight** (Soraki/Bharadhwaj/Farhadi/Mottaghi 2026,
+  arXiv:2601.05237) — rigid 6-DoF pose forecasting, same author.
+- (carried) TraceGen still #1 for (E) trace-generator coherence.

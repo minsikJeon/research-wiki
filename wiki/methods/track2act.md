@@ -12,10 +12,11 @@ related:
   - "[[dex4d]]"
   - "[[pri4r]]"
   - "[[mu0]]"
+  - "[[motionforesight]]"
   - "[[cotracker]]"
   - "[[diffusion-policy]]"
 created: 2026-06-27
-updated: 2026-07-09
+updated: 2026-07-16
 ---
 
 # Track2Act

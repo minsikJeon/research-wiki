@@ -11,6 +11,7 @@ sources:
   - "[[kim-2026-pri4r]]"
   - "[[lee-2026-mu0]]"
   - "[[huang-2026-pointworld]]"
+  - "[[bharadhwaj-2026-motionforesight]]"
 related:
   - "[[point-tracks-as-manipulation-interface]]"
   - "[[track2act]]"
@@ -20,17 +21,20 @@ related:
   - "[[pri4r]]"
   - "[[mu0]]"
   - "[[pointworld]]"
+  - "[[motionforesight]]"
 created: 2026-06-27
-updated: 2026-07-09
+updated: 2026-07-16
 ---
 
 # Comparison of Point-Track-Based Manipulation Methods
 
-Synthesis across the 7 sources currently in the wiki that use point
+Synthesis across the 8 sources currently in the wiki that use point
 tracks as the manipulation interface. **Caveat:** results not directly
 comparable across papers — different robots (Spot / UR5e / Franka /
 XTrainer / xArm6 + LEAP / OMY-F3M / UR3), tasks, train data, and
-evaluation protocols. Treat as a navigation table.
+evaluation protocols. Treat as a navigation table. **One member,
+[[motionforesight]], has no robot** — it is a plan/forecast-only method,
+so its rows only populate the plan side.
 
 ## High-level design table
 
@@ -43,6 +47,7 @@ evaluation protocols. Treat as a navigation table.
 | [[pri4r]] | 2026 | 3D pre-sampled pts | **no** (privileged train only) | n/a (auxiliary signal) | Stock VLA at inference | π₀ / π₀.₅ / OpenVLA-OFT | none at inference |
 | [[mu0]] | 2026 | 3D semantic keypoints (B-spline) | **features** (frozen WM step) | VLM+Trace Expert (video-only pretrain) | Action expert on frozen trace features | UR3 (parallel-jaw) + RoboCasa365 sim | AE fine-tune only |
 | [[pointworld]] | 2026 | Dense per-pixel 3D scene flow | **WM rollouts** (action-conditioned dynamics) | n/a (WM is a simulator, not a plan generator) | **MPPI** on WM rollouts | Franka (single-arm) + BEHAVIOR-1K sim | **none** |
+| [[motionforesight]] | 2026 | Dense 3D reference-anchored scene flow | Repurposed video-DiT tracker ([[trackcraft3r]]); future frames masked | **none — forecasting only** | **no robot** (plan half only) | none |
 
 ## Headline numbers (cross-paper, take with salt)
 
@@ -157,6 +162,21 @@ Zero-shot, no demos, no fine-tuning. Single RGB-D input.
 
 Best top5 across both modalities at 3–200× lower latency.
 
+### MotionForesight — future 3D scene-flow forecasting (no robot)
+
+Plan-only; scored against future 3D tracks, not task SR. ADE/FDE in cm,
+PWT@5cm. SSv2 unseen (150) / OOD phone (50):
+
+| Method | Input | SSv2 ADE↓ | OOD ADE↓ | OOD PWT↑ |
+|---|---|---|---|---|
+| **MotionForesight** | none | **4.47** | **9.31** | **54** |
+| MolmoMotion (+lang) | action desc | 5.93 | 9.94 | 51 |
+| Video gen + tracks | none | 11.20 | 13.82 | 32 |
+
+Beats language-conditioned MolmoMotion (1.16M videos) trained on 40K
+SSv2 with no language; geometry-direct beats generate-then-track. Only
+member scored on forecasting quality rather than manipulation SR.
+
 ## Where each method wins
 
 - **Best for unseen scenes & web-video-only training (parallel-jaw mobile):**
@@ -177,6 +197,11 @@ Best top5 across both modalities at 3–200× lower latency.
   articulated / tool-use:** [[pointworld]] — 30–100% SR on Franka with
   single RGB-D, no demos. Only method in family with published scaling
   laws (log-linear in data + model size).
+- **Best (only) pure plan-forecaster — the plan half in isolation:**
+  [[motionforesight]] — future 3D scene-flow forecasting from passive
+  human video, no language/action/policy; beats language-conditioned
+  MolmoMotion trained on 40K vs 1.16M videos. Not a robot result — the
+  isolated demonstration that the plan half is separable from control.
 
 ## Open eval gaps
 
@@ -222,7 +247,12 @@ Best top5 across both modalities at 3–200× lower latency.
 - **Waypoints vs. B-spline vs. displacements** — most are waypoints;
   µ0 outputs B-spline control points; PointWorld outputs per-step
   per-point displacements.
-- **Parallel-jaw vs. dexterous** — all except Dex4D are parallel-jaw.
+- **Parallel-jaw vs. dexterous** — all except Dex4D are parallel-jaw
+  (MotionForesight has no robot at all).
+- **Plan+control coupled vs. plan-only** — seven couple a plan with a
+  control policy; [[motionforesight]] isolates the **plan half**
+  (forecasting only). The cleanest evidence that plan generation and
+  control are separable in this interface.
 
 ## When new manipulation-via-tracks papers arrive
 

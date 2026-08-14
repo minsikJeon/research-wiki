@@ -11,6 +11,7 @@ sources:
   - "[[kim-2026-pri4r]]"
   - "[[lee-2026-mu0]]"
   - "[[huang-2026-pointworld]]"
+  - "[[bharadhwaj-2026-motionforesight]]"
 related:
   - "[[point-tracking]]"
   - "[[3d-point-tracking]]"
@@ -22,9 +23,10 @@ related:
   - "[[pri4r]]"
   - "[[mu0]]"
   - "[[pointworld]]"
+  - "[[motionforesight]]"
   - "[[cmp-point-track-manipulation]]"
 created: 2026-06-27
-updated: 2026-07-09
+updated: 2026-07-16
 ---
 
 # Point Tracks as the Manipulation Interface
@@ -64,8 +66,10 @@ or hand-engineered keypoints (limited to known objects).
 
 ## Variants
 
-This page traces seven papers in the wiki that adopt the interface,
-each at a different design coordinate:
+This page traces eight papers in the wiki that adopt the interface,
+each at a different design coordinate. Seven pair a plan with a control
+policy; **[[motionforesight]] is the plan-only outlier** — it forecasts
+future 3D motion and stops there (no action policy, no robot).
 
 | Method | Year | Track dim | Plan source | Action policy | Real-robot data needed |
 |---|---|---|---|---|---|
@@ -76,6 +80,7 @@ each at a different design coordinate:
 | [[pri4r]] | 2026 | 3D point tracks | (not used at inference) | Auxiliary supervision for VLA backbone | None at inference; pseudo-labels at training |
 | [[mu0]] | 2026 | 3D semantic keypoints (B-spline) | Frozen VLM-conditioned **world model** | **Action expert** on frozen trace features | Only for AE fine-tuning |
 | [[pointworld]] | 2026 | Dense 3D scene point flow (per-pixel) | **Action-conditioned dynamics WM** (learned physics simulator) | **MPPI** on top of WM rollouts | None (zero-shot in-the-wild) |
+| [[motionforesight]] | 2026 | Dense 3D reference-anchored scene flow | Repurposed video-DiT **tracker** ([[trackcraft3r]]), future frames masked | **None — forecasting only** | None (no robot deployment) |
 
 ### Four axes that organize them
 
@@ -201,6 +206,24 @@ sparse semantic keypoints) enables contact reasoning at
 articulation joints and deformable boundaries. First member of the
 family that is fundamentally a **learned physics simulator**, not a
 trajectory generator.
+
+### MotionForesight isolates the plan half (2026)
+
+[[bharadhwaj-2026-motionforesight]] (JHU, [[homanga-bharadhwaj]] — the
+[[track2act]] author, moved CMU → JHU) is the **plan-only** member: it
+forecasts **dense reference-anchored future 3D scene flow** from a short
+passive human-video prefix and never touches control. Method: take
+[[trackcraft3r]], a *retrospective* dense 3D tracker on the Wan2.1 video
+DiT, and flip it into a *forecaster* by masking future RGB/pointmap
+latents (learned mask tokens + temporal RoPE), training only a rank-32
+LoRA while freezing the backbone. No language, no action labels, no
+policy. Trained on 40K SSv2, it beats **MolmoMotion** (1.16M videos,
+language-conditioned, 8 sparse points) and a video-gen-then-track
+baseline. Two structural points for this family: (1) it shares [[mu0]]'s
+**frozen-backbone + tiny-adapter, no-action-label** recipe but applies
+it to the *tracker* and stops at the plan; (2) it is the clean
+demonstration that the interface's **plan half is separable from its
+control half** — every other member couples the two.
 
 ## Contested points
 

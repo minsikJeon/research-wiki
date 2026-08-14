@@ -4,7 +4,7 @@ title: Research Wiki — Overview
 status: growing
 tags: [meta]
 created: 2026-05-24
-updated: 2026-07-09
+updated: 2026-07-16
 ---
 
 # Overview
@@ -21,7 +21,7 @@ embodied AI.
 
 ---
 
-## Current thesis (July 2026, after 44 sources)
+## Current thesis (July 2026, after 45 sources)
 
 The wiki has dense coverage of two intersecting perception sub-areas,
 two now-fleshed-out adjacent threads (streaming/control, and
@@ -77,9 +77,11 @@ state). All are O(n) per frame; trade-offs are unsettled — Point3R
 wins long-sequence 3D quality but loses camera pose; StreamVGGT is
 higher overall quality but linear memory growth.
 
-**(E) Manipulation policies via point tracks.** Now **7 sources** —
+**(E) Manipulation policies via point tracks.** Now **8 sources** —
 the wiki's end-to-end demonstration of how TAP infrastructure feeds
-robot manipulation. Arc spans 2024–2026:
+robot manipulation. Seven couple a plan with a control policy; the
+eighth ([[bharadhwaj-2026-motionforesight]]) is **plan/forecast-only**,
+isolating the plan half. Arc spans 2024–2026:
 - 2024: [[bharadhwaj-2024-track2act]] (CMU+Meta; DiT denoiser of 2D
   point tracks from web video + PnP + residual policy on Spot) and
   [[xu-2024-im2flow2act]] (Stanford+Columbia; object-only flow +
@@ -102,7 +104,13 @@ robot manipulation. Arc spans 2024–2026:
   @ 0.1s; ~2M-trajectory DROID+B1K; MPPI planner for zero-shot
   in-the-wild rigid / deformable / articulated / tool-use Franka
   manipulation; **published log-linear scaling laws** for 3D
-  dynamics).
+  dynamics), and [[bharadhwaj-2026-motionforesight]] (**JHU**,
+  [[homanga-bharadhwaj]] — the Track2Act author, moved CMU → JHU;
+  **plan/forecast-only**: repurposes a retrospective dense 3D tracker
+  [[trackcraft3r]] into a future-3D-scene-flow forecaster by masking
+  future frames + a rank-32 LoRA on a frozen video-DiT backbone; no
+  language / action / policy; 40K SSv2 beats language-conditioned
+  MolmoMotion trained on 1.16M videos).
 
 Four design axes now structure this family:
 1. **What role do tracks play at inference?** Four poles:
@@ -330,6 +338,38 @@ patterns:
   training-time and joint corners are empty.
 
 ## Recent shifts
+
+- **2026-07-16 (ingest 19, single):** [[bharadhwaj-2026-motionforesight]]
+  (**JHU**, Brains/Bots/Behavior Lab; [[homanga-bharadhwaj]] — the
+  [[track2act]] author, moved CMU → JHU) joins thread **(E)** as its
+  **plan/forecast-only** member. Significance:
+  - **(E) bumps to 8 sources**, but MotionForesight is the first that
+    **has no control policy and no robot** — it forecasts future 3D
+    scene flow from passive human video and stops. This is the clean
+    demonstration that the interface's **plan half is separable from
+    its control half**; every prior member coupled the two.
+  - **Method = repurposing, not new architecture.** Take
+    [[trackcraft3r]] (a *retrospective* dense 3D tracker on the Wan2.1
+    video DiT) and flip it into a *forecaster* by masking future
+    RGB/pointmap latents (learned mask tokens + temporal RoPE),
+    training only a rank-32 LoRA + projections + prediction head +
+    mask latents while freezing everything else. Same **frozen-backbone
+    + tiny-adapter, zero-action-label** recipe as [[mu0]] — applied to
+    the tracker one level upstream.
+  - **Geometry beats pixels for motion.** A video-generation-then-track
+    baseline (Wan-VACE → same track pipeline) is decisively worse
+    (ADE 11.20 vs 4.47) — plausible future pixels don't preserve
+    metric 3D correspondence. Predicting the actionable geometric
+    variable directly also skips render-then-reconstruct cost.
+  - **Data efficiency.** 40K passive SSv2 clips, no language, beats
+    language-conditioned MolmoMotion trained on 1.16M videos. Argues
+    strong geometric grounding > larger language-paired corpus for
+    metric motion forecasting.
+  - **Open weakness:** deterministic single-future on a multimodal
+    task, and under-predicts motion magnitude (r̄ = 0.72, timid).
+  - Priority ingests it surfaces: [[trackcraft3r]] (its backbone,
+    load-bearing, arXiv:2605.12587), MolmoMotion (arXiv:2606.18558),
+    ObjectForesight (same author, arXiv:2601.05237).
 
 - **2026-07-09 (ingest 18, single):** [[allshire-2025-videomimic]]
   (**UC Berkeley**, CoRL 2025 Best Student Paper) — first

@@ -11,12 +11,13 @@ related:
   - "[[dex4d]]"
   - "[[pri4r]]"
   - "[[pointworld]]"
+  - "[[motionforesight]]"
   - "[[trace-anything]]"
   - "[[cmp-point-track-manipulation]]"
 sources:
   - "[[lee-2026-mu0]]"
 created: 2026-07-09
-updated: 2026-07-09
+updated: 2026-07-16
 ---
 
 # µ0 (mu0)
