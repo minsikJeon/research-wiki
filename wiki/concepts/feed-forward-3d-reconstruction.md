@@ -13,6 +13,7 @@ sources:
   - "[[sucar-2026-v-dpm]]"
   - "[[luo-2026-4rc]]"
   - "[[ma-2026-fsm]]"
+  - "[[jin-2026-zipmap]]"
 related:
   - "[[pointmap-representation]]"
   - "[[4d-reconstruction]]"
@@ -20,8 +21,9 @@ related:
   - "[[mapanything]]"
   - "[[depth-anything-3]]"
   - "[[test-time-training]]"
+  - "[[zipmap]]"
 created: 2026-05-24
-updated: 2026-07-02
+updated: 2026-08-14
 ---
 
 # Feed-Forward 3D Reconstruction
@@ -61,8 +63,20 @@ DUSt3R / MASt3R (pairwise + post-hoc alignment)     ← [[dust3r]]
         └── Any4D (4D sibling of MapAnything)              ← [[any4d]]
 
    LaCT (large-chunk TTT block)                         ← [[lact]]
-        └── FSM (elastic TTT for 4D NVS)                ← [[fsm]] / [[lacet]]
+        ├── FSM (elastic TTT for 4D NVS)                ← [[fsm]] / [[lacet]]
+        └── ZipMap (LaCT backbone; O(N) 3D SOTA;        ← [[zipmap]]
+                    streaming + queryable state)
+              ↑ first O(N) method to MATCH quadratic VGGT/π³
 ```
+
+**The O(N) axis (Aug 2026).** Two families now scale linearly in views:
+- **KV-based streaming:** [[cut3r]] (fixed state), [[point3r]] (pointer
+  memory), [[streamvggt]] (KV-cache). All O(N) but *trail* quadratic quality
+  and degrade as N grows.
+- **TTT / fast-weight compression:** [[vgg-t3]] (offline), [[loger]]
+  (chunked), [[fsm]] (4D-NVS), [[zipmap]] (full backbone). [[zipmap]] is
+  the first O(N) method — either family — to **match** VGGT/π³ quality while
+  being >20× faster and holding accuracy as N grows.
 
 ## Core principles emerging from the batch
 
@@ -99,11 +113,18 @@ DUSt3R / MASt3R (pairwise + post-hoc alignment)     ← [[dust3r]]
   pointer set is the sweet spot.
 - [[karhade-2025-any4d]] + [[sucar-2026-v-dpm]] + [[luo-2026-4rc]]:
   extend the paradigm to dynamic 4D.
+- [[jin-2026-zipmap]]: swaps global attention for a [[lact|LaCT]] TTT block
+  → O(N) reconstruction that **matches** VGGT/π³ (Sintel ATE 0.132; DTU
+  Acc. 1.228) while >20× faster (700+ frames <10 s). First linear-time
+  method to close the quality gap; state is queryable at ~100 FPS and
+  streams online.
 
 ## Open questions
 
 - **Streaming + dynamic:** [[cut3r]] handles streaming, [[any4d]] handles
-  dynamic. Combined streaming + 4D is open.
+  dynamic. [[zipmap]] streams *and* reconstructs dynamic scenes — but at
+  the *geometry* level (no dense 4D-tracking / scene-flow head, no 4D
+  eval). Streaming + 4D-*tracking* is still open.
 - **Scale ceiling:** how big do these models need to grow before they
   saturate? Comparable to LLM scaling laws?
 - **Cross-task transfer:** can a single foundation model serve 3D + 4D +

@@ -14,19 +14,21 @@ sources:
   - "[[luo-2026-4rc]]"
   - "[[anon-2026-trace-anything]]"
   - "[[ma-2026-fsm]]"
+  - "[[jin-2026-zipmap]]"
 related:
   - "[[feed-forward-3d-reconstruction]]"
   - "[[4d-reconstruction]]"
   - "[[pointmap-representation]]"
   - "[[trajectory-fields]]"
   - "[[test-time-training]]"
+  - "[[zipmap]]"
 created: 2026-05-24
-updated: 2026-07-02
+updated: 2026-08-14
 ---
 
 # Comparison of Feed-Forward 3D / 4D Reconstruction Methods
 
-Synthesis across the 8 sources in the 3D/4D reconstruction batch. As with
+Synthesis across the 3D/4D reconstruction sources in this wiki. As with
 [[cmp-tap-methods]], numbers are **not directly comparable** —
 different protocols, training data, view counts. Use as navigation, not
 a leaderboard.
@@ -49,6 +51,7 @@ a leaderboard.
 | [[d4rt]] | 2025 | Dynamic (4D) | Batch | 2D-pixel query → 3D position at target time | Canonical query-based 4D decoder; one model → 6 tasks; SRT lineage |
 | [[fsm]] (FSM-LVSM) | 2026 | Dynamic (4D) | Batch (streaming-capable) | Novel-view RGB images | [[lacet]] (elastic TTT); O(n) scaling; LVSM-style pixel decoder |
 | [[fsm]] (FSM-LRM) | 2026 | Dynamic (4D) | Batch (streaming-capable) | 4D Gaussian Splatting | [[lacet]] (elastic TTT); O(n) scaling; LRM-style GS decoder |
+| [[zipmap]] | 2026 | Static + Dyn | **Batch (O(N)) + streaming** | Camera + depth + pointmap + queryable state | [[lact]] TTT backbone; first O(N) to **match** VGGT/π³; 75 FPS @ 700 frames |
 
 ## Headline benchmark numbers (cross-paper, take with salt)
 
@@ -63,6 +66,25 @@ a leaderboard.
 
 D4RT is **simultaneously** SOTA on static-scene depth/pose **and**
 4D tracking — supporting its "one model, six tasks" claim.
+
+### Linear-time static 3D — quality at O(N) (from [[jin-2026-zipmap]] Tab 1–4)
+
+The first table where **quadratic and linear methods are compared on
+identical camera-pose protocols**, showing ZipMap closes the gap the other
+O(N) methods leave open. Lower ATE / higher AUC better.
+
+| Method | Cost | Re10K AUC@5↑ | Sintel ATE↓ | ScanNet ATE↓ | DTU Acc.↓ |
+|---|---|---|---|---|---|
+| VGGT | O(N²) | 38.71 | 0.172 | 0.035 | 1.308 |
+| π³ | O(N²) | 63.10 | 0.073 | 0.030 | 1.151 |
+| CUT3R | O(N) | 46.92 | 0.216 | 0.096 | 5.045 |
+| TTT3R | O(N) | 46.37 | 0.204 | 0.065 | 5.337 |
+| **ZipMap** | **O(N)** | **53.34** | **0.132** | **0.034** | **1.228** |
+
+**Takeaway:** prior O(N) methods (CUT3R, TTT3R) trail the quadratic pair by
+a wide margin on geometry (DTU ~4× worse). ZipMap is the first O(N) method
+to land *inside* the VGGT/π³ band — it matches VGGT on ScanNet/DTU and sits
+between VGGT and π³ on pose — while being >20× faster on long sequences.
 
 ### Dynamic 4D — short-window (<100 frames, single chunk)
 
@@ -149,23 +171,31 @@ less compute.
   PSNR on Stereo4D, well above all other feed-forward methods.
 - **Best long-sequence 4D scaling:** [[fsm]] (O(n) via TTT) for NVS;
   [[point4d]] (chunk chaining) for 3D tracking.
+- **Best linear-time static 3D (quality at O(N)):** [[zipmap]] — first
+  O(N) method to match quadratic VGGT/π³; 700+ frames <10 s (75 FPS), >20×
+  VGGT; fixed-size queryable state at ~100 FPS.
 
 ## Architectural design space (emergent)
 
 - **No 3D inductive biases needed** (VGGT, DA3).
-- **TTT as attention replacement for O(n) scaling** ([[fsm]]). New axis
-  as of this source — all prior entries use O(n²) full attention.
+- **TTT as attention replacement for O(n) scaling** ([[fsm]], [[zipmap]]).
+  [[fsm]] introduced the axis for 4D NVS; [[zipmap]] is the one that makes
+  it competitive for *core 3D geometry* — a full VGGT-scale backbone whose
+  global attention is entirely replaced by a [[lact|LaCT]] TTT layer, first
+  O(N) method to **match** quadratic VGGT/π³ rather than trail them.
 - **Factored representation > coupled** (MapAnything, Any4D).
 - **Alternating attention (frame-wise + global)** is the dominant
   backbone pattern (VGGT lineage).
 - **Conditional query decoders** are an emerging design
   (4RC; conceptually similar to MapAnything's flexible input scheme).
-- **Recurrent state for streaming** is now a paradigm with three
+- **Recurrent state for streaming** is now a paradigm with **four**
   distinct memory designs: fixed implicit state ([[cut3r]]), growing
-  per-frame KV cache ([[streamvggt]], Spann3R), and explicit
-  3D-indexed pointer memory ([[point3r]]). Design axis:
-  what scales with — time (cache), fixed budget (state), or explored
-  space (pointer).
+  per-frame KV cache ([[streamvggt]], Spann3R), explicit 3D-indexed
+  pointer memory ([[point3r]]), and **gradient-updated fast-weight MLP**
+  ([[zipmap]], via TTT). Design axis: what scales with — time (cache),
+  fixed budget (state / fast-weights), or explored space (pointer). Note
+  [[aleksander-holynski|Hołyński]] is senior on both the fixed-state
+  ([[cut3r]]) and the TTT-state ([[zipmap]]) ends.
 
 ## Open eval gaps
 

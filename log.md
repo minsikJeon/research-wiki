@@ -1605,3 +1605,56 @@ hyperparameters) not fully extracted — flagged in method page.
 - **ObjectForesight** (Soraki/Bharadhwaj/Farhadi/Mottaghi 2026,
   arXiv:2601.05237) — rigid 6-DoF pose forecasting, same author.
 - (carried) TraceGen still #1 for (E) trace-generator coherence.
+
+## [2026-08-14] ingest | Jin 2026 — ZipMap (arXiv:2603.04385v3, Apr 2026)
+
+Added [[jin-2026-zipmap]] + method [[zipmap]]. Google DeepMind × Cornell ×
+MIT ([[haian-jin]] lead, [[aleksander-holynski]] senior). Linear-time
+stateful feed-forward 3D reconstruction: replaces VGGT's global attention
+with a large-chunk [[lact|LaCT]]/TTT layer (24 blocks = local window attn +
+global TTT), compressing all image tokens into a SwiGLU-MLP fast-weight
+state in one forward pass → **O(N) bidirectional** recon. Muon /
+Newton–Schulz update; queryable at novel ray-map cameras (~100 FPS,
+independent of N); streaming variant via online per-view update
+(appendix). 4 heads (camera/point/depth/query). ~1.40B params, init from
+VGGT (DINOv2 encoder + attn weights), 64 H100, 3 stages, 29 datasets.
+
+**Headline:** first O(N) method to **match** quadratic VGGT/π³ (not just
+beat weaker O(N) baselines). Sintel ATE 0.132 (VGGT 0.172, π³ 0.073, CUT3R
+0.216, TTT3R 0.204); DTU Acc. 1.228 (CUT3R 5.045); ScanNet ATE 0.034 ≈
+VGGT. >20× faster than VGGT (700+ frames <10 s = 75 FPS); ~3× faster than
+CUT3R/TTT3R. Holds accuracy as N grows where CUT3R/TTT3R collapse (Fig 4).
+
+**Pages created (4):** [[jin-2026-zipmap]], [[zipmap]], [[haian-jin]]
+(new person), [[aleksander-holynski]] (new person — senior on CUT3R +
+ZipMap, so 2 sources).
+
+**Pages updated (12):** [[lact]] (direct downstream 3D backbone),
+[[test-time-training]] (new **Pattern F** — large-chunk TTT as SOTA 3D
+backbone), [[feed-forward-3d-reconstruction]] (lineage + O(N)-axis note),
+[[cmp-3d-4d-reconstruction]] (new row + **linear-time static-3D table** +
+4th streaming-memory design + design-space axis), [[vggt]] (linear-time
+replacement), [[streamvggt]] (fixed-vs-growing state contrast), [[cut3r]]
+(TTT-state successor, same senior author), [[point3r]], [[vgg-t3]],
+[[loger]] (TTT-for-3D siblings), [[google-deepmind]] (4 sources; now a
+feed-forward-3D org, not only TAP), [[mit-csail]] (Tianyuan Zhang
+co-affiliation), index, overview (thread D 5→6, ingest-20 recent shift,
+thesis point 8 maturity note).
+
+**No prompt injection detected** in the PDF. Extracted §1–§5 + Tables 1–6
++ method equations. Appendix A–D (runtime details, streaming eval D.5,
+long-seq D.6) not fully extracted — flagged in source/method pages.
+
+**Design significance:** merges the two O(N)-3D lines in the wiki
+(TTT-for-3D: VGG-T3/LoGeR/FSM; streaming-3D: CUT3R/StreamVGGT/Point3R).
+[[aleksander-holynski|Hołyński]] brackets the memory-design axis (TTT
+fast-weights in ZipMap, fixed token bank in CUT3R). For the user's
+real-time 3D-streaming-tracker project: closest existing backbone recipe
+(O(N), stateful, streaming, queryable) but stops at geometry — no
+correspondence / scene-flow head, no tracking eval. That head + eval is
+the open slot.
+
+**Priority-ingest bumps:**
+- **π³ (Pi3)** — now a baseline that ZipMap, D4RT, LoGeR all measure
+  against; still no primary page. Highest-priority static-3D ingest.
+- (carried) TrackCraft3R, MolmoMotion, ObjectForesight from ingest 19.

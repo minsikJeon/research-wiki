@@ -12,8 +12,9 @@ related:
   - "[[wang-2025-cut3r]]"
   - "[[feed-forward-3d-reconstruction]]"
   - "[[online-vs-offline-tracking]]"
+  - "[[zipmap]]"
 created: 2026-06-12
-updated: 2026-07-02
+updated: 2026-08-14
 ---
 
 # StreamVGGT
@@ -119,6 +120,10 @@ Both bound memory at modest accuracy cost.
   [[point3r]] (geometry-aligned pointer memory with 3D RoPE).
 - **TTT alternative:** [[lact]] — different streaming strategy using
   test-time-trained fast weights rather than an explicit KV cache.
+  [[zipmap]] realizes this as a full VGGT-scale backbone: its fast-weight
+  state is **fixed-size** (unlike StreamVGGT's KV cache that grows with N)
+  and it does bidirectional batch *and* streaming. Same
+  [[aleksander-holynski|Hołyński]] streaming-3D line, TTT-state side.
 - **For middle-ground 3D-tracker design:** StreamVGGT's cached memory
   tokens *are* a per-frame spatial grid, so TAPIP3D-style feature
   lifting from history is direct — addressing the leap-of-logic in

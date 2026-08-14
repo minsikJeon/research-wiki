@@ -4,7 +4,7 @@ title: Research Wiki — Overview
 status: growing
 tags: [meta]
 created: 2026-05-24
-updated: 2026-07-16
+updated: 2026-08-14
 ---
 
 # Overview
@@ -21,7 +21,7 @@ embodied AI.
 
 ---
 
-## Current thesis (July 2026, after 45 sources)
+## Current thesis (Aug 2026, after 46 sources)
 
 The wiki has dense coverage of two intersecting perception sub-areas,
 two now-fleshed-out adjacent threads (streaming/control, and
@@ -57,7 +57,7 @@ covering the full lineage:
   staircase + slow/fast channel split).
 
 **(D) Long-context 3D reconstruction (linear-time / streaming).** Now
-**5 sources** with this batch: [[elflein-2026-vgg-t3]] (NVIDIA;
+**6 sources**: [[elflein-2026-vgg-t3]] (NVIDIA;
 TTT-compressed scene as MLP, `O(n)` global/offline/unordered),
 [[zhang-2026-loger]] (DeepMind+Berkeley; chunked feed-forward with
 **hybrid memory** = SWA + TTT), [[zhang-2025-lact]] (MIT+Adobe;
@@ -76,6 +76,19 @@ explored space; CUT3R sits between D2 and D3 as fixed-length implicit
 state). All are O(n) per frame; trade-offs are unsettled — Point3R
 wins long-sequence 3D quality but loses camera pose; StreamVGGT is
 higher overall quality but linear memory growth.
+[[jin-2026-zipmap]] (Google DeepMind × Cornell × MIT) is the
+**convergence point** and the strategy-D1 flagship: a full VGGT-scale
+backbone with global attention entirely swapped for a Large-Chunk TTT
+([[lact|LaCT]]) layer, doing **bidirectional batch *and* streaming** from
+one recipe. It is the **first O(n) method — any strategy — to match**
+quadratic VGGT/π³ (Sintel ATE 0.132, DTU Acc. 1.228) rather than trail
+them, while >20× faster (700+ frames <10 s, 75 FPS) with a fixed-size
+queryable state (~100 FPS). Notably [[aleksander-holynski|Hołyński]] is
+senior on both [[jin-2026-zipmap]] (D1 fast-weights) and [[cut3r]]
+(fixed implicit state) — one author bracketing the memory-design axis.
+**What it does *not* do:** track. It stops at geometry; no dense
+correspondence / scene-flow head, no 4D-tracking eval — the open piece
+for a real-time 3D streaming *tracker* (see thread below).
 
 **(E) Manipulation policies via point tracks.** Now **8 sources** —
 the wiki's end-to-end demonstration of how TAP infrastructure feeds
@@ -223,12 +236,17 @@ patterns:
    reconstruction. [[elflein-2026-vgg-t3]] uses TTT globally
    (per-scene MLP fit), [[zhang-2026-loger]] uses TTT chunk-wise (fast
    weights carried across chunks), TTT3R uses TTT per-frame (not
-   yet primary). All three are `O(n)` and beat their `O(n²)`
+   yet primary). All are `O(n)` and beat their `O(n²)`
    ancestors at scale. Empirically, **per-frame TTT is worst** for
    geometric coherence (LoGeR: 4× ATE gap over TTT3R on KITTI) and
    **hybrid memory (lossless local + compressed global) beats either
    alone** (LoGeR Tab. 1). This is the load-bearing finding for the
-   user's own Topic-3 research direction.
+   user's own Topic-3 research direction. **[[jin-2026-zipmap]] (Aug
+   2026) is the maturity marker:** scaling the same large-chunk-TTT
+   ([[lact|LaCT]]) substrate to a full VGGT-size backbone finally makes
+   an `O(n)` method **match** the `O(n²)` SOTA (VGGT/π³) instead of just
+   beating weaker `O(n)` baselines — the substitution is no longer a
+   speed-for-quality trade.
 
 9. **The real-time VLA-control line has converged on
    (training-time prefix conditioning) × (per-position noise schedule)
@@ -302,7 +320,11 @@ patterns:
 - **π³ (Pi3)** — VGGT successor mentioned in multiple papers; would
   partially resolve VGGT vs. its critiques.
 - **No causal 3D tracker** in either the TAP or 4D-reconstruction
-  threads. Open research slot.
+  threads. Open research slot — and the target of the user's real-time
+  3D-streaming-tracker project. [[jin-2026-zipmap]] supplies the closest
+  *backbone recipe* (O(n), stateful, streaming, queryable via LaCT) but
+  stops at geometry; bolting a dense-correspondence / scene-flow head +
+  causal-tracking eval onto a ZipMap-style state is the concrete opening.
 - **No streaming 4D** — [[cut3r]] is online 3D + handles dynamic, but
   no explicit motion representation. Combining streaming + 4D is open.
   [[point4d]] partially closes this with chunk chaining but is still
@@ -310,13 +332,17 @@ patterns:
   [[zhang-2026-loger]] and [[zhuo-2026-stream-vggt]] are the closest
   **streaming 3D** instances now (LoGeR: hybrid memory, true
   minute-long generalization; StreamVGGT: KV-cached distillation of
-  VGGT, beats CUT3R). Neither models per-pixel motion — the *4D*
-  version is still open. [[stride]] explicitly flags its own batch-only
-  PTv3 backbone as a limitation: "preventing seamless long-horizon
-  reconstruction." Natural extensions for the user's project: LoGeR-
-  style hybrid memory + Point4D-style 3D-query motion decoder, or
-  StreamVGGT-style cached-KV backbone + Point4D-style decoder, or
-  LaCET chunked-elastic-TTT swap for STRIDE's PTv3.
+  VGGT, beats CUT3R; **[[jin-2026-zipmap]]: LaCT fast-weight state, the
+  first O(n) recon to match quadratic quality and the only one doing
+  batch + streaming from one recipe**). None models per-pixel motion —
+  the *4D* version is still open. [[stride]] explicitly flags its own
+  batch-only PTv3 backbone as a limitation: "preventing seamless
+  long-horizon reconstruction." Natural extensions for the user's
+  project: LoGeR-style hybrid memory + Point4D-style 3D-query motion
+  decoder, or StreamVGGT-style cached-KV backbone + Point4D-style
+  decoder, or **ZipMap-style LaCT fast-weight state + a scene-flow/
+  correspondence head**, or LaCET chunked-elastic-TTT swap for STRIDE's
+  PTv3.
 - ~~**No robotics-application paper** showing how point tracking / 4D
   reconstruction integrates with downstream control.~~ **Closed by
   the 2026-06-27 ingest** — Track2Act / Im2Flow2Act / 3DFlowAction /
@@ -338,6 +364,40 @@ patterns:
   training-time and joint corners are empty.
 
 ## Recent shifts
+
+- **2026-08-14 (ingest 20, single):** [[jin-2026-zipmap]] (**Google
+  DeepMind × Cornell × MIT**; [[haian-jin]] lead, [[aleksander-holynski]]
+  senior) joins thread **(D)** — long-context / linear-time 3D — as its
+  **6th source and maturity marker**. Significance:
+  - **First O(n) recon to *match* the O(n²) SOTA.** VGG-T3 / LoGeR /
+    CUT3R / TTT3R were all faster-but-worse than VGGT/π³. ZipMap scales
+    the [[lact|LaCT]] large-chunk-TTT substrate to a full VGGT-size
+    backbone and lands *inside* the VGGT/π³ quality band (Sintel ATE
+    0.132, DTU Acc. 1.228, ScanNet ATE 0.034 ≈ VGGT) while being >20×
+    faster (700+ frames <10 s, 75 FPS). The TTT-for-attention swap stops
+    being a speed-for-quality trade.
+  - **Strategy D1 flagship + convergence of D.** Does **bidirectional
+    batch and streaming from one recipe**; fast-weights = a fixed-size
+    **queryable** scene state (~100 FPS, independent of N). Unifies the
+    TTT-for-3D line (D1) with the streaming-3D goals of D2/D3.
+  - **Same author on both ends of the memory axis.**
+    [[aleksander-holynski|Hołyński]] is senior on ZipMap (TTT fast-weight
+    state) **and** [[cut3r]] (fixed implicit token bank) — one researcher
+    bracketing the fixed-state-vs-TTT-state design space.
+  - **Directly on the user's project turf but not on it.** ZipMap is the
+    closest existing system to a real-time 3D streaming tracker — O(n),
+    stateful, streaming, queryable — and closes the "no streaming eval"
+    gap flagged against [[v-dpm]]/[[4rc]]. **But it reconstructs geometry,
+    it does not track:** no dense correspondence / scene-flow head, no
+    4D-tracking eval. That head + eval is the concrete opening the user's
+    project owns; ZipMap hands over the backbone recipe.
+  - Pages: created [[jin-2026-zipmap]], [[zipmap]], [[haian-jin]],
+    [[aleksander-holynski]]; updated [[lact]], [[test-time-training]]
+    (new Pattern F), [[feed-forward-3d-reconstruction]],
+    [[cmp-3d-4d-reconstruction]] (new linear-time table), [[vggt]],
+    [[streamvggt]], [[cut3r]], [[point3r]], [[vgg-t3]], [[loger]],
+    [[google-deepmind]] (4 sources; feed-forward-3D line), index, log.
+    No prompt injection detected.
 
 - **2026-07-16 (ingest 19, single):** [[bharadhwaj-2026-motionforesight]]
   (**JHU**, Brains/Bots/Behavior Lab; [[homanga-bharadhwaj]] — the

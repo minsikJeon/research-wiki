@@ -12,8 +12,9 @@ related:
   - "[[mapanything]]"
   - "[[depth-anything-3]]"
   - "[[4rc]]"
+  - "[[zipmap]]"
 created: 2026-05-24
-updated: 2026-06-12
+updated: 2026-08-14
 ---
 
 # VGGT (Visual Geometry Grounded Transformer)
@@ -92,3 +93,7 @@ head; no test-time optimization needed.
 - **Streaming distillation:** [[streamvggt]] — replaces VGGT's global
   attention with temporal causal + KV cache, distilled from VGGT as
   the teacher. The online answer to VGGT-family batch reconstruction.
+- **Linear-time replacement:** [[zipmap]] — replaces VGGT's global
+  attention with a large-chunk [[lact|TTT]] block; O(N) instead of O(N²),
+  reuses VGGT's DINOv2 encoder + inits from VGGT weights. Matches VGGT/π³
+  quality at >20× speed on long sequences.

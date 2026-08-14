@@ -67,6 +67,7 @@ evolving thesis.
 - [[zhang-2025-lact]] — MIT+Adobe; Large-Chunk TTT (2K–1M tokens) lifts TTT hardware utilization from 5% → 70%, enables nonlinear SwiGLU fast weights @ 40% of model params + Muon optimizer; 14B AR video diffusion @ 56K tokens; 1M-token NVS contexts (test-time-training, long-context, video-diffusion, scalability)
 - [[zhuo-2026-stream-vggt]] — Tsinghua; StreamVGGT = VGGT with global attention → temporal causal + KV-cached memory tokens, distilled from VGGT; outperforms CUT3R on reconstruction / depth / camera pose; 5× faster current-frame inference at 40 frames (3d-reconstruction, streaming, causal-attention, kv-cache, distillation)
 - [[ma-2026-fsm]] — MIT-IBM/UMich/UMass; LaCET = LaCT + EWC elastic consolidation; FSM = first TTT-based 4D NVS model; SOTA feed-forward 4D on Stereo4D (32.16 PSNR) (test-time-training, elastic-weight-consolidation, 4d-reconstruction, novel-view-synthesis)
+- [[jin-2026-zipmap]] — Google DeepMind × Cornell × MIT; replaces VGGT's global attention with a large-chunk LaCT/TTT layer → O(N) bidirectional 3D recon that **matches** quadratic VGGT/π³ (first O(N) method to close the gap); 700+ frames <10s (75 FPS), >20× VGGT; fast-weights = queryable scene state (~100 FPS) + streaming mode (3d-reconstruction, test-time-training, linear-complexity, streaming, stateful)
 
 ## Concepts
 *Abstract ideas synthesized across sources.*
@@ -136,6 +137,7 @@ evolving thesis.
 - [[lact]] — Large-Chunk TTT block (window-attn + SwiGLU MLP fast weights + Muon test-time optimizer); 2K–1M tokens per chunk; 70% GPU util in pure PyTorch; NVS, LM, and AR video diffusion
 - [[lacet]] — LaCT + Fisher-weighted elastic consolidation (EWC); streaming-EMA anchors; fixes multi-chunk drift
 - [[fsm]] — Fast Spatial Memory; LaCET-based 4D NVS model with LVSM-style and LRM-style decoders; SOTA feed-forward 4D
+- [[zipmap]] — VGGT backbone with global attention replaced by a large-chunk LaCT/TTT layer; O(N) bidirectional 3D recon matching quadratic VGGT/π³; fixed-size queryable fast-weight state + streaming; first O(N) method to match (not trail) the quadratic SOTA
 
 ### Manipulation via point tracks
 - [[track2act]] — DiT denoiser of full 2D point trajectories from web videos + PnP rigid-transform fitting + residual BC policy on Spot demos; the founding method
@@ -201,9 +203,11 @@ evolving thesis.
 - [[boyuan-chen]] — MIT CSAIL PhD; lead on Diffusion Forcing (NeurIPS 2024) + co-lead on DFoT (ICML 2025) + co-author on GVS (ICLR 2026); the diffusion-forcing trajectory's anchor (3 sources)
 - [[chonghyuk-song]] — MIT CSAIL PhD; GVS lead (1 source). Distinct from Kiwhan Song (DFoT lead)
 - [[junyi-zhang]] — UC Berkeley (Darrell) + Google DeepMind; LoGeR lead + VideoMimic co-first; also MonST3R author (cited 8+ times across wiki); **2 sources**, spans long-context 3D recon and humanoid-video threads
+- [[haian-jin]] — Cornell PhD (Google PhD Fellow) + Google DeepMind; ZipMap lead; LVSM / RayZer large-view-synthesis line (1 source)
+- [[aleksander-holynski]] — Google DeepMind + UC Berkeley; senior on ZipMap **and** CUT3R — both sides of the fixed-state-vs-TTT-state streaming-3D axis (**2 sources**)
 
 ### Organizations
-- [[google-deepmind]] — TAP-line continuity (TAP-Vid → TAPIR → BootsTAP → TAPNext → TAPNext++); **3 sources** + D4RT + CUT3R co-affiliation
+- [[google-deepmind]] — TAP-line continuity (TAP-Vid → TAPIR → BootsTAP → TAPNext → TAPNext++) **+ feed-forward-3D line** (ZipMap, CUT3R via Hołyński); **4 sources** + D4RT co-affiliation
 - [[meta-ai]] — CoTracker series + VGGT + Track2Act (Mottaghi at FAIR; **4 sources**)
 - [[oxford-vgg]] — **7 sources**, most prolific org; TAPIR (Zisserman), CoTracker, VGGT, V-DPM lineage
 - [[meta-reality-labs]] — MapAnything (AR/VR-focused, distinct from FAIR)

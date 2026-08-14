@@ -20,8 +20,9 @@ related:
   - "[[gvs]]"
   - "[[lact]]"
   - "[[history-guidance]]"
+  - "[[zipmap]]"
 created: 2026-06-08
-updated: 2026-06-12
+updated: 2026-08-14
 ---
 
 # MIT CSAIL (Computer Science and Artificial Intelligence Laboratory)

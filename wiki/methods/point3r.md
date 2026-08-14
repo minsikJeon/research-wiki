@@ -8,11 +8,12 @@ sources:
 related:
   - "[[cut3r]]"
   - "[[streamvggt]]"
+  - "[[zipmap]]"
   - "[[dust3r]]"
   - "[[feed-forward-3d-reconstruction]]"
   - "[[pointmap-representation]]"
 created: 2026-07-02
-updated: 2026-07-02
+updated: 2026-08-14
 ---
 
 # Point3R

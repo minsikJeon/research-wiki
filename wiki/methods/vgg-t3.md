@@ -11,8 +11,10 @@ related:
   - "[[feed-forward-3d-reconstruction]]"
   - "[[cut3r]]"
   - "[[mapanything]]"
+  - "[[lact]]"
+  - "[[zipmap]]"
 created: 2026-05-29
-updated: 2026-07-02
+updated: 2026-08-14
 ---
 
 # VGG-T3 (Visual Geometry Grounded Test-Time Training)

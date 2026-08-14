@@ -13,10 +13,11 @@ related:
   - "[[loger]]"
   - "[[vgg-t3]]"
   - "[[cut3r]]"
+  - "[[zipmap]]"
   - "[[diffusion-forcing]]"
   - "[[dfot]]"
 created: 2026-06-12
-updated: 2026-06-24
+updated: 2026-08-14
 ---
 
 # LaCT (Large-Chunk Test-Time Training)
@@ -129,6 +130,13 @@ All in [[zhang-2025-lact]]:
 - **Same-paradigm 3D applications:** [[loger]] (per-chunk TTT + SWA for 3D
   reconstruction), [[vgg-t3]] (per-scene TTT for offline 3D), TTT3R
   (per-frame TTT).
+- **Direct downstream 3D backbone:** [[zipmap]] ([[jin-2026-zipmap]]) —
+  ZipMap *is* LaCT applied to feed-forward 3D reconstruction: it swaps
+  VGGT's global attention for a LaCT block, giving O(N) bidirectional
+  reconstruction that matches quadratic VGGT/π³ quality, plus a queryable
+  scene state and a streaming mode. The strongest evidence to date that the
+  LaCT recipe (large chunks + nonlinear SwiGLU state + Muon) transfers from
+  NVS/LM/video to real 3D-geometry SOTA.
 - **Streaming 3D contrast:** [[cut3r]] — uses a fixed-size **token bank**
   updated by attention rather than fast weights updated by gradient
   descent. LaCT is the test-time-trained analogue of CUT3R's memory.

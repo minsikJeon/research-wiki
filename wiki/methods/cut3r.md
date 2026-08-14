@@ -8,8 +8,11 @@ sources:
 related:
   - "[[feed-forward-3d-reconstruction]]"
   - "[[pointmap-representation]]"
+  - "[[streamvggt]]"
+  - "[[point3r]]"
+  - "[[zipmap]]"
 created: 2026-05-24
-updated: 2026-07-02
+updated: 2026-08-14
 ---
 
 # CUT3R (Continuous Updating Transformer for 3D Reconstruction)
@@ -83,6 +86,14 @@ be queried with a virtual ray map.
   NRGBD, ETH3D), camera pose (ScanNet), and depth estimation across
   benchmarks. The trade-off: StreamVGGT's memory grows linearly with N
   while CUT3R's is constant.
+- **Linear-time TTT-state successor:** [[zipmap]] — same author
+  ([[aleksander-holynski|Hołyński]] senior on both), same "stateful,
+  streaming, queryable" goals, but the state is a **gradient-updated
+  fast-weight MLP** (TTT) rather than CUT3R's attention-updated token bank.
+  **Beats CUT3R substantially** (Sintel ATE 0.132 vs 0.216; DTU Acc. 1.228
+  vs 5.045) and, unlike CUT3R, holds accuracy as N grows and matches
+  quadratic VGGT/π³. The fixed-state-vs-TTT-state axis, both sides by the
+  same senior author.
 - **Online dynamic SLAM contrast:** MonST3R, MegaSaM, CasualSAM —
   all need per-scene optimization. CUT3R is online + feed-forward.
 - **CUT3R features as foundation** for downstream tasks is an open

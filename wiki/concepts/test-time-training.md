@@ -9,16 +9,18 @@ sources:
   - "[[zhang-2026-loger]]"
   - "[[zhang-2025-lact]]"
   - "[[ma-2026-fsm]]"
+  - "[[jin-2026-zipmap]]"
 related:
   - "[[vgg-t3]]"
   - "[[loger]]"
   - "[[lact]]"
   - "[[lacet]]"
   - "[[fsm]]"
+  - "[[zipmap]]"
   - "[[feed-forward-3d-reconstruction]]"
   - "[[4d-reconstruction]]"
 created: 2026-05-29
-updated: 2026-06-24
+updated: 2026-08-14
 ---
 
 # Test-Time Training (TTT)
@@ -155,6 +157,29 @@ This wiki now has two concrete TTT-for-3D designs to compare:
   applied to LoGeR (Pattern B) or any multi-chunk TTT system. The
   key insight is that plasticity without stability is actively harmful
   in multi-chunk regimes.
+
+### Pattern F — Large-chunk TTT as SOTA 3D backbone (ZipMap)
+
+- Same LaCT block as Pattern D, but the whole VGGT-style backbone is
+  built around it: L=24 blocks of (local window attn + global large-chunk
+  TTT), trained to real 3D-geometry SOTA ([[zipmap]], [[jin-2026-zipmap]]).
+- **Does bidirectional batch *and* streaming from one recipe.** Bidirectional
+  = one TTT update over all views (main paper). Streaming = online per-view
+  update (Pattern C granularity, but on a nonlinear large-chunk state).
+- **Closes the linear-vs-quality gap.** Prior O(N) methods (VGG-T3 offline,
+  LoGeR chunked, CUT3R/TTT3R streaming) all *trailed* quadratic VGGT/π³;
+  ZipMap is the first O(N) method to **match** them, while being >20×
+  faster and holding accuracy as N grows (where CUT3R/TTT3R collapse).
+- **The fast-weights are an explicitly queryable scene state** — novel-view
+  point/depth at ~100 FPS *independent of N*. Pattern A (VGG-T3) framed the
+  fitted W as a queryable map for *localization*; ZipMap queries it for
+  *novel-view geometry synthesis*, and shows it extrapolates unseen
+  low-frequency structure (walls/floors) — evidence W encodes 3D priors.
+- **What this means for Patterns A–E:** the design has converged. The open
+  levers are now (i) streaming quality-vs-latency (under-reported), (ii)
+  adding a *tracking/scene-flow* head (ZipMap stops at geometry), and (iii)
+  whether elastic consolidation (Pattern E) would further stabilize
+  ZipMap's streaming multi-update regime.
 
 ## Open questions
 

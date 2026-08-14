@@ -12,8 +12,9 @@ related:
   - "[[trajectory-chaining]]"
   - "[[feed-forward-3d-reconstruction]]"
   - "[[videomimic]]"
+  - "[[zipmap]]"
 created: 2026-05-29
-updated: 2026-07-09
+updated: 2026-08-14
 ---
 
 # LoGeR (Long-Context Geometric Reconstruction)

@@ -8,14 +8,18 @@ sources:
   - "[[doersch-2023-tapir]]"
   - "[[zholus-2025-tapnext]]"
   - "[[jung-2026-tapnext-plus-plus]]"
+  - "[[jin-2026-zipmap]]"
 related:
   - "[[carl-doersch]]"
   - "[[artem-zholus]]"
+  - "[[haian-jin]]"
+  - "[[aleksander-holynski]]"
   - "[[tapir]]"
   - "[[tapnext]]"
   - "[[tapnext-plus-plus]]"
+  - "[[zipmap]]"
 created: 2026-05-24
-updated: 2026-06-26
+updated: 2026-08-14
 ---
 
 # Google DeepMind
@@ -41,6 +45,8 @@ of the most-cited orgs in this wiki given the field.
 - [[skanda-koppula]] (TAPVid-3D introducer; D4RT + TAPNext co-author)
 - [[ignacio-rocco]] (D4RT + TAPNext co-author; prev. Meta AI on
   CoTracker)
+- [[haian-jin]] (ZipMap lead; Cornell PhD + GDM; LVSM / RayZer line)
+- [[aleksander-holynski]] (senior on ZipMap + CUT3R; streaming/stateful 3D)
 
 ## Sources from this org
 
@@ -51,6 +57,9 @@ of the most-cited orgs in this wiki given the field.
 - [[zhang-2025-d4rt]] (lead [[mehdi-sajjadi]]; co-authors
   [[skanda-koppula]], [[ignacio-rocco]])
 - [[wang-2025-cut3r]] (UC Berkeley + DeepMind joint via Holynski)
+- [[jin-2026-zipmap]] (GDM × Cornell × MIT; [[haian-jin]] lead,
+  [[aleksander-holynski]] senior) — linear-time TTT 3D reconstruction.
+  Marks DeepMind's feed-forward-3D line (beyond the TAP tracking line).
 
 ## Notes
 
