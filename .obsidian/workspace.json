@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "overview.md",
+                "file": "wiki/methods/trackcraft3r.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "overview"
+              "title": "trackcraft3r"
             }
           }
         ]
@@ -41,7 +41,9 @@
               "type": "file-explorer",
               "state": {
                 "sortOrder": "alphabetical",
-                "autoReveal": false
+                "autoReveal": false,
+                "showSearch": false,
+                "searchQuery": ""
               },
               "icon": "lucide-folder-closed",
               "title": "Files"
@@ -184,12 +186,16 @@
   },
   "active": "9a0520803aac84f0",
   "lastOpenFiles": [
+    "raw/papers/2603.04385v3.pdf",
+    "wiki/methods/motionforesight.md",
+    "wiki/methods/trackcraft3r.md",
+    "wiki/methods/track2act.md",
+    "overview.md",
     "log.md",
     "llm-wiki-pattern.md",
     "index.md",
     "Untitled 1.canvas",
     "wiki/questions/q-sim2real-for-point-tracking.md",
-    "overview.md",
     "wiki/comparisons/cmp-tap-methods.md",
     "index.md.tmp.89448.a5e81d3d1a90",
     "wiki/methods/tapir.md",
@@ -217,10 +223,6 @@
     "wiki/comparisons/cmp-3d-4d-reconstruction.md",
     "wiki/concepts/fast-slow-policy.md",
     "wiki/questions/q-fast-slow-perception.md",
-    "wiki/questions/q-tracking-vs-4d-reconstruction.md",
-    "wiki/questions/q-tt-rtc-vs-rtc-tradeoff.md",
-    "wiki/concepts/point-tracking.md",
-    "wiki/concepts/pi-gdm.md",
     "Untitled.canvas"
   ]
 }

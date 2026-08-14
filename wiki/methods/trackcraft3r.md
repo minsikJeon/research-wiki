@@ -26,6 +26,27 @@ reference-frame point at every timestamp.
 > **Stub — not yet ingested (no PDF in `raw/`).** Documented because it
 > is the load-bearing backbone of [[motionforesight]]. Priority ingest.
 
+## Summary
+**Problem**
+	 Existing 3d trackers are trained on synthetic data with gt tracks, or finetune 3d static reconstruction models to 4D. They lacks the prior of real-world motion.
+**idea**
+	 Repurpose Video DiT into a 3D Tracker.
+	 As video DiT is frame-anchored model (generates per-frame content), convert it into ref-anchored model.
+**key details**
+	1. forward track tokens (rgb + pointmap of 1st (=ref) frame) + geometry tokens (rgb + pointmap of each frame) through video DiT
+	2. use temporal attention, to distinguish track tokens at each timestep.
+	3. Intuition here: for point in frame-0, let them find correspondence in frame-j, where we can directly retrieve 3d coordinate of them also. During finding corrrespondecne, attend more to nearby temporal frames via temporal RoPE.
+**What I learned**
+	 video DiT learns how to denoise noisy video, by learning what patches should each patch attend to in order to denoise itself. To this end, it learns how to correlate pixels (=spatiotemporal priors) given a video, which is useful for tracking/reconstructions (probably)
+**remaining questions**
+	 geometry comes from external model
+	 w/o video DiT initialization, still better than Any4D
+		 due to pointmap input?
+	 **What does Video DiT lack? (gap btw video DiT vs tracker)** 
+		- accuracy: no need pixel-level accuracy for correspondence
+		- repeated texture: can attend to visually similar, but physically different points.
+		- occlusion: no need to reason where the occluded point is
+
 ## Why it's in the wiki
 
 [[motionforesight]] repurposes TrackCraft3R's learned "video latent →
