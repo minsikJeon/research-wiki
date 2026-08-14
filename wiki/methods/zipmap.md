@@ -41,8 +41,10 @@ pointmaps from it in O(N); query it at novel cameras in constant time.
 **Idea**
 	 Use TTT layer as an alternative to global attention layer, which behaves as global attention but only takes linear time.
 **Key Details**
-	 - TTT layer is compact version of kv cache, which means 
-What's not solved
+	 - TTT layer is compact version of kv cache, which means it learns how to assign v corresponding to each q. It is updated with qkv embedding of every patches.
+	 - can be easily modified into a streaming model, which uses token from current frame to update fast weight
+**What's not solved**
+	- fixed size parameter as a memory -> still limited in number of input frames.
 
 ## Inputs / outputs
 
