@@ -31,6 +31,18 @@ depth-normalized 9D pose tokens (v-param, AdaLN-Zero, DDIM) conditioned on
 `z_geom` + a past-pose prefix → diverse, physically coherent future SE(3)
 trajectory in anchor-frame coordinates.
 
+**Problem**
+	 Forecast the future 6 DoF trajectory of object, given a short RGB video clip. Can be used for planning and acting
+**Idea**
+	 1) Dataset Preparation: egocentric video clips, with 6DoF object poses
+	 2) Model (DiT + PointTransformer) that predicts future object traj given previous frame inputs
+	 These makes objectforesight a scalable, object centric 3D forward-dynamics model
+**Key Details**
+	 - diffusion based traj prediction -> better than autoregressive (which converges to avg traj)
+**What's not solved**
+	- rigid trajectory only, no deformation, etc
+	- short context / short prediction length. are they learning enough motion?
+	- Can I use the data as eval dataset?
 ## Inputs / outputs
 
 - **In:** C=3 RGB context frames + monocular depth (anchor-frame point
