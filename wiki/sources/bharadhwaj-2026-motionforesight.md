@@ -12,6 +12,8 @@ tags: [point-tracking, 3d-point-tracking, manipulation, world-model, scene-flow,
 sources: []
 related:
   - "[[motionforesight]]"
+  - "[[objectforesight]]"
+  - "[[soraki-2026-objectforesight]]"
   - "[[trackcraft3r]]"
   - "[[point-tracks-as-manipulation-interface]]"
   - "[[bharadhwaj-2024-track2act]]"
@@ -23,7 +25,7 @@ related:
   - "[[3d-point-tracking]]"
   - "[[4d-reconstruction]]"
 created: 2026-07-16
-updated: 2026-07-16
+updated: 2026-08-27
 ---
 
 # MotionForesight
@@ -275,11 +277,14 @@ the right points, by the right amount), **DQS** = geomean(TVO, MoveF1),
   under **language** from a 1.16M-video corpus (MolmoMotion-1M). Shares
   the point-trajectory output but opposite supervision regime
   (language-grounded sparse vs. passive dense). Not yet ingested.
-- **Sibling from same author — ObjectForesight** (Soraki, Bharadhwaj,
-  Farhadi, Mottaghi 2026, arXiv:2601.05237): predicts future **rigid
-  6-DoF object pose** trajectories from human video. MotionForesight
-  argues scene flow is strictly more general (handles articulated +
-  deformable + local nonrigid motion that pose cannot). Not yet ingested.
+- **Sibling from same author — [[objectforesight|ObjectForesight]]**
+  ([[soraki-2026-objectforesight]]; Soraki, Bharadhwaj, Farhadi, Mottaghi
+  2026, arXiv:2601.05237): predicts future **rigid 6-DoF object pose**
+  trajectories from human video. MotionForesight argues scene flow is
+  strictly more general (handles articulated + deformable + local nonrigid
+  motion that pose cannot); conversely ObjectForesight's **diffusion** DiT
+  handles the multimodal one-to-many future that MotionForesight's
+  deterministic model cannot. Now ingested — the pose-vs-flow contrast.
 - **Anti-baseline — Gen2Act** (Bharadhwaj et al. 2025): the
   generate-video-then-act paradigm MotionForesight's "video gen + tracks"
   baseline stands in for, and argues against on both cost and metric

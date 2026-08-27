@@ -24,9 +24,10 @@ related:
   - "[[mu0]]"
   - "[[pointworld]]"
   - "[[motionforesight]]"
+  - "[[objectforesight]]"
   - "[[cmp-point-track-manipulation]]"
 created: 2026-06-27
-updated: 2026-07-16
+updated: 2026-08-27
 ---
 
 # Point Tracks as the Manipulation Interface
@@ -50,7 +51,10 @@ The 2022–2024 robotics literature has tried many things in this slot:
 - **Image-space affordances** (Where2Act, VRB) — static; lose motion.
 - **Hand-object masks** (Bharadhwaj ICRA 2024) — lose object pose.
 - **Object meshes / 6-DoF pose** — need clean object models, hard to
-  estimate.
+  estimate. **[[objectforesight]] (2026) revives this branch** by
+  auto-curating 2M+ pseudo-GT 6-DoF trajectories, showing pose forecasting
+  is viable at scale — but it stays rigid-only, the exact limitation the
+  point-track / scene-flow representation avoids.
 
 Point tracks hit a useful middle: **expressive** (rotation,
 articulation, deformation), **embodiment-agnostic** (object-only),
@@ -224,6 +228,31 @@ baseline. Two structural points for this family: (1) it shares [[mu0]]'s
 it to the *tracker* and stops at the plan; (2) it is the clean
 demonstration that the interface's **plan half is separable from its
 control half** — every other member couples the two.
+
+### ObjectForesight — the pose-based sibling (2026, contrast)
+
+[[objectforesight]] ([[soraki-2026-objectforesight]]; Soraki ×
+[[homanga-bharadhwaj]] × Farhadi × Mottaghi, UW×CMU) is **not** a
+point-tracks method — it forecasts rigid **6-DoF object pose** (SE(3))
+rather than tracks/flow — but it is the direct sibling of
+[[motionforesight]] and belongs here as the **representation contrast**.
+Same task (forecast future object motion from passive human video, plan-
+only), opposite representation choice. The pair is a clean natural
+experiment on the interface's core representation debate:
+
+| | ObjectForesight | MotionForesight |
+|---|---|---|
+| Output | rigid 6-DoF SE(3) pose | dense reference-anchored scene flow |
+| Model | **diffusion** DiT, from scratch | frozen video-DiT + rank-32 LoRA |
+| Uncertainty | **multimodal** (samples futures) | deterministic single future |
+| Generality | rigid only | articulated / deformable / nonrigid |
+| Data | 2M EPIC-Kitchens pseudo-GT | 40K SSv2 |
+
+Each answers the other's weakness: flow generalizes past rigid pose;
+diffusion captures the one-to-many future that MotionForesight's
+deterministic model collapses. **Representation generality vs. modeling
+multimodality** is the open trade the two siblings expose — and neither
+touches control.
 
 ## Contested points
 

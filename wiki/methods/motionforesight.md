@@ -7,6 +7,7 @@ sources:
   - "[[bharadhwaj-2026-motionforesight]]"
 related:
   - "[[trackcraft3r]]"
+  - "[[objectforesight]]"
   - "[[point-tracks-as-manipulation-interface]]"
   - "[[track2act]]"
   - "[[mu0]]"
@@ -17,7 +18,7 @@ related:
   - "[[4d-reconstruction]]"
   - "[[homanga-bharadhwaj]]"
 created: 2026-07-16
-updated: 2026-07-16
+updated: 2026-08-27
 ---
 
 # MotionForesight
@@ -127,9 +128,14 @@ to make labels; never fed to the forecasting model.
   predicts dense scene flow from passive observation and stops at plan.
 - **Conditioning-axis opposite:** [[pointworld]] — *action-conditioned*
   dynamics WM vs. MotionForesight's *unconditioned* anticipation.
+- **Sibling (same author):** [[objectforesight]] — forecasts rigid **6-DoF
+  pose** instead of dense scene flow, via a **diffusion** DiT trained from
+  scratch (vs MotionForesight's frozen-video-DiT + LoRA). Flow ⊃ pose
+  (MF's argument) but ObjectForesight's diffusion is **multimodal** where
+  MotionForesight is deterministic — each answers the other's weakness.
 - **Thread:** [[point-tracks-as-manipulation-interface]] — the
   forecasting/plan-only member (no action policy). See
   [[cmp-point-track-manipulation]].
 - **Not-yet-ingested neighbors:** MolmoMotion (language + 8-point sparse,
-  1.16M videos), ObjectForesight (rigid 6-DoF pose forecasting, same
-  author), Gen2Act (video-gen-then-act — the baseline it argues against).
+  1.16M videos), Gen2Act (video-gen-then-act — the baseline it argues
+  against).

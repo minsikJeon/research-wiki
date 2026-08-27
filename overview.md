@@ -21,7 +21,7 @@ embodied AI.
 
 ---
 
-## Current thesis (Aug 2026, after 46 sources)
+## Current thesis (Aug 2026, after 47 sources)
 
 The wiki has dense coverage of two intersecting perception sub-areas,
 two now-fleshed-out adjacent threads (streaming/control, and
@@ -124,6 +124,15 @@ isolating the plan half. Arc spans 2024–2026:
   future frames + a rank-32 LoRA on a frozen video-DiT backbone; no
   language / action / policy; 40K SSv2 beats language-conditioned
   MolmoMotion trained on 1.16M videos).
+
+**Pose-based sibling (adjacent, not counted in the 8):**
+[[soraki-2026-objectforesight]] (UW×CMU, same [[homanga-bharadhwaj]])
+forecasts rigid **6-DoF SE(3) pose** rather than tracks/flow, via a
+**diffusion** DiT on 2M EPIC-Kitchens pseudo-GT trajectories. It is
+MotionForesight's representation contrast — plan-only, pose-vs-flow,
+diffusion-multimodal-vs-LoRA-deterministic — reviving the 6-DoF-pose
+branch the point-track family defines itself against. The pair exposes the
+**representation generality ↔ modeling multimodality** trade.
 
 Four design axes now structure this family:
 1. **What role do tracks play at inference?** Four poles:
@@ -365,6 +374,38 @@ patterns:
 
 ## Recent shifts
 
+- **2026-08-27 (ingest 21, single):** [[soraki-2026-objectforesight]] (UW ×
+  CMU-RI; Soraki lead, [[homanga-bharadhwaj]] 2nd, Farhadi + Mottaghi
+  senior) joins thread **(E)** as its **pose-based forecast-only** member —
+  the sibling of [[motionforesight]]. Significance:
+  - **Completes the forecast-from-human-video pair.** Both are same-author,
+    plan-only, anchor-frame-canonicalized. They split on representation:
+    **rigid 6-DoF SE(3) pose** (ObjectForesight) vs **dense scene flow**
+    (MotionForesight). Each answers the other's weakness — flow generalizes
+    past rigid pose; ObjectForesight's **diffusion** DiT is multimodal where
+    MotionForesight is deterministic (its flagged open weakness). The trade
+    **representation generality ↔ modeling multimodality** is now explicit.
+  - **Revives the 6-DoF-pose branch** the point-track family defined itself
+    against — viable because ObjectForesight auto-curates **2M+ pseudo-GT
+    trajectories** from EPIC-Kitchens (EgoHOS + SAM2 + TRELLIS +
+    SpaTrackerV2 + FoundationPose). Still rigid-only, short-horizon.
+  - **[[homanga-bharadhwaj]] → 3 sources / 3 research nodes:**
+    2D-tracks→policy ([[track2act]]) → 3D-scene-flow-forecast
+    ([[motionforesight]]) → 6-DoF-pose-forecast (this).
+  - **Reinforces the streaming-tracker gap (user project):** the curation
+    pipeline is a slow **offline** metric-3D stack ([[spatialtracker-v2]] +
+    FoundationPose). Downstream forecasting needs metric, ego-disentangled
+    3D tracks and currently assembles them offline — exactly the slot a
+    real-time 3D streaming tracker fills.
+  - Pages: created [[soraki-2026-objectforesight]], [[objectforesight]],
+    [[rustin-soraki]], [[ali-farhadi]], [[roozbeh-mottaghi]],
+    [[university-of-washington]], [[epic-kitchens-dataset]]; updated
+    [[homanga-bharadhwaj]] (3 sources), [[motionforesight]] method+source,
+    [[spatialtracker-v2]], [[point-tracks-as-manipulation-interface]]
+    (pose-vs-flow contrast table), [[cmp-point-track-manipulation]], index,
+    log. No prompt injection detected. **PTv3 now in 3 sources** (STRIDE,
+    PointWorld, ObjectForesight) — tool-page promotion candidate.
+
 - **2026-08-14 (ingest 20, single):** [[jin-2026-zipmap]] (**Google
   DeepMind × Cornell × MIT**; [[haian-jin]] lead, [[aleksander-holynski]]
   senior) joins thread **(D)** — long-context / linear-time 3D — as its
@@ -429,7 +470,8 @@ patterns:
     task, and under-predicts motion magnitude (r̄ = 0.72, timid).
   - Priority ingests it surfaces: [[trackcraft3r]] (its backbone,
     load-bearing, arXiv:2605.12587), MolmoMotion (arXiv:2606.18558),
-    ObjectForesight (same author, arXiv:2601.05237).
+    [[objectforesight]] (same author, arXiv:2601.05237 — **ingested
+    2026-08-27**).
 
 - **2026-07-09 (ingest 18, single):** [[allshire-2025-videomimic]]
   (**UC Berkeley**, CoRL 2025 Best Student Paper) — first

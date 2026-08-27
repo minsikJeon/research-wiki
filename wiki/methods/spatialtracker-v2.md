@@ -9,8 +9,9 @@ related:
   - "[[3d-point-tracking]]"
   - "[[point-tracking]]"
   - "[[tapip3d]]"
+  - "[[objectforesight]]"
 created: 2026-05-24
-updated: 2026-05-24
+updated: 2026-08-27
 ---
 
 # SpatialTrackerV2
@@ -66,6 +67,10 @@ trained jointly on a 17-dataset mix.
 - TAPVid-3D (Aria / DriveTrack / PStudio).
 - Dynamic reconstruction: TUM-dynamic, Lightspeed, Sintel (depth + pose).
 - Demos on robotic manipulation, first-person, dynamic sports.
+- **As an offline curation component:** [[objectforesight]] uses
+  SpaTrackerV2 for metric depth + camera geometry in its 8-stage
+  EPIC-Kitchens → 6-DoF-trajectory pipeline (paired with FoundationPose +
+  TRELLIS + SAM2). Downstream forecasting work consumes it, doesn't compete.
 
 ## Known limitations
 

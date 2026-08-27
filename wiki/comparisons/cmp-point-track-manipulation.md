@@ -22,8 +22,9 @@ related:
   - "[[mu0]]"
   - "[[pointworld]]"
   - "[[motionforesight]]"
+  - "[[objectforesight]]"
 created: 2026-06-27
-updated: 2026-07-16
+updated: 2026-08-27
 ---
 
 # Comparison of Point-Track-Based Manipulation Methods
@@ -48,6 +49,15 @@ so its rows only populate the plan side.
 | [[mu0]] | 2026 | 3D semantic keypoints (B-spline) | **features** (frozen WM step) | VLM+Trace Expert (video-only pretrain) | Action expert on frozen trace features | UR3 (parallel-jaw) + RoboCasa365 sim | AE fine-tune only |
 | [[pointworld]] | 2026 | Dense per-pixel 3D scene flow | **WM rollouts** (action-conditioned dynamics) | n/a (WM is a simulator, not a plan generator) | **MPPI** on WM rollouts | Franka (single-arm) + BEHAVIOR-1K sim | **none** |
 | [[motionforesight]] | 2026 | Dense 3D reference-anchored scene flow | Repurposed video-DiT tracker ([[trackcraft3r]]); future frames masked | **none — forecasting only** | **no robot** (plan half only) | none |
+
+> **Representation contrast (not a point-tracks member):**
+> [[objectforesight]] ([[soraki-2026-objectforesight]], same author as
+> MotionForesight) forecasts rigid **6-DoF pose** instead of tracks/flow,
+> via a **diffusion** DiT (multimodal) trained on 2M EPIC-Kitchens
+> pseudo-GT trajectories. It is MotionForesight's sibling — plan-only,
+> pose-vs-flow, diffusion-vs-LoRA, multimodal-vs-deterministic — and marks
+> the pose branch this family defines itself against. See
+> [[point-tracks-as-manipulation-interface]] for the side-by-side.
 
 ## Headline numbers (cross-paper, take with salt)
 

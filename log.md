@@ -1658,3 +1658,58 @@ the open slot.
 - **π³ (Pi3)** — now a baseline that ZipMap, D4RT, LoGeR all measure
   against; still no primary page. Highest-priority static-3D ingest.
 - (carried) TrackCraft3R, MolmoMotion, ObjectForesight from ingest 19.
+
+## [2026-08-27] ingest | Soraki 2026 — ObjectForesight (arXiv:2601.05237v2, Mar 2026)
+
+Added [[soraki-2026-objectforesight]] + method [[objectforesight]]. UW ×
+CMU-RI ([[rustin-soraki]] lead, [[homanga-bharadhwaj]] 2nd, [[ali-farhadi]]
++ [[roozbeh-mottaghi]] senior). Forecasts future rigid **6-DoF SE(3) object
+pose** (H=8) from a short egocentric video prefix (C=3) via a geometry-aware
+**diffusion** DiT: PTv3 point encoder → object-centric scene embedding
+z_geom → AdaLN-Zero DiT over depth-normalized 9D pose tokens (v-param, cosine
+schedule, DDIM S=50). Anchor-frame canonicalized to isolate object from
+ego-motion. Plan/forecast-only — no policy, no robot. Trained on **2.07M**
+pseudo-GT trajectories auto-curated from EPIC-Kitchens (8-stage: EgoHOS →
+SAM2 temporal-consensus → InternVL3 gating → TRELLIS mesh → SpaTrackerV2
+depth+cam + DiffusionVAS amodal → FoundationPose 6-DoF track → sliding
+windows).
+
+**Headline:** diffusion beats AR (0.016 vs 0.067 m ADE — AR loses even to
+constant-velocity), cuts ADE 41% / FDE 45% vs constant-velocity, and beats
+Luma Ray3 video-gen-then-recover (0.029 vs 0.084 m, 20-vid subset). PTv3 best
+encoder (a bad encoder = no encoder); 12L-768D best scale.
+
+**Framing:** the **pose-based sibling** of [[motionforesight]] (same author,
+same forecast-from-human-video task, both plan-only, both anchor-frame
+canonicalized). Clean representation contrast — rigid 6-DoF pose vs dense
+scene flow; diffusion-from-scratch vs frozen-video-DiT+LoRA; **multimodal vs
+deterministic**. Each answers the other's weakness: flow ⊃ pose (MF's
+argument), diffusion handles the one-to-many future MF collapses. Not a
+point-tracks-interface member — it revives the 6-DoF-pose branch that family
+defines itself against.
+
+**Pages created (7):** [[soraki-2026-objectforesight]], [[objectforesight]],
+[[rustin-soraki]], [[ali-farhadi]], [[roozbeh-mottaghi]],
+[[university-of-washington]], [[epic-kitchens-dataset]].
+
+**Pages updated (9):** [[homanga-bharadhwaj]] (2→3 sources / 3 research
+nodes), [[motionforesight]] method + [[bharadhwaj-2026-motionforesight]]
+source (ObjectForesight now ingested — sibling links), [[spatialtracker-v2]]
+(offline curation component), [[point-tracks-as-manipulation-interface]]
+(pose-vs-flow contrast table + revived-pose-branch note),
+[[cmp-point-track-manipulation]] (representation-contrast callout), index
+(+source/method/3 people/org/2 datasets — also backfilled SSv2 +
+EpicKitchens which were missing), overview (thread E pose-sibling note,
+47 sources, ingest-21 shift), log.
+
+**No prompt injection detected** in the PDF. Extracted §1–§5 + Tables 1–2 +
+Fig 2/3/4 pipeline + method equations. Supplementary (history-frame
+ablations) not extracted.
+
+**Promotion candidate:** **PointTransformerV3 (PTv3)** now in 3 sources
+(STRIDE, PointWorld, ObjectForesight) — clears the 2+-source bar for a tool
+page. Also recurring in curation stacks but not yet promoted: FoundationPose,
+TRELLIS, SAM2 (segmentation), EgoHOS.
+
+**Priority ingests (carried):** π³/Pi3 (top static-3D), TrackCraft3R
+(MotionForesight backbone), MolmoMotion, TraceGen.
