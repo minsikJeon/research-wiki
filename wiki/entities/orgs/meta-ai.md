@@ -9,14 +9,16 @@ sources:
   - "[[karaev-2024-cotracker3]]"
   - "[[wang-2025-vggt]]"
   - "[[bharadhwaj-2024-track2act]]"
+  - "[[lai-2026-cowtracker]]"
 related:
   - "[[nikita-karaev]]"
   - "[[jianyuan-wang]]"
   - "[[andrea-vedaldi]]"
+  - "[[zihang-lai]]"
   - "[[oxford-vgg]]"
   - "[[homanga-bharadhwaj]]"
 created: 2026-05-24
-updated: 2026-06-27
+updated: 2026-08-28
 ---
 
 # Meta AI (FAIR)
@@ -47,6 +49,7 @@ students.
 - [[bharadhwaj-2024-track2act]] — joint with CMU; Roozbeh Mottaghi is
   FAIR at Meta on the author list (Bharadhwaj × Mottaghi × Gupta ×
   Tulsiani). ECCV 2024.
+- [[lai-2026-cowtracker]] — joint with Oxford VGG (Lai + Vedaldi at Meta).
 
 ## Notes
 

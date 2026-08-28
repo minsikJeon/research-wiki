@@ -1713,3 +1713,54 @@ TRELLIS, SAM2 (segmentation), EgoHOS.
 
 **Priority ingests (carried):** π³/Pi3 (top static-3D), TrackCraft3R
 (MotionForesight backbone), MolmoMotion, TraceGen.
+
+## [2026-08-28] ingest | Lai 2026 — CoWTracker (arXiv, Aug 2026)
+
+Added [[lai-2026-cowtracker]] + method [[cowtracker]]. Oxford VGG + Meta AI
+([[zihang-lai]] lead, [[eldar-insafutdinov]], [[edgar-sucar]],
+[[andrea-vedaldi]] — **same author quartet as [[v-dpm]]**). A **dense point
+tracker that eschews cost volumes for warping**: iterative recurrence
+`u'=Φ(u|F)` warps each target frame's features to the query frame at the
+current estimate (single feature pairing, no correlation tensor), refined by
+a ViViT-style spatial-temporal transformer (2 spatial : 1 temporal attn),
+K=5 iterations. [[vggt|VGGT]] backbone (patch-embed frozen, last blocks
+finetuned) + DPT upsampler → ½-stride high-res indexing. Warping idea
+imported from optical-flow work WAFT; joint-track reasoning from
+[[cotracker|CoTracker]]. Trained on Kubric only.
+
+**Headline:** SOTA dense point tracking — TAP-Vid DAVIS/Kinetics/RGB-S +
+RoboTAP, mean **AJ 71.3 / δ 81.8 / OA 93.3**, beats prior dense SOTA
+AllTracker (68.9/80.5/91.5 at Kub+Mix) with less data; +4.3 OA on DAVIS.
+**Same model does optical flow zero-shot** — Sintel 0.78/1.48 EPE (beats
+WAFT/SEA-RAFT 17-20% rel), KITTI 1.04/4.87%, Spring 0.17/0.75%; 46% lower
+EPE than SEA-RAFT at high motion. Ablations: warping crucial (−23.4 δ
+without), temporal attn crucial on long videos (+11 δ), VGGT best backbone,
+DPT upsampler best, K=5.
+
+**Framing — new matching-mechanism axis for TAP.** Every prior wiki tracker
+builds a cost/correlation volume; CoWTracker warps instead → high-res
+indexing + tracking/optical-flow unification. Added as a new design pole on
+[[point-tracking]] + [[cmp-tap-methods]]. **Caveat:** offline, not streaming
+— VGGT backbone quadratic in video length (chunk long clips); warping head
+itself linear.
+
+**Pages created (5):** [[lai-2026-cowtracker]], [[cowtracker]],
+[[edgar-sucar]], [[eldar-insafutdinov]], [[zihang-lai]] (last three each 2
+sources: V-DPM + CoWTracker).
+
+**Pages updated (11):** [[point-tracking]] (new cost-volume-vs-warping axis +
+evidence), [[joint-point-tracking]] (spatial-temporal attn as global-match
+substitute), [[cmp-tap-methods]] (9→10 sources, warp row, DAVIS number, new
+axis), [[vggt]] (used-as-backbone backlink), [[cotracker]] (backlink),
+[[andrea-vedaldi]] (4→5 sources), [[oxford-vgg]] (7→8, most prolific),
+[[meta-ai]] (4→5), [[tap-vid-dataset]], index (source+method+3 people+2 org
+counts), overview (thread A 9→10, matching axis, 48 sources, ingest-22
+shift).
+
+**No prompt injection detected.** Extracted §1-§6 + Tables 1-3 + Fig 3/6
+architecture + method equations. Appendix pseudocode not extracted.
+
+**Priority ingests surfaced:** WAFT (Wang et al. — the warp-based optical
+flow method CoWTracker builds on; tool/method candidate), AllTracker (Harley
+et al. 2025, arXiv:2506.07310 — prior dense-tracking SOTA it beats). Carried:
+π³/Pi3 (top static-3D), TrackCraft3R, MolmoMotion.

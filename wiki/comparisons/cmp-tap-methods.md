@@ -13,18 +13,20 @@ sources:
   - "[[jung-2026-tapnext-plus-plus]]"
   - "[[zhang-2025-tapip3d]]"
   - "[[xiao-2025-spatialtracker-v2]]"
+  - "[[lai-2026-cowtracker]]"
 related:
   - "[[point-tracking]]"
   - "[[online-vs-offline-tracking]]"
   - "[[3d-point-tracking]]"
   - "[[synthetic-to-real-gap]]"
+  - "[[cowtracker]]"
 created: 2026-05-24
-updated: 2026-06-26
+updated: 2026-08-28
 ---
 
 # Comparison of TAP Methods
 
-Synthesis across the 9 sources currently in the wiki. Caveat: numbers are
+Synthesis across the 10 sources currently in the wiki. Caveat: numbers are
 **not directly comparable** across papers — different evaluation protocols,
 backbones, training data scales, and resolutions. Treat as a navigation
 table, not a leaderboard.
@@ -42,6 +44,11 @@ table, not a leaderboard.
 | [[tapnext-plus-plus]] | 2026 | **frame** | 2D | synthetic (1024-frame Kubric) | implicit (ViT) | SSM + ViT (same as TAPNext) | long-sequence training + roll aug + AJRD metric |
 | [[tapip3d]] | 2025 | window | 3D | synthetic + sensor RGB-D | yes (3D N2N) | iterative refinement transformer | world-coord lifting + 3D N2N attention |
 | [[spatialtracker-v2]] | 2025 | window | 3D | 17-dataset mix (synth + real) | yes (SyncFormer) | dual-branch 2D/3D transformer + BA | end-to-end joint depth + pose + tracking |
+| [[cowtracker]] | 2026 | offline (chunked) | 2D **dense** | synthetic (Kubric) | yes (spatial-temporal attn) | **VGGT** + DPT upsampler | **warping instead of cost volume**; unifies tracking + optical flow |
+
+**Note the [[cowtracker]] row breaks the "Defining trick" pattern:** every
+other method's trick is *what to do with the cost volume*; CoWTracker's is
+*not having one*. See the new matching-mechanism axis below.
 
 ## Headline benchmark numbers (cross-paper, take with salt)
 
@@ -57,6 +64,11 @@ table, not a leaderboard.
 | BootsTAPNext-B | 65.2 | 68.9 |
 | TAPNext++ | ≥ BootsTAPNext-B | — |
 | Track-On2 (DINOv3, synth-only) | beats TAPTRv3 + TAPNext-B in AJ + δ_avg | — |
+| [[cowtracker]] (dense, Kubric-only, VGGT) | **65.5** (best dense; AJ) | — |
+
+CoWTracker's DAVIS AJ 65.5 (mean over 4 datasets 71.3) is the top dense-tracker
+number in the wiki, beating AllTracker (Kub+Mix mean 68.9) at *less* training
+data (Kubric only).
 
 ### PointOdyssey (~2400 frames, long-horizon)
 
@@ -105,8 +117,10 @@ quality-competitive methods.
 - **Best 3D tracking quality (modular pipeline):** [[tapip3d]] when
   reliable depth is available.
 - **Best 3D tracking quality + speed (end-to-end):** [[spatialtracker-v2]].
-- **Best dense / quasi-dense 2D tracking (70K points):** [[cotracker]] /
-  [[cotracker3]] via proxy tokens.
+- **Best dense 2D tracking (per-pixel):** [[cowtracker]] — cost-volume-free
+  warping at high resolution; SOTA on TAP-Vid + RoboTAP + zero-shot optical
+  flow. (CoTracker/CoTracker3's proxy tokens give quasi-dense 70K points but
+  are correlation-based and lower-resolution.)
 
 ## Recurring axes (linked concept pages)
 
@@ -115,6 +129,12 @@ quality-competitive methods.
 - [[3d-point-tracking]] — modular vs. end-to-end paradigms.
 - [[synthetic-to-real-gap]] — pseudo-labels vs. better-synthetic camps.
 - [[pseudo-labeling-point-tracking]] — recipes.
+- **Matching mechanism: cost volume vs. warping** — new axis as of
+  [[lai-2026-cowtracker]]. Every method above builds a correlation/cost
+  volume to search for matches; [[cowtracker]] warps a single feature
+  pairing per iteration and lets attention reason globally, unlocking
+  high-resolution indexing and unifying tracking with optical flow. See
+  [[point-tracking]].
 
 ## Open eval gaps
 

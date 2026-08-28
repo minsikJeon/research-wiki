@@ -4,7 +4,7 @@ title: Research Wiki — Overview
 status: growing
 tags: [meta]
 created: 2026-05-24
-updated: 2026-08-14
+updated: 2026-08-28
 ---
 
 # Overview
@@ -21,20 +21,26 @@ embodied AI.
 
 ---
 
-## Current thesis (Aug 2026, after 47 sources)
+## Current thesis (Aug 2026, after 48 sources)
 
 The wiki has dense coverage of two intersecting perception sub-areas,
 two now-fleshed-out adjacent threads (streaming/control, and
 long-context 3D), and — new with this ingest — a **fifth thread**:
 manipulation policies that use point tracks as their interface.
 
-**(A) Tracking Any Point (TAP).** 9 sources now covering the full
+**(A) Tracking Any Point (TAP).** 10 sources now covering the full
 historical arc: founding **PIPs** (CMU, ECCV 2022) → canonical
 **TAPIR** (DeepMind+Oxford, ICCV 2023) → the DeepMind TAPNext line, the
 Meta/Oxford CoTracker line, the Koç Track-On line, and the 3D
 extensions (TAPIP3D from CMU, SpatialTrackerV2). The two
-just-ingested foundation papers are the predecessor every later TAP
-method cites and that [[zholus-2025-tapnext]] explicitly argues against.
+foundation papers are the predecessor every later TAP method cites and
+that [[zholus-2025-tapnext]] explicitly argues against. Newest entry
+[[lai-2026-cowtracker]] (Oxford VGG + Meta) opens a **new matching-mechanism
+axis**: it drops the cost volume every prior tracker builds and matches by
+**warping** instead — SOTA dense tracking + zero-shot optical flow from one
+model, unifying the two literatures. TAP's design space is now: latency ×
+joint × dim × training-data × backbone × **matching mechanism (cost volume
+vs warp)**.
 
 **(B) Feed-forward 3D / 4D reconstruction.** 10 sources covering the VGGT
 trunk (Oxford VGG + Meta AI) and its descendants (MapAnything, V-DPM,
@@ -373,6 +379,40 @@ patterns:
   training-time and joint corners are empty.
 
 ## Recent shifts
+
+- **2026-08-28 (ingest 22, single):** [[lai-2026-cowtracker]] (Oxford VGG +
+  Meta; Lai, Insafutdinov, Sucar, Vedaldi — the **same quartet as
+  [[v-dpm]]**) joins thread **(A)** as its 10th source. Significance:
+  - **New matching-mechanism axis: warping, not cost volumes.** Every prior
+    tracker in the wiki (PIPs → TAPIR → CoTracker → TAPNext →
+    SpatialTrackerV2) builds a correlation/cost volume to search for matches.
+    CoWTracker imports **warping** from optical-flow work (WAFT) — one
+    feature pairing per iteration, refined globally by a spatial-temporal
+    transformer. No quadratic cost volume → **high-resolution (½-stride)
+    indexing** → SOTA dense point tracking (TAP-Vid + RoboTAP mean AJ 71.3,
+    beats AllTracker at less data). Ablation: removing warping costs −23 δ.
+  - **Unifies point tracking and optical flow.** The *same* model does both;
+    optical flow = a 2-frame video. Zero-shot flow beats specialized
+    RAFT/SEA-RAFT/WAFT on Sintel (0.78 EPE) + KITTI, and is more robust to
+    large motion (46% lower EPE at high displacement). Bridges two
+    literatures the field kept separate.
+  - **Backbone matters most:** VGGT is the best feature extractor (ablation),
+    but is **quadratic in video length** — so CoWTracker is **offline /
+    chunked, not streaming**. The warping head itself is linear.
+  - **Vedaldi → 5 sources** (most recurring senior); Sucar/Insafutdinov/Lai
+    → 2 each (V-DPM + CoWTracker); **Oxford VGG → 8 sources** (most prolific
+    org), Meta → 5.
+  - **For the user's streaming-tracker project:** the cost-volume-free
+    warping head is a clean *dense* design lead — linear, high-res — but
+    CoWTracker itself is not real-time (VGGT-bound). Pairing a warping head
+    with a **linear-time streaming backbone** ([[zipmap]]-style TTT) is an
+    open, concrete combination toward a real-time dense tracker.
+  - Pages: created [[lai-2026-cowtracker]], [[cowtracker]], [[edgar-sucar]],
+    [[eldar-insafutdinov]], [[zihang-lai]]; updated [[point-tracking]] (new
+    matching axis), [[joint-point-tracking]], [[cmp-tap-methods]] (10 sources
+    + warp row + new axis), [[vggt]], [[cotracker]], [[andrea-vedaldi]],
+    [[oxford-vgg]], [[meta-ai]], [[tap-vid-dataset]], index, log. No prompt
+    injection detected.
 
 - **2026-08-27 (ingest 21, single):** [[soraki-2026-objectforesight]] (UW ×
   CMU-RI; Soraki lead, [[homanga-bharadhwaj]] 2nd, Farhadi + Mottaghi

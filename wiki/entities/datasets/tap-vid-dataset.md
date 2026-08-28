@@ -11,6 +11,7 @@ sources:
   - "[[karaev-2024-cotracker3]]"
   - "[[aydemir-2025-track-on2]]"
   - "[[jung-2026-tapnext-plus-plus]]"
+  - "[[lai-2026-cowtracker]]"
 related:
   - "[[point-tracking]]"
   - "[[tapir]]"
@@ -19,8 +20,9 @@ related:
   - "[[track-on2]]"
   - "[[kubric-dataset]]"
   - "[[tapvid-3d-dataset]]"
+  - "[[cowtracker]]"
 created: 2026-05-24
-updated: 2026-06-26
+updated: 2026-08-28
 ---
 
 # TAP-Vid

@@ -13,6 +13,7 @@ sources:
   - "[[jung-2026-tapnext-plus-plus]]"
   - "[[zhang-2025-tapip3d]]"
   - "[[xiao-2025-spatialtracker-v2]]"
+  - "[[lai-2026-cowtracker]]"
 related:
   - "[[pips]]"
   - "[[tapir]]"
@@ -23,6 +24,7 @@ related:
   - "[[track-on2]]"
   - "[[tapip3d]]"
   - "[[spatialtracker-v2]]"
+  - "[[cowtracker]]"
   - "[[tap-vid-dataset]]"
   - "[[joint-point-tracking]]"
   - "[[3d-point-tracking]]"
@@ -30,7 +32,7 @@ related:
   - "[[synthetic-to-real-gap]]"
   - "[[point-tracks-as-manipulation-interface]]"
 created: 2026-05-24
-updated: 2026-06-27
+updated: 2026-08-28
 ---
 
 # Point Tracking (Tracking Any Point, TAP)
@@ -79,8 +81,19 @@ too.
   [[synthetic-to-real-gap]] and [[pseudo-labeling-point-tracking]].
 - **Backbone:** convnet ([[pips]] lineage) vs. transformer (CoTracker
   family) vs. SSM + ViT (TAPNext family) vs. memory + ViT (Track-On
-  family). [[tapir]] is the bridge: convnet backbone + depthwise-conv-
+  family) vs. **3D-recon feature extractor** ([[cowtracker]] uses
+  [[vggt|VGGT]]). [[tapir]] is the bridge: convnet backbone + depthwise-conv-
   over-time refinement = any-length variant of [[pips]].
+- **Matching mechanism: cost volume vs. warping** — new axis as of
+  [[lai-2026-cowtracker]] (2026). Every method above (PIPs → TAPIR →
+  CoTracker → TAPNext → SpatialTrackerV2) builds a **cost / correlation
+  volume** — comparing each source location to a neighborhood of target
+  candidates — to search for matches. [[cowtracker]] instead **warps** a
+  single feature pairing per iteration (feature at the current estimate) and
+  lets a spatial-temporal transformer reason globally. No quadratic cost
+  volume → high-resolution indexing (½ stride) → SOTA dense tracking, and
+  the *same model* does optical flow zero-shot. Reframes tracking + optical
+  flow as one warping problem.
 
 ## Standard architectural ingredients (pre-TAPNext)
 
@@ -103,6 +116,9 @@ many re-emerge as learned attention patterns. [[jung-2026-tapnext-plus-plus]]
 + [[aydemir-2025-track-on2]] reinforced that long-sequence synthetic
 training (no real data) is enough for SOTA. [[karaev-2024-cotracker3]]
 showed an alternative path: simplify + add real-data pseudo-labels.
+[[lai-2026-cowtracker]] goes further and removes ingredient **2 (the cost
+volume) entirely**, replacing it with warping — and shows a warping-only
+head with a strong (VGGT) backbone beats cost-volume dense trackers.
 
 ## Evidence across sources
 
@@ -118,6 +134,10 @@ showed an alternative path: simplify + add real-data pseudo-labels.
 - **Training video length is the dominant factor** for long-horizon
   generalization: convergent finding in [[aydemir-2025-track-on2]] and
   [[jung-2026-tapnext-plus-plus]].
+- **Cost volumes are not necessary:** [[lai-2026-cowtracker]] — warping-only
+  head beats cost-volume dense SOTA (AllTracker) at less training data, and
+  the same model does optical flow zero-shot (Sintel 0.78 EPE, beats
+  specialized WAFT/SEA-RAFT). Unifies TAP with optical flow.
 
 ## Open questions
 

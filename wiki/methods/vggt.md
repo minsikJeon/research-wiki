@@ -13,8 +13,9 @@ related:
   - "[[depth-anything-3]]"
   - "[[4rc]]"
   - "[[zipmap]]"
+  - "[[cowtracker]]"
 created: 2026-05-24
-updated: 2026-08-14
+updated: 2026-08-28
 ---
 
 # VGGT (Visual Geometry Grounded Transformer)
@@ -89,7 +90,9 @@ head; no test-time optimization needed.
     over VGGT.
   - [[mapanything]] adds metric scale + flexibility.
 - **Used by / as backbone:** [[spatialtracker-v2]] (alternating
-  attention pattern).
+  attention pattern); [[cowtracker]] (VGGT as frozen-ish feature extractor
+  for dense point tracking — best backbone in its ablation, +1.7 δ over
+  Pi3; also the source of CoWTracker's quadratic-video-length limitation).
 - **Streaming distillation:** [[streamvggt]] — replaces VGGT's global
   attention with temporal causal + KV cache, distilled from VGGT as
   the teacher. The online answer to VGGT-family batch reconstruction.

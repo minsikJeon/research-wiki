@@ -21,6 +21,7 @@ evolving thesis.
 - [[jung-2026-tapnext-plus-plus]] — same TAPNext arch + 1024-frame training + roll aug; SOTA online, introduces AJRD metric (point-tracking, long-sequence)
 - [[zhang-2025-tapip3d]] — world-coord 3D tracking via N2N attention on lifted feature cloud; beats 2D SOTA with depth (3d-point-tracking)
 - [[xiao-2025-spatialtracker-v2]] — fully end-to-end 3D tracker: jointly trained depth + pose + tracking with differentiable BA (3d-point-tracking, end-to-end)
+- [[lai-2026-cowtracker]] — CoWTracker (2026); Oxford VGG + Meta (Lai/Insafutdinov/Sucar/Vedaldi — same quartet as V-DPM); **cost-volume-free dense tracker** — replaces correlation with **warping** (WAFT-inspired) + spatial-temporal transformer on a VGGT backbone + DPT upsampler for ½-stride high-res indexing; SOTA dense TAP (DAVIS/Kinetics/RGB-S/RoboTAP, mean AJ 71.3, beats AllTracker) trained on Kubric only; **same model does optical flow zero-shot** (Sintel 0.78 EPE, beats WAFT/SEA-RAFT); unifies point tracking + optical flow; not streaming (VGGT quadratic in length) (point-tracking, dense-tracking, optical-flow, warping, cost-volume-free)
 
 ### Streaming perception & real-time control
 - [[li-2020-streaming-perception]] — foundational ECCV 2020 paper; streaming-accuracy metric; offline AP 38.0 → streaming 6.2; tracking + forecasting emerge as necessary (streaming-perception, latency, deva-ramanan)
@@ -119,6 +120,7 @@ evolving thesis.
 - [[track-on2]] — causal frame-by-frame tracker with single expandable memory + classification-first head
 - [[tapip3d]] — 3D tracking via depth+pose lifting → world-coord feature cloud → 3D N2N attention
 - [[spatialtracker-v2]] — end-to-end joint depth + pose + 3D tracking with SyncFormer + differentiable BA
+- [[cowtracker]] — **cost-volume-free** dense tracker; warping (not correlation) + spatial-temporal transformer + VGGT backbone + DPT ½-stride indexing; SOTA dense TAP + zero-shot optical flow; new matching-mechanism axis (warp vs cost volume)
 
 ### 3D / 4D reconstruction
 - [[dust3r]] — pairwise feed-forward 3D + pointmap representation; ancestor of the sub-field
@@ -171,7 +173,10 @@ evolving thesis.
 ## Entities
 
 ### People
-- [[andrea-vedaldi]] — Oxford VGG senior; **4 sources** (most recurring senior in wiki)
+- [[andrea-vedaldi]] — Oxford VGG senior; **5 sources** (most recurring senior in wiki) — CoTracker/CoTracker3/VGGT/V-DPM/CoWTracker
+- [[edgar-sucar]] — Oxford VGG; V-DPM + CoWTracker lead; **2 sources**
+- [[eldar-insafutdinov]] — Oxford VGG; V-DPM + CoWTracker; **2 sources**
+- [[zihang-lai]] — Oxford VGG + Meta; CoWTracker lead + V-DPM; **2 sources**
 - [[carl-doersch]] — DeepMind; TAP-Vid → TAPIR → BootsTAP → TAPNext → TAPNext++ trunk; **3 sources**
 - [[christian-rupprecht]] — Oxford VGG senior; 3 sources (CoTracker series + VGGT)
 - [[nikita-karaev]] — Meta AI / Oxford VGG; CoTracker, CoTracker3, SpatialTrackerV2
@@ -213,8 +218,8 @@ evolving thesis.
 
 ### Organizations
 - [[google-deepmind]] — TAP-line continuity (TAP-Vid → TAPIR → BootsTAP → TAPNext → TAPNext++) **+ feed-forward-3D line** (ZipMap, CUT3R via Hołyński); **4 sources** + D4RT co-affiliation
-- [[meta-ai]] — CoTracker series + VGGT + Track2Act (Mottaghi at FAIR; **4 sources**)
-- [[oxford-vgg]] — **7 sources**, most prolific org; TAPIR (Zisserman), CoTracker, VGGT, V-DPM lineage
+- [[meta-ai]] — CoTracker series + VGGT + Track2Act + CoWTracker (Mottaghi at FAIR; **5 sources**)
+- [[oxford-vgg]] — **8 sources**, most prolific org; TAPIR (Zisserman), CoTracker, VGGT, V-DPM, CoWTracker lineage
 - [[meta-reality-labs]] — MapAnything (AR/VR-focused, distinct from FAIR)
 - [[cmu-ri]] — **user's institution**; PIPs (Fragkiadaki, 2022), streaming-perception, TAPIP3D, MapAnything, Any4D, Point4D, **Track2Act**, **Dex4D**, **Pri4R** (**9 sources** — both the institutional origin of the modern deep TAP sub-field AND now its largest manipulation-from-tracks cluster)
 - [[uc-berkeley]] — **5 sources**; CUT3R + RTC + Training-Time RTC + LoGeR + **VideoMimic** (CoRL 2025 Best Student Paper); spans feed-forward 3D + real-time control + long-context 3D + humanoid-from-video across BAIR / Efros / Kanazawa / Malik / Darrell / Levine labs
@@ -255,7 +260,7 @@ _(empty — defer until enough source pages cluster by venue)_
 ## Comparisons
 *Cross-source syntheses and tables.*
 
-- [[cmp-tap-methods]] — comparison of TAP methods (online/window/video, 2D/3D, training)
+- [[cmp-tap-methods]] — comparison of TAP methods (online/window/video, 2D/3D, training, cost-volume-vs-warping)
 - [[cmp-3d-4d-reconstruction]] — comparison of feed-forward 3D/4D reconstruction methods (VGGT family + DA3 + CUT3R + 4D wave)
 - [[cmp-point-track-manipulation]] — comparison of the 8 manipulation-via-point-tracks methods (Track2Act / Im2Flow2Act / 3DFlowAction / Dex4D / Pri4R / µ0 / PointWorld / MotionForesight — last is plan/forecast-only)
 

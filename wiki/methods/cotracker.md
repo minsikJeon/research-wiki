@@ -11,8 +11,9 @@ related:
   - "[[cotracker3]]"
   - "[[pips]]"
   - "[[tapir]]"
+  - "[[cowtracker]]"
 created: 2026-05-24
-updated: 2026-06-26
+updated: 2026-08-28
 ---
 
 # CoTracker

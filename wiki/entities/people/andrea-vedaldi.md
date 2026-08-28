@@ -9,6 +9,7 @@ sources:
   - "[[karaev-2024-cotracker3]]"
   - "[[wang-2025-vggt]]"
   - "[[sucar-2026-v-dpm]]"
+  - "[[lai-2026-cowtracker]]"
 related:
   - "[[oxford-vgg]]"
   - "[[meta-ai]]"
@@ -16,8 +17,9 @@ related:
   - "[[cotracker3]]"
   - "[[vggt]]"
   - "[[v-dpm]]"
+  - "[[cowtracker]]"
 created: 2026-05-24
-updated: 2026-05-24
+updated: 2026-08-28
 ---
 
 # Andrea Vedaldi
@@ -30,7 +32,7 @@ seniors driving the recent VGG 3D/4D foundation-model output.
 
 ## Main contributions (within this wiki)
 
-Senior author across **four** of this wiki's sources — the **most
+Senior author across **five** of this wiki's sources — the **most
 recurring senior author** in the wiki so far:
 
 - **[[cotracker]]** (2024) — joint point tracking with proxy tokens.
@@ -38,6 +40,8 @@ recurring senior author** in the wiki so far:
 - **[[vggt]]** (2025) — foundational feed-forward 3D transformer.
 - **[[v-dpm]]** (2026) — VGGT fine-tuned for dynamic 4D via Dynamic
   Point Maps.
+- **[[cowtracker]]** (2026) — cost-volume-free dense point tracking by
+  warping (unifies tracking + optical flow).
 
 His broader research line (not all in this wiki): self-supervised
 learning, NeRF-related work, video understanding, 3D consistency in
@@ -49,6 +53,7 @@ generative models.
 - [[karaev-2024-cotracker3]] (senior)
 - [[wang-2025-vggt]] (senior)
 - [[sucar-2026-v-dpm]] (senior)
+- [[lai-2026-cowtracker]] (senior)
 
 ## Notes
 

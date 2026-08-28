@@ -11,10 +11,14 @@
             "id": "9fa13b3761c0835a",
             "type": "leaf",
             "state": {
-              "type": "empty",
-              "state": {},
+              "type": "markdown",
+              "state": {
+                "file": "wiki/methods/cowtracker.md",
+                "mode": "source",
+                "source": false
+              },
               "icon": "lucide-file",
-              "title": "New tab"
+              "title": "cowtracker"
             }
           }
         ]
@@ -182,6 +186,13 @@
   },
   "active": "9fa13b3761c0835a",
   "lastOpenFiles": [
+    "raw/papers/2204.04153v2 (1).pdf",
+    "wiki/entities/people/zihang-lai.md",
+    "wiki/entities/people/eldar-insafutdinov.md",
+    "wiki/entities/people/edgar-sucar.md",
+    "wiki/methods/cowtracker.md",
+    "wiki/sources/lai-2026-cowtracker.md",
+    "raw/papers/cowtracker.pdf",
     "wiki/methods/objectforesight.md",
     "wiki/methods/zipmap.md",
     "wiki/methods/trackcraft3r.md",
@@ -207,18 +218,11 @@
     "raw/sources/zotero-pdfs/KTE5C5XL/Teed and Deng - 2020 - RAFT Recurrent All-Pairs Field Transforms for Optical Flow.pdf",
     "raw/sources/zotero-pdfs/KTE5C5XL",
     "raw/sources/zotero-pdfs/tmp-U6LyvS/Teed and Deng - 2020 - RAFT Recurrent All-Pairs Field Transforms for Optical Flow.pdf",
-    "raw/sources/zotero-pdfs/tmp-U6LyvS",
     "wiki/sources/doersch-2023-tapir.md",
     "wiki/methods/pips.md",
     "wiki/sources/harley-2022-pips.md",
     "wiki/methods/stride.md",
     "wiki/sources/anon-2026-stride.md",
-    "wiki/methods/fsm.md",
-    "wiki/methods/lacet.md",
-    "wiki/sources/ma-2026-fsm.md",
-    "wiki/entities/people/boyuan-chen.md",
-    "wiki/concepts/history-guidance.md",
-    "wiki/methods/dfot.md",
     "Untitled.canvas"
   ]
 }

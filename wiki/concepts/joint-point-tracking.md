@@ -11,7 +11,9 @@ sources:
   - "[[karaev-2024-cotracker3]]"
   - "[[harley-2022-pips]]"
   - "[[doersch-2023-tapir]]"
+  - "[[lai-2026-cowtracker]]"
 related:
+  - "[[cowtracker]]"
   - "[[tapnext]]"
   - "[[tapnext-plus-plus]]"
   - "[[cotracker]]"
@@ -68,6 +70,13 @@ interaction via the ViT spatial-attention block, but don't explicitly
 brand it as "joint tracking" — see Fig 4 of TAPNext for evidence that
 this still emerges (motion-cluster attention heads).
 
+[[lai-2026-cowtracker]] makes the joint-tracking↔global-matching link
+explicit: it argues CoTracker's cross-track attention is *conceptually
+equivalent* to the global (WAFT-style) reasoning that compensates for
+having no cost volume. Its head interleaves spatial self-attention (over
+tracks/points) with temporal attention (over frames) — dense joint tracking
+is what lets warping-only matching work.
+
 ## Evidence across sources
 
 - [[karaev-2024-cotracker]]: cross-track attention introduced. Ablation:
@@ -78,6 +87,10 @@ this still emerges (motion-cluster attention heads).
 - [[zholus-2025-tapnext]]: doesn't use explicit joint tracking but
   motion-cluster patterns *emerge* in attention heads — a form of
   learned joint tracking.
+- [[lai-2026-cowtracker]]: spatial (cross-track) + temporal attention is
+  load-bearing — ablating temporal attention costs +11.7/+11.2 δ on long
+  RGB/RoboTAP videos; joint reasoning substitutes for the removed cost
+  volume.
 
 ## Open questions
 
